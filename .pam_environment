@@ -1,0 +1,43 @@
+# default
+EDITOR		DEFAULT=nvim
+BROWSER		DEFAULT=firefox-developer-edition
+
+# xdg base directory
+XDG_CONFIG_HOME	DEFAULT=@{HOME}.config
+XDG_CACHE_HOME	DEFAULT=@{HOME}.cache
+XDG_DATA_HOME	DEFAULT=@{HOME}.data
+
+# readline
+INPUTRC		DEFAULT=${XDG_CONFIG_HOME}/readline/inputrc
+
+# xorg-xauth
+XAUTHORITY	DEFAULT=${XDG_RUNTIME_DIR}/Xauthority
+
+# xinit
+XINITRC		DEFAULT=${XDG_CONFIG_HOME}/X11/xinitrc
+XSERVERRC	DEFAULT=${XDG_CONFIG_HOME}/X11/xserverrc
+
+# less
+LESSKEY		DEFAULT=${XDG_CONFIG_HOME}/less/lesskey
+LESSHISTFILE	DEFAULT=${XDG_DATA_HOME}/less/history
+
+# wget
+WGETRC		DEFAULT=${XDG_CONFIG_HOME}/wget/wgetrc
+
+# ipython
+IPYTHONDIR	DEFAULT=${XDG_CONFIG_HOME}/jupyter
+JUPYTER_CONFIG_DIR	DEFAULT=${XDG_CONFIG_HOME}/jupyter
+
+# docker
+DOCKER_CONFIG	DEFAULT=${XDG_CONFIG_HOME}/docker
+
+# python
+PYTHONSTARTUP	DEFAULT=${XDG_CONFIG_HOME}/python/repl_startup.py
+
+# ruby bundler
+BUNDLE_USER_CONFIG	DEFAULT=${XDG_CONFIG_HOME}/bundle
+BUNDLE_USER_CACHE	DEFAULT=${XDG_CACHE_HOME}/bundle
+BUNDLE_USER_PLUGIN	DEFAULT=${XDG_DATA_HOME}/bundle
+
+# openssl
+RANDFILE	DEFAULT=${XDG_DATA_HOME}/openssl/randfile
