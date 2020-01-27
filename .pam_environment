@@ -1,3 +1,5 @@
+GOPATH		DEFAULT=@{HOME}/packages/go
+PATH		DEFAULT=${PATH}:${GOPATH}/bin:@{HOME}/packages/node_modules/.bin
 # default
 EDITOR		DEFAULT=nvim
 BROWSER		DEFAULT=firefox-developer-edition
@@ -23,6 +25,10 @@ LESSHISTFILE	DEFAULT=${XDG_DATA_HOME}/less/history
 
 # wget
 WGETRC		DEFAULT=${XDG_CONFIG_HOME}/wget/wgetrc
+
+# zsh
+ZDOTDIR		DEFAULT=${XDG_CONFIG_HOME}/zsh
+HISTFILE	DEFAULT=${XDG_DATA_HOME}/zsh/history
 
 # ipython
 IPYTHONDIR	DEFAULT=${XDG_CONFIG_HOME}/jupyter
