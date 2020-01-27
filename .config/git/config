@@ -1,0 +1,27 @@
+[user]
+	name = rydesun
+	email = rydesun@gmail.com
+	signingkey = rydesun@gmail.com
+[alias]
+	lg = log --oneline --abbrev=4 --graph --decorate --all
+	gl = log --oneline --abbrev=4 --graph --decorate --all
+	st = status -s
+	c = commit
+	b = branch
+	p = push
+	co = checkout
+	rb = rebase
+	mg = merge
+	lt = ls-tree -rl --abbrev=4
+	ls = ls-files
+	lo = ls-files -o
+	lm = ls-files -m
+	lu = ls-files -u
+	ld = ls-files -d
+	cat = cat-file -p
+	d = diff
+	ds = diff --staged
+[pull]
+	rebase = true
+[credential]
+	helper = cache
