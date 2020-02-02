@@ -46,15 +46,16 @@ GIT_PS1_DESCRIBE_STYLE="default"
 # >>>-----------------------------------
 # >>>-----------------------------------
 
-# extension <<<-------------------------
+# 扩展 <<<-------------------------
 source /usr/share/doc/pkgfile/command-not-found.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # >>>-----------------------------------
 
-# alias <<<-----------------------------
+# 命令别名 <<<-----------------------------
 alias sudo='sudo '
 
 alias e='nvim' && compdef e=nvim
+alias ec='nvim -S'
 alias g='git' && compdef g=git
 alias p='python' && compdef p=python
 alias mitm='proxychains -f ~/Archway/proxychains-mitm.conf'
@@ -82,7 +83,7 @@ alias pms='pacman -Ss'
 pmi() { pacman -Qi $1 2>/dev/null || pacman -Sii $1 }
 pmo() { pacman -Qoq $1 2>/dev/null || pkgfile -i $1 }
 pml() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | sed '/\/$/d' }
-pmb() { pacman -Ql $1 | awk -F/ '/\/usr\/bin\/.+[^/]$/{print $NF}' }
+pmb() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | awk -F/ '/\/usr\/bin\/.+[^/]$/{print $NF}' }
 # >>>-----------------------------------
 
 # vim: foldmethod=marker:foldmarker=<<<---,>>>---
