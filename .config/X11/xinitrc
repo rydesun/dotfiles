@@ -19,7 +19,7 @@ fi
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
-export LANG=zh_CN.utf8
+export LANG=zh_CN.UTF-8
 
 # swap Caps_Lock and Escape
 setxkbmap -option caps:swapescape
