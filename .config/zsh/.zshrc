@@ -72,7 +72,8 @@ alias rmf='rm -rf' && compdef rmf='rm'
 alias ds='du -sh'
 mcd() { mkdir -p $1 && cd $1 }
 
-alias -g LL='| less'
+# 使用neovim作为pager
+alias v='nvim -R -c "nnoremap q :exit<CR>"' && compdef v=nvim
 
 alias pm='pacman'
 alias pmu='sudo pacman -Syu'

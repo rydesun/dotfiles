@@ -3,6 +3,7 @@ PATH		DEFAULT=${PATH}:${GOPATH}/bin:@{HOME}/packages/node_modules/.bin
 # default
 EDITOR		DEFAULT=nvim
 BROWSER		DEFAULT=firefox-developer-edition
+MANPAGER	DEFAULT="nvim -c 'set ft=man' -"
 
 # xdg base directory
 XDG_CONFIG_HOME	DEFAULT=@{HOME}.config
