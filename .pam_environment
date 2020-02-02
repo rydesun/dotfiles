@@ -1,5 +1,5 @@
-GOPATH		DEFAULT=@{HOME}/packages/go
-PATH		DEFAULT=${PATH}:${GOPATH}/bin:@{HOME}/packages/node_modules/.bin
+GOPATH		DEFAULT=@{HOME}packages/go
+PATH		DEFAULT=${GOPATH}/bin:@{HOME}packages/node_modules/.bin
 # default
 EDITOR		DEFAULT=nvim
 BROWSER		DEFAULT=firefox-developer-edition
