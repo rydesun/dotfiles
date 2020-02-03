@@ -3,12 +3,42 @@ setopt no_beep			# 不响铃
 setopt correct			# 修正命令
 setopt interactive_comments	# 交互模式支持注释
 
+# 插件 <<<------------------------------
+source <(antibody init)
+antibody bundle <<EOF
+skywind3000/z.lua
+zsh-users/zsh-completions
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-syntax-highlighting
+EOF
+# z.lua <<<-----------------------------
+# 数据文件路径
+export _ZL_DATA=${XDG_DATA_HOME}/zsh/zlua
+# 仅在当前路径$PWD改变时才更新数据库
+export _ZL_ADD_ONCE=1
+# 在跳转后显示目标路径名称
+export _ZL_ECHO=1
+# 增强匹配模式
+export _ZL_MATCH_MODE=1
+# >>>-----------------------------------
+# zsh-autosuggestions <<<---------------
+# 建议策略: history, completion, match_prev_cmd
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+# 开启异步模式
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+# >>>-----------------------------------
+# pkgfile: 命令找不到时提示安装包
+source /usr/share/doc/pkgfile/command-not-found.zsh
+# function: 模仿fish折叠路径
+source ${ZDOTDIR}/functions/fish_collapsed_pwd.sh
+# >>>-----------------------------------
+
 # 历史记录 <<<--------------------------
 HISTSIZE=10000
 SAVEHIST=100000
 setopt share_history
-# 写入时去掉重复和空白
-setopt hist_ignore_dups hist_reduce_blanks
+# 去掉重复和空白
+setopt hist_ignore_dups hist_reduce_blanks hist_find_no_dups
 # >>>-----------------------------------
 
 # 命令补全 <<<--------------------------
@@ -24,6 +54,7 @@ zstyle ':completion:*' matcher-list '' 'm:{-a-zA-Z}={_A-Za-z}'
 # >>>-----------------------------------
 
 # 按键绑定 <<<--------------------------
+# 默认Emacs
 bindkey -e
 # >>>-----------------------------------
 
@@ -34,8 +65,8 @@ promptinit
 autoload -Uz colors
 colors
 setopt transient_rprompt	# 右提示符只出现一次
-PROMPT='%F{magenta}%B$(__git_ps1) %1~>%b%f '
-RPROMPT='[%F{yellow}%?%f]%F{green}%n@%m Lv.%L%f'
+PROMPT='%F{163}%B$(__git_ps1) $(_fish_collapsed_pwd)> %b%f'
+RPROMPT='[%F{120}%?%f]%F{135}%n@%m%f'
 # git <<<-------------------------------
 source /usr/share/git/completion/git-prompt.sh
 GIT_PS1_SHOWDIRTYSTATE=1
@@ -46,38 +77,27 @@ GIT_PS1_DESCRIBE_STYLE="default"
 # >>>-----------------------------------
 # >>>-----------------------------------
 
-# 扩展 <<<-------------------------
-source /usr/share/doc/pkgfile/command-not-found.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# >>>-----------------------------------
-
 # 命令别名 <<<-----------------------------
+# sudo后面的命令可以是别名
 alias sudo='sudo '
-
-alias e='nvim' && compdef e=nvim
-alias ec='nvim -S'
-alias g='git' && compdef g=git
-alias p='python' && compdef p=python
-alias mitm='proxychains -f ~/Archway/proxychains-mitm.conf'
-alias gfw='proxychains -f ~/Archway/proxychains-gfw.conf'
-alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' && compdef config=git
-
-alias sl='ls'
-alias l='ls -l --color=auto'
-alias ll='ls -Al --color=auto'
-alias ls='ls --color=auto'
+# 设置命令默认行为
+alias ls='ls --color=auto --time-style=iso --human-readable'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias mv='mv -i'
-alias rmf='rm -rf' && compdef rmf='rm'
-alias ds='du -sh'
+
+alias sl='ls'
+alias l='ls -l'
+alias la='ls -Al'
 mcd() { mkdir -p $1 && cd $1 }
 
-# 使用neovim作为pager
-alias v='nvim -R -c "nnoremap q :exit<CR>"' && compdef v=nvim
+alias v='nvim -R -c "nnoremap q :exit<CR>"' && compdef v=nvim # 使用neovim作为pager
+alias e='nvim' && compdef e=nvim
+alias es='nvim -S' && compdef es=nvim
+alias g='git' && compdef g=git
+alias py='python' && compdef py=python
+alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' && compdef config=git
 
-alias pm='pacman'
-alias pmu='sudo pacman -Syu'
 alias pmq='pacman -Qs'
 alias pms='pacman -Ss'
 pmi() { pacman -Qi $1 2>/dev/null || pacman -Sii $1 }
