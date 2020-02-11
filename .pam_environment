@@ -1,9 +1,10 @@
-GOPATH		DEFAULT=@{HOME}packages/go
-PYTHONUSERBASE  DEFAULT=@{HOME}packages/python
-PATH		DEFAULT=${GOPATH}/bin:${PYTHONUSERBASE}/bin:@{HOME}packages/node_modules/.bin
+GOPATH		DEFAULT=@{HOME}.packages/go
+PYTHONUSERBASE  DEFAULT=@{HOME}.packages/python
+PYTHONPYCACHEPREFIX	DEFAULT=@{HOME}.cache/python
+PATH		DEFAULT=@{HOME}bin:${GOPATH}/bin:${PYTHONUSERBASE}/bin:@{HOME}.packages/node_modules/.bin
 # default
 EDITOR		DEFAULT=nvim
-BROWSER		DEFAULT=firefox-developer-edition
+BROWSER		DEFAULT=firefox
 MANPAGER	DEFAULT="nvim -c 'set ft=man' -"
 
 # xdg base directory
