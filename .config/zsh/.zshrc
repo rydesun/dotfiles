@@ -65,7 +65,11 @@ promptinit
 autoload -Uz colors
 colors
 setopt transient_rprompt	# 右提示符只出现一次
-PROMPT='%F{magenta}%B$(__git_ps1) $(_fish_collapsed_pwd)> %b%f'
+precmd() {
+	_collapsed_pwd=$(_fish_collapsed_pwd)
+	print -n "\e]0;zsh ( ${_collapsed_pwd} )\a"
+}
+PROMPT='%F{magenta}%B$(__git_ps1) ${_collapsed_pwd}> %b%f'
 RPROMPT='%{$bg[cyan]$fg[white]%} %n@%m %{$reset_color%}'
 # git <<<-------------------------------
 source /usr/share/git/completion/git-prompt.sh
