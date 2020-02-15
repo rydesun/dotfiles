@@ -30,4 +30,10 @@ setxkbmap -option caps:swapescape
 setxkbmap -option ctrl:rctrl_ralt
 setxkbmap -option ctrl:ralt_rctrl
 
+# Use NVIDIA graphics only
+# https://wiki.archlinux.org/index.php/NVIDIA_Optimus#Use_NVIDIA_graphics_only
+xrandr --setprovideroutputsource modesetting NVIDIA-0
+xrandr --auto
+export VDPAU_DRIVER=nvidia
+
 exec qtile
