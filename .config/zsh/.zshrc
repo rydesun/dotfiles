@@ -51,11 +51,15 @@ zstyle :compinstall filename ${XDG_CONFIG_HOME}/zsh/.zshrc
 zstyle ':completion:*' menu select
 # 模糊修正
 zstyle ':completion:*' matcher-list '' 'm:{-a-zA-Z}={_A-Za-z}'
+# fzf
+# source /usr/share/fzf/completion.zsh
 # >>>-----------------------------------
 
 # 按键绑定 <<<--------------------------
 # 默认Emacs
 bindkey -e
+# fzf
+source /usr/share/fzf/key-bindings.zsh
 # >>>-----------------------------------
 
 # 提示符 <<<----------------------------
