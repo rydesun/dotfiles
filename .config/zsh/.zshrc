@@ -70,11 +70,35 @@ autoload -Uz colors
 colors
 setopt transient_rprompt	# 右提示符只出现一次
 precmd() {
+	# 上一条命令的运行结果
+	if [ $? -ne 0 ]; then
+		PROMPT_err="%{$bg[red]$fg[black]%} E %{$reset_color%}"
+	else
+		PROMPT_err=""
+	fi
+
 	_collapsed_pwd=$(_fish_collapsed_pwd)
+	PROMPT_host="%{$bg[cyan]$fg[black]%} %n✰ %m %{$reset_color%}"
+	# ssh标志
+	if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+		PROMPT_ssh="%{$bg[yellow]$fg[black]%} ssh %{$reset_color%}"
+	fi
+	# tmux标志
+	if [ -n "$TMUX" ]; then
+		PROMPT_tmux="%{$bg[green]$fg[black]%} tmux %{$reset_color%}"
+	fi
+	PROMPT_git=$(__git_ps1)
+	PROMPT_cwd=${_collapsed_pwd}
+	PROMPT_tail="◗ "
+
+	_color_purple=$'%{\e[38;2;199;146;234m%}'
+	_color_reset=$'%{\e[0m%}'
+	PROMPT="${_color_purple}${PROMPT_git} ${PROMPT_cwd}${PROMPT_tail}${_color_reset}"
+	RPROMPT="${PROMPT_err}${PROMPT_tmux}${PROMPT_ssh}${PROMPT_host}"
+
+	# 设置终端标题
 	print -n "\e]0;zsh ( ${_collapsed_pwd} )\a"
 }
-PROMPT='%F{magenta}%B$(__git_ps1) ${_collapsed_pwd}> %b%f'
-RPROMPT='%{$bg[cyan]$fg[white]%} %n@%m %{$reset_color%}'
 # git <<<-------------------------------
 source /usr/share/git/completion/git-prompt.sh
 GIT_PS1_SHOWDIRTYSTATE=1
