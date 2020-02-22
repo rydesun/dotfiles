@@ -69,6 +69,12 @@ promptinit
 autoload -Uz colors
 colors
 setopt transient_rprompt	# 右提示符只出现一次
+
+_color_purple=$'%{\e[38;2;199;146;234m%}'
+_color_invert=$'%{\e[7m%}'
+_color_reset=$'%{\e[0m%}'
+
+ZLE_RPROMPT_INDENT=0		# 去掉右提示符右侧多余空白
 precmd() {
 	# 上一条命令的运行结果
 	if [ $? -ne 0 ]; then
@@ -78,23 +84,31 @@ precmd() {
 	fi
 
 	_collapsed_pwd=$(_fish_collapsed_pwd)
-	PROMPT_host="%{$bg[cyan]$fg[black]%} %n✰ %m %{$reset_color%}"
+	PROMPT_host="${_color_purple}${_color_invert} %n@%m ${_color_reset}"
 	# ssh标志
 	if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 		PROMPT_ssh="%{$bg[yellow]$fg[black]%} ssh %{$reset_color%}"
+	else
+		PROMPT_ssh=""
 	fi
 	# tmux标志
 	if [ -n "$TMUX" ]; then
 		PROMPT_tmux="%{$bg[green]$fg[black]%} tmux %{$reset_color%}"
+	else
+		PROMPT_tmux=""
 	fi
-	PROMPT_git=$(__git_ps1)
+	# python virtualenv标志
+	if [ -n "$VIRTUAL_ENV" ]; then
+		PROMPT_pyvenv="%{$bg[cyan]$fg[black]%} pyvenv %{$reset_color%}"
+	else
+		PROMPT_pyvenv=""
+	fi
+	PROMPT_git=$(__git_ps1 " %s)")
 	PROMPT_cwd=${_collapsed_pwd}
-	PROMPT_tail="◗ "
+	PROMPT_tail=" %# "
 
-	_color_purple=$'%{\e[38;2;199;146;234m%}'
-	_color_reset=$'%{\e[0m%}'
-	PROMPT="${_color_purple}${PROMPT_git} ${PROMPT_cwd}${PROMPT_tail}${_color_reset}"
-	RPROMPT="${PROMPT_err}${PROMPT_tmux}${PROMPT_ssh}${PROMPT_host}"
+	PROMPT="${_color_purple} ┃${PROMPT_git} ${PROMPT_cwd}${PROMPT_tail}${_color_reset}"
+	RPROMPT="${PROMPT_err}${PROMPT_pyvenv}${PROMPT_tmux}${PROMPT_ssh}${PROMPT_host}"
 
 	# 设置终端标题
 	print -n "\e]0;zsh ( ${_collapsed_pwd} )\a"
