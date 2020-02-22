@@ -52,7 +52,10 @@ zstyle ':completion:*' menu select
 # 模糊修正
 zstyle ':completion:*' matcher-list '' 'm:{-a-zA-Z}={_A-Za-z}'
 # fzf
-# source /usr/share/fzf/completion.zsh
+source /usr/share/fzf/completion.zsh
+export FZF_COMPLETION_TRIGGER='~~'
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # >>>-----------------------------------
 
 # 按键绑定 <<<--------------------------
