@@ -1,0 +1,57 @@
+:root {
+  --frame-background-color: #445;
+}
+
+*|*:root:-moz-lwtheme {
+  --toolbar-bgcolor: #e4e5e7 !important;
+  --tab-line-color: #f0b0ff !important;
+  --lwt-toolbar-field-background-color: #e4e5e7 !important;
+  --lwt-toolbar-field-border-color: #e4e5e7 !important;
+}
+
+/* 隐藏标签栏 */
+#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar > .toolbar-items {
+  opacity: 0;
+  pointer-events: none;
+}
+#main-window:not([tabsintitlebar="true"]) #TabsToolbar {
+  visibility: collapse !important;
+}
+
+/* 暗色侧边栏 */
+#sidebar-header {
+  -moz-appearance: none !important;
+  background-color: var(--frame-background-color) !important;
+  color: #fff !important;
+  border-bottom: 1px solid #223 !important
+}
+#sidebar-search-container, #sidebar, .sidebar-placesTree {
+  -moz-appearance: none !important;
+  background-color: var(--frame-background-color) !important;
+  color: #ddd !important;
+}
+treechildren::-moz-tree-separator {
+  border-color: #333 !important
+}
+#sidebar-splitter {
+  border: 0px !important;
+  background-color: var(--frame-background-color) !important;
+}
+
+/* 全屏时自动隐藏侧边栏 */
+#main-window[inFullscreen] #sidebar-box,
+#main-window[inFullscreen] #sidebar-splitter {
+  display: none !important;
+  width: 0px !important;
+}
+
+/**** 树状标签栏 ****/
+/* 隐藏头部 */
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
+  display: none;
+}
+
+/* 弹出的工具栏去除半透明阴影, 防止与picom阴影效果重复 */
+box.panel-arrowcontent {
+  margin: 0px !important;
+}
