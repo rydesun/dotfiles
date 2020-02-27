@@ -1,3 +1,5 @@
+#! /usr/bin/env zsh
+
 # https://zhuanlan.zhihu.com/p/51008087
 function _fish_collapsed_pwd() {
     local pwd="$1"

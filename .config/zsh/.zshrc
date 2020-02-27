@@ -30,7 +30,7 @@ ZSH_AUTOSUGGEST_USE_ASYNC=1
 # pkgfile: 命令找不到时提示安装包
 source /usr/share/doc/pkgfile/command-not-found.zsh
 # function: 模仿fish折叠路径
-source ${ZDOTDIR}/functions/fish_collapsed_pwd.sh
+source ${ZDOTDIR}/functions/fish_collapsed_pwd.zsh
 # >>>-----------------------------------
 
 # 历史记录 <<<--------------------------
