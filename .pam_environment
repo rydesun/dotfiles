@@ -1,6 +1,6 @@
-GOPATH		DEFAULT=@{HOME}.packages/go
+GOBIN		DEFAULT=@{HOME}bin/go
 PYTHONUSERBASE  DEFAULT=@{HOME}.packages/python
-PATH		DEFAULT=@{HOME}bin:${GOPATH}/bin:${PYTHONUSERBASE}/bin:@{HOME}.packages/node_modules/.bin
+PATH		DEFAULT=@{HOME}bin:${GOBIN}:${PYTHONUSERBASE}/bin:@{HOME}.packages/node_modules/.bin
 # default
 EDITOR		DEFAULT=nvim
 BROWSER		DEFAULT=firefox
@@ -37,6 +37,12 @@ RANDFILE	DEFAULT=${XDG_DATA_HOME}/openssl/randfile
 
 # wine
 WINEPREFIX	DEFAULT=${XDG_DATA_HOME}/wine
+
+# golang
+GO111MODULE	DEFAULT=on
+GOPROXY		DEFAULT=https://goproxy.cn,direct
+GOCACHE		DEFAULT=${XDG_CACHE_HOME}/go
+GOPATH		DEFAULT=${GOCACHE}
 
 # python
 PYTHONSTARTUP		DEFAULT=${XDG_CONFIG_HOME}/python/repl_startup.py
