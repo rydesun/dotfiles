@@ -4,7 +4,7 @@ setopt correct			# 修正命令
 setopt interactive_comments	# 交互模式支持注释
 
 # 插件 <<<------------------------------
-source <(antibody init)
+command -v antibody &>/dev/null && source <(antibody init) && \
 antibody bundle <<EOF
 skywind3000/z.lua
 zsh-users/zsh-completions
@@ -28,9 +28,13 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_ASYNC=1
 # >>>-----------------------------------
 # pkgfile: 命令找不到时提示安装包
-source /usr/share/doc/pkgfile/command-not-found.zsh
+if [[ -f /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
+	source /usr/share/doc/pkgfile/command-not-found.zsh
+fi
 # function: 模仿fish折叠路径
-source ${ZDOTDIR}/functions/fish_collapsed_pwd.zsh
+if [[ -f ${ZDOTDIR}/functions/fish_collapsed_pwd.zsh ]]; then
+	source ${ZDOTDIR}/functions/fish_collapsed_pwd.zsh
+fi
 # >>>-----------------------------------
 
 # 历史记录 <<<--------------------------
@@ -43,7 +47,10 @@ setopt hist_ignore_dups hist_reduce_blanks hist_find_no_dups
 
 # 命令补全 <<<--------------------------
 autoload -Uz compinit
-# 注意: 指定缓存文件所在目录必须先确保该目录存在！
+# 指定缓存文件所在目录必须先确保该目录存在
+if [[ ! -d ${XDG_CACHE_HOME}/zsh/ ]]; then
+	mkdir -p ${XDG_CACHE_HOME}/zsh/
+fi
 compinit -d ${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}
 setopt complete_aliases		# 补全别名
 setopt list_packed		# 补全列表压缩列宽
@@ -52,7 +59,9 @@ zstyle ':completion:*' menu select
 # 模糊修正
 zstyle ':completion:*' matcher-list '' 'm:{-a-zA-Z}={_A-Za-z}'
 # fzf
-source /usr/share/fzf/completion.zsh
+if [[ -f /usr/share/fzf/completion.zsh ]]; then
+	source /usr/share/fzf/completion.zsh
+fi
 export FZF_COMPLETION_TRIGGER='~~'
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -62,7 +71,9 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # 默认Emacs
 bindkey -e
 # fzf
-source /usr/share/fzf/key-bindings.zsh
+if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
+	source /usr/share/fzf/key-bindings.zsh
+fi
 # >>>-----------------------------------
 
 # 提示符 <<<----------------------------
@@ -86,7 +97,9 @@ precmd() {
 		PROMPT_err=""
 	fi
 
-	_collapsed_pwd=$(_fish_collapsed_pwd)
+	if command -v _fish_collapsed_pwd &>/dev/null; then
+		_collapsed_pwd=$(_fish_collapsed_pwd)
+	fi
 	PROMPT_host="${_color_purple}${_color_invert} %n@%m ${_color_reset}"
 	# ssh标志
 	if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
@@ -106,7 +119,9 @@ precmd() {
 	else
 		PROMPT_pyvenv=""
 	fi
-	PROMPT_git=$(__git_ps1 " %s)")
+	if command -v __git_ps1 &>/dev/null; then
+		PROMPT_git=$(__git_ps1 " %s)")
+	fi
 	PROMPT_cwd=${_collapsed_pwd}
 	PROMPT_tail=" %# "
 
@@ -117,7 +132,9 @@ precmd() {
 	print -n "\e]0;zsh ( ${_collapsed_pwd} )\a"
 }
 # git <<<-------------------------------
-source /usr/share/git/completion/git-prompt.sh
+if [[ -f /usr/share/git/completion/git-prompt.sh ]]; then
+	source /usr/share/git/completion/git-prompt.sh
+fi
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
@@ -147,6 +164,7 @@ alias g='git' && compdef g=git
 alias py='python' && compdef py=python
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' && compdef config=git
 
+# Arch Linux #
 alias pmq='pacman -Qs'
 alias pms='pacman -Ss'
 pmi() { pacman -Qi $1 2>/dev/null || pacman -Sii $1 }
