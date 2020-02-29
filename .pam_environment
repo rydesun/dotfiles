@@ -66,4 +66,5 @@ BUNDLE_USER_PLUGIN	DEFAULT=${XDG_DATA_HOME}/bundle
 DOCKER_CONFIG	DEFAULT=${XDG_CONFIG_HOME}/docker
 
 # PATH
-PATH		DEFAULT=@{HOME}bin:${GOBIN}:${PYTHONUSERBASE}/bin:@{HOME}.packages/node_modules/.bin
+PATH		DEFAULT=@{HOME}bin:${GOBIN}:${PYTHONUSERBASE}/bin:@{HOME}.packages/node_modules/.bin\
+:/usr/bin:/usr/local/bin
