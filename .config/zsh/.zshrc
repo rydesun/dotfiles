@@ -3,6 +3,13 @@ setopt no_beep			# 不响铃
 setopt correct			# 修正命令
 setopt interactive_comments	# 交互模式支持注释
 
+# 与当前主机相关的配置
+if [[ -d ${XDG_CONFIG_HOME}/zsh/hostrc.d ]]; then
+	for f in ${XDG_CONFIG_HOME}/zsh/hostrc.d/?*.zsh; do
+		source $f
+	done; unset f
+fi
+
 # 插件 <<<------------------------------
 command -v antibody &>/dev/null && source <(antibody init) && \
 antibody bundle <<EOF
@@ -84,7 +91,11 @@ autoload -Uz colors
 colors
 setopt transient_rprompt	# 右提示符只出现一次
 
-_color_purple=$'%{\e[38;2;199;146;234m%}'
+if [[ -n ${_SPEC_color_host} ]]; then
+	_color_host=${_SPEC_color_host}
+else
+	_color_host=$'%{\e[38;2;199;146;234m%}'
+fi
 _color_invert=$'%{\e[7m%}'
 _color_reset=$'%{\e[0m%}'
 
@@ -100,7 +111,7 @@ precmd() {
 	if command -v _fish_collapsed_pwd &>/dev/null; then
 		_collapsed_pwd=$(_fish_collapsed_pwd)
 	fi
-	PROMPT_host="${_color_purple}${_color_invert} %n@%m ${_color_reset}"
+	PROMPT_host="${_color_host}${_color_invert} %n@%m ${_color_reset}"
 	# ssh标志
 	if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 		PROMPT_ssh="%{$bg[yellow]$fg[black]%} ssh %{$reset_color%}"
@@ -125,7 +136,7 @@ precmd() {
 	PROMPT_cwd=${_collapsed_pwd}
 	PROMPT_tail=" %# "
 
-	PROMPT="${_color_purple} ┃${PROMPT_git} ${PROMPT_cwd}${PROMPT_tail}${_color_reset}"
+	PROMPT="${_color_host} ┃${PROMPT_git} ${PROMPT_cwd}${PROMPT_tail}${_color_reset}"
 	RPROMPT="${PROMPT_err}${PROMPT_pyvenv}${PROMPT_tmux}${PROMPT_ssh}${PROMPT_host}"
 
 	# 设置终端标题
@@ -163,14 +174,6 @@ alias es='nvim -S' && compdef es=nvim
 alias g='git' && compdef g=git
 alias py='python' && compdef py=python
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' && compdef config=git
-
-# Arch Linux #
-alias pmq='pacman -Qs'
-alias pms='pacman -Ss'
-pmi() { pacman -Qi $1 2>/dev/null || pacman -Sii $1 }
-pmo() { pacman -Qoq $1 2>/dev/null || pkgfile -i $1 }
-pml() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | sed '/\/$/d' }
-pmb() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | awk -F/ '/\/usr\/bin\/.+[^/]$/{print $NF}' }
 # >>>-----------------------------------
 
 # vim: foldmethod=marker:foldmarker=<<<---,>>>---
