@@ -1,3 +1,5 @@
+env:
+  LANG: en_US.UTF-8
 window:
   class:
     instance: Terminal Emulator
