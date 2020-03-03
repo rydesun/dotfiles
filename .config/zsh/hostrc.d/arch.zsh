@@ -1,8 +1,6 @@
-# Arch Linux
-alias pmq='pacman -Qs'
-alias pms='pacman -Ss'
-pmi() { pacman -Qi $1 2>/dev/null || pacman -Sii $1 }
-pmo() { pacman -Qoq $1 2>/dev/null || pkgfile -i $1 }
-pml() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | sed '/\/$/d' }
-pmb() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | awk -F/ '/\/usr\/bin\/.+[^/]$/{print $NF}' }
-
+pkg-list-exclipit() {
+    while read pkg; do
+        apt show $pkg 2>/dev/null | grep "APT-Manual-Installed: yes" > /dev/null
+        if [[ $? -eq 0 ]]; then echo $pkg; fi
+    done <<(dpkg --get-selections | cut -f1)
+}
