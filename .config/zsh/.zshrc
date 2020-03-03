@@ -98,12 +98,16 @@ else
 fi
 _color_invert=$'%{\e[7m%}'
 _color_reset=$'%{\e[0m%}'
+if [[ -z ${_SPEC_PROMPT_disable_icon} ]]; then
+	_icon_error="😈"
+	_icon_gitdir="  "
+fi
 
 ZLE_RPROMPT_INDENT=0		# 去掉右提示符右侧多余空白
 precmd() {
 	# 上一条命令的运行结果
 	if [ $? -ne 0 ]; then
-		PROMPT_err="%{$bg[red]$fg[black]%} E %{$reset_color%}"
+		PROMPT_err="%{$bg[red]$fg[black]%} ${_icon_error:-E} %{$reset_color%}"
 	else
 		PROMPT_err=""
 	fi
@@ -131,12 +135,16 @@ precmd() {
 		PROMPT_pyvenv=""
 	fi
 	if command -v __git_ps1 &>/dev/null; then
-		PROMPT_git=$(__git_ps1 " %s)")
+		PROMPT_git=$(__git_ps1 " %s${_icon_gitdir:-)}")
 	fi
 	PROMPT_cwd=${_collapsed_pwd}
-	PROMPT_tail=" %# "
+	if [[ $UID == 0 || $EUID == 0 ]]; then
+		PROMPT_tail=" # "
+	else
+		PROMPT_tail=" $ "
+	fi
 
-	PROMPT="${_color_host} ┃${PROMPT_git} ${PROMPT_cwd}${PROMPT_tail}${_color_reset}"
+	PROMPT="${_color_host}▒${PROMPT_git} ${PROMPT_cwd}${PROMPT_tail}${_color_reset}"
 	RPROMPT="${PROMPT_err}${PROMPT_pyvenv}${PROMPT_tmux}${PROMPT_ssh}${PROMPT_host}"
 
 	# 设置终端标题
@@ -149,6 +157,7 @@ fi
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
+GIT_PS1_STATESEPARATOR=
 GIT_PS1_SHOWUPSTREAM="auto"
 GIT_PS1_DESCRIBE_STYLE="default"
 # >>>-----------------------------------
