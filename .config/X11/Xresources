@@ -1,1 +1,41 @@
 Xft.dpi: 115
+
+!--- font ---!
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+Xft.hintstyle: hintslight
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+*.font: xft:Iosevka Term SS04:pixelsize=18,\
+	xft:Noto Sans CJK SC:pixelsize=18
+
+!--- colorscheme: material ---!
+! special
+*.foreground:   #eceff1
+*.background:   #263238
+*.cursorColor:  #eceff1
+! black
+*.color0:       #263238
+*.color8:       #37474f
+! red
+*.color1:       #ff9800
+*.color9:       #ffa74d
+! green
+*.color2:       #8bc34a
+*.color10:      #9ccc65
+! yellow
+*.color3:       #ffc107
+*.color11:      #ffa000
+! blue
+*.color4:       #03a9f4
+*.color12:      #81d4fa
+! magenta
+*.color5:       #e91e63
+*.color13:      #ad1457
+! cyan
+*.color6:       #009688
+*.color14:      #26a69a
+! white
+*.color7:       #cfd8dc
+*.color15:      #eceff1
