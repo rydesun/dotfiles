@@ -103,7 +103,7 @@ if [[ -z ${_SPEC_PROMPT_disable_icon} ]]; then
 	_icon_gitdir="  "
 fi
 
-ZLE_RPROMPT_INDENT=0		# 去掉右提示符右侧多余空白
+ZLE_RPROMPT_INDENT=-1		# 去掉右提示符右侧多余空白
 precmd() {
 	# 上一条命令的运行结果
 	if [ $? -ne 0 ]; then
@@ -183,6 +183,7 @@ alias es='nvim -S' && compdef es=nvim
 alias g='git' && compdef g=git
 alias py='python' && compdef py=python
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' && compdef config=git
+alias ssh='TERM=xterm-256color ssh'
 # >>>-----------------------------------
 
 # vim: foldmethod=marker:foldmarker=<<<---,>>>---
