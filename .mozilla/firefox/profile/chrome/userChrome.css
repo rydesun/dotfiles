@@ -18,6 +18,17 @@
   visibility: collapse !important;
 }
 
+/* 去除地址栏、搜索栏的阴影边框 */
+#urlbar:not(.megabar), #urlbar.megabar > #urlbar-background, #searchbar {
+  box-shadow: none !important;
+}
+
+/* 简化后退图标 */
+#back-button > .toolbarbutton-icon {
+  border: none !important;
+  background-color: unset !important;
+}
+
 /* 暗色侧边栏 */
 #sidebar-header {
   -moz-appearance: none !important;
