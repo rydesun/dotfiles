@@ -1,3 +1,4 @@
+/*==== 显式设置 ====*/
 /* 启动后恢复上次会话 */
 user_pref("browser.startup.page", 3);
 /* 主页使用空白页 */
@@ -7,14 +8,14 @@ user_pref("browser.newtabpage.enabled", false);
 /* 所有情况下都启用跟踪保护 */
 user_pref("privacy.trackingprotection.enabled", true);
 
-/*==== 隐藏设置 ====*/
+/*==== 隐式设置 ====*/
 /* 打开about:config页面不警告 */
 user_pref("browser.aboutConfig.showWarning", false);
 /* 去除about:addons页面中的推荐页 */
 user_pref("extensions.getAddons.showPane", false);
 /* 去除about:addons页面中底部的推荐列表 */
 user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
-/* 去除Pocket */
+/* 去除Pocket服务 */
 user_pref("extensions.pocket.enabled", false);
 
 /* 禁止预连接(地址栏) */
