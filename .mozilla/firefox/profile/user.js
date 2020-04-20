@@ -37,8 +37,9 @@ user_pref("network.dns.disablePrefetch", true);
 /*==== 可能破坏网页 ====*/
 /* RFP: 阻止多种收集浏览器指纹的行为 */
 user_pref("privacy.resistFingerprinting", true);
-/* 禁止WebGL */
-user_pref("webgl.disabled", true);
+/* 禁止WebGL
+ * 开启RFP后无需设置: RFP伪装了WebGL指纹 */
+// user_pref("webgl.disabled", true);
 /* 禁止Web Audio API */
 user_pref("dom.webaudio.enabled", false);
 /* 禁止WebRTC */
