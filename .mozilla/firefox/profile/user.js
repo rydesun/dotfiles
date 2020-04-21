@@ -1,4 +1,3 @@
-/*==== 显式设置 ====*/
 /* 启动后恢复上次会话 */
 user_pref("browser.startup.page", 3);
 /* 主页使用空白页 */
@@ -8,7 +7,6 @@ user_pref("browser.newtabpage.enabled", false);
 /* 所有情况下都启用跟踪保护 */
 user_pref("privacy.trackingprotection.enabled", true);
 
-/*==== 隐式设置 ====*/
 /* 打开about:config页面不警告 */
 user_pref("browser.aboutConfig.showWarning", false);
 /* 去除about:addons页面中的推荐页 */
@@ -39,7 +37,7 @@ user_pref("network.dns.disablePrefetch", true);
 /* RFP: 阻止多种收集浏览器指纹的行为 */
 user_pref("privacy.resistFingerprinting", true);
 /* 禁止WebGL
- * 开启RFP后无需设置: RFP伪装了WebGL指纹 */
+ * 开启RFP即可减少WebGL信息熵 */
 // user_pref("webgl.disabled", true);
 /* 禁止Web Audio API */
 user_pref("dom.webaudio.enabled", false);
