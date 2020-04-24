@@ -16,9 +16,7 @@ user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
 /* 去除Pocket服务 */
 user_pref("extensions.pocket.enabled", false);
 
-/* 禁止预连接(地址栏) */
-user_pref("browser.urlbar.speculativeConnect.enabled", false);
-/* 禁止预连接(鼠标指针停留在链接上) */
+/* 禁止投机性预连接 */
 user_pref("network.http.speculative-parallel-limit", 0);
 /* 禁止链接预读取 */
 user_pref("network.prefetch-next", false);
