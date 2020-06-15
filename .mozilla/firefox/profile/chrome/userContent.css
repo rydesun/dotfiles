@@ -2,6 +2,10 @@
 @-moz-document regexp("^moz-extension://[a-zA-Z0-9-]+/sidebar/sidebar\.html.*") {
   #tabbar {
     background: #445 !important;
+    background-image: url("images/sidebar.svg") !important;
+    background-size: 100px !important;
+    background-position: bottom 20px right 50% !important;
+    background-repeat: no-repeat !important;
   }
   #all-tabs {
     margin-top: 6px !important;
