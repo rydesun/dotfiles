@@ -10,10 +10,6 @@
 }
 
 /* 隐藏标签栏 */
-#main-window[tabsintitlebar="true"]:not([extradragspace="true"]) #TabsToolbar > .toolbar-items {
-  opacity: 0;
-  pointer-events: none;
-}
 #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
   visibility: collapse !important;
 }
@@ -49,17 +45,12 @@ treechildren::-moz-tree-separator {
   background-color: var(--frame-background-color) !important;
 }
 
-/* 全屏时自动隐藏侧边栏 */
-#main-window[inFullscreen] #sidebar-box,
-#main-window[inFullscreen] #sidebar-splitter {
+/* 隐藏扩展侧边栏的头部 */
+/* Tree Style Tab */
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header,
+/* Bitwarden */
+#sidebar-box[sidebarcommand="_446900e4-71c2-419f-a6a7-df9c091e268b_-sidebar-action"] #sidebar-header {
   display: none !important;
-  width: 0px !important;
-}
-
-/**** 树状标签栏 ****/
-/* 隐藏头部 */
-#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header {
-  display: none;
 }
 
 /* 弹出的工具栏去除半透明阴影, 防止与picom阴影效果重复 */
