@@ -57,3 +57,23 @@ treechildren::-moz-tree-separator {
 box.panel-arrowcontent {
   margin: 0px !important;
 }
+
+/* 弹出工具栏 */
+panelview#widget-overflow-mainView vbox.panel-subview-body {
+  display: block !important;
+  overflow: auto !important;
+}
+panelview#widget-overflow-mainView vbox#widget-overflow-fixed-list {
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+panelview#widget-overflow-mainView vbox#widget-overflow-fixed-list toolbarbutton {
+  width: calc(100% / 6) !important;
+  height: 40px !important;
+}
+panelview#widget-overflow-mainView vbox#widget-overflow-fixed-list label.toolbarbutton-text {
+  display: none !important;
+}
+panelview#widget-overflow-mainView .subviewbutton.panel-subview-footer {
+  min-height: unset !important;
+}
