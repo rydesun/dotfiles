@@ -36,29 +36,25 @@
 
   tab-item {
    height: 34px !important;
-   box-shadow: 1px 1px 1px #333 !important;
   }
   tab-item:not(.pinned) {
+    box-shadow: 0px 1px 0px #669 !important;
     border-left-width: 0 !important;
   }
-  tab-item[data-level][data-level="0"] {
+  /* 排除第一个标签 */
+  tab-item[data-level="0"]:not(.pinned) ~ tab-item[data-level="0"]:not(.pinned) {
     margin-top: 6px !important;
-    box-shadow: 1px 1px 1px #333 !important;
   }
-
-  tab-item[data-level]:first-child {
-    margin-top: 0 !important;
-  }
-  tab-item[data-level][data-level="1"] {
+  tab-item[data-level="1"] {
     margin-left: 0 !important;
   }
-  tab-item[data-level][data-level="2"] {
+  tab-item[data-level="2"] {
     margin-left: 0 !important;
   }
-  tab-item[data-level][data-level="3"] {
+  tab-item[data-level="3"] {
     margin-left: 10% !important;
   }
-  tab-item[data-level][data-level="4"] {
+  tab-item[data-level="4"] {
     margin-left: 15% !important;
   }
 }
