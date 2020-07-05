@@ -1,60 +1,58 @@
-/* Tree Style Tab */
-@-moz-document regexp("^moz-extension://[a-zA-Z0-9-]+/sidebar/sidebar\.html.*") {
-  #tabbar {
-    background: #445 !important;
-    background-image: url("images/sidebar.svg") !important;
-    background-size: 100px !important;
-    background-position: bottom 20px right 50% !important;
-    background-repeat: no-repeat !important;
+/* Visual Tabs */
+@-moz-document regexp("^moz-extension://[a-zA-Z0-9-]+/sidebar/view\.html.*") {
+  :root[theme="light"] {
+    --background-color: #445 !important;
+    --separator-color: black !important;
   }
-  #all-tabs {
-    margin-top: 6px !important;
-    background: #aab !important;
+  #tabbox #tabList .tab {
+    background: #445 !important;
+  }
+  #tabbox #tabList .tab .bar {
+    background: white !important;
+  }
+  #tabbox #tabList .tab[selected="true"] .bar {
+    background: #d0d0ff !important;
+  }
+
+  /* 固定标签栏 */
+  #tabbox #pinList:not(:empty) {
+    border-bottom: unset !important;
+  }
+  #tabbox #pinList:not(:empty) .tab {
+    margin-bottom: 15px !important;
+  }
+
+  #tabbox #tabList[mode="compact"] .tab {
+    padding-top: 0 !important;
+    padding-left: 0 !important;
+    margin-bottom: 15px !important;
+    border-bottom: none !important;
+  }
+  #tabbox #tabList[mode="compact"] .tab .bar {
+    height: 28px !important;
+  }
+  #tabbox #tabList[mode="compact"] .tab .bar .title {
+    color: #333 !important;
+  }
+  #tabbox #tabList[mode="compact"] .tab[selected="true"] .bar .title {
+    font-weight: unset !important;
+  }
+  #tabbox #tabList[mode="compact"] .tab .line1 {
+    display: none !important;
+  }
+  #tabbox #tabList[mode="compact"] .tab .thumbnail {
+    width: 80% !important;
+    margin-top: 5px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  /* 自动隐藏关闭按钮 */
+  #tabbox #tabList[mode="compact"] .tab:not(:hover) button.close {
+    display: none !important;
   }
 
   /* 隐藏新标签按钮 */
-  .newtab-button-box {
+  #newTab {
     display: none !important;
-  }
-
-  /* 自动隐藏关闭按钮 */
-  tab-item:not(:hover) tab-closebox {
-    display: none !important;
-  }
-
-  /* 去除当前选中标签的蓝条 */
-  span.highlighter {
-    display: none !important;
-  }
-
-  /* 容器颜色 */
-  tab-item:not(.faviconized) .contextual-identity-marker {
-    width: 5px !important;
-    left: 0 !important;
-    right: unset !important;
-  }
-
-  tab-item {
-   height: 34px !important;
-  }
-  tab-item:not(.pinned) {
-    box-shadow: 0px 1px 0px #669 !important;
-    border-left-width: 0 !important;
-  }
-  /* 排除第一个标签 */
-  tab-item[data-level="0"]:not(.pinned) ~ tab-item[data-level="0"]:not(.pinned) {
-    margin-top: 6px !important;
-  }
-  tab-item[data-level="1"] {
-    margin-left: 0 !important;
-  }
-  tab-item[data-level="2"] {
-    margin-left: 0 !important;
-  }
-  tab-item[data-level="3"] {
-    margin-left: 10% !important;
-  }
-  tab-item[data-level="4"] {
-    margin-left: 15% !important;
   }
 }

@@ -46,8 +46,8 @@ treechildren::-moz-tree-separator {
 }
 
 /* 隐藏扩展侧边栏的头部 */
-/* Tree Style Tab */
-#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar-header,
+/* Visual Tabs */
+#sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] #sidebar-header,
 /* Bitwarden */
 #sidebar-box[sidebarcommand="_446900e4-71c2-419f-a6a7-df9c091e268b_-sidebar-action"] #sidebar-header {
   display: none !important;
