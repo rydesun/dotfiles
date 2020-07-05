@@ -12,12 +12,12 @@
 - [x] `alacritty`
 - [x] `aria2`
 
-> FIXME: 包含硬编码目录
+  > FIXME: 包含硬编码目录
 
 - [x] `firefox`
 - [x] `git`
 
-> 注意: 包含 ID 和邮箱
+  > 注意: 包含 ID 和邮箱
 
 - [x] `pikaur`
 - [x] `zsh`
@@ -28,7 +28,7 @@
 - [x] `npm`
 - [x] `python`
 
-> 让 REPL 历史记录保存在 XDG 目录
+  > 让 REPL 历史记录保存在 XDG 目录
 
 - [x] `X11`
 
