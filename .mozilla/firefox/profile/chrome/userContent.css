@@ -46,6 +46,12 @@
     margin-left: auto !important;
     margin-right: auto !important;
   }
+  #tabbox #tabList[mode="compact"] .tab[discarded="true"] {
+    padding-bottom: 0 !important;
+  }
+  #tabbox #tabList[mode="compact"] .tab[discarded="true"] .thumbnail {
+    display: none !important;
+  }
   /* 自动隐藏关闭按钮 */
   #tabbox #tabList[mode="compact"] .tab:not(:hover) button.close {
     display: none !important;
