@@ -25,6 +25,7 @@
   #tabbox #tabList[mode="compact"] .tab {
     padding-top: 0 !important;
     padding-left: 0 !important;
+    padding-bottom: 0 !important;
     margin-bottom: 15px !important;
     border-bottom: none !important;
   }
@@ -41,7 +42,7 @@
     display: none !important;
   }
   #tabbox #tabList[mode="compact"] .tab .thumbnail {
-    width: 80% !important;
+    width: 90% !important;
     margin-top: 5px !important;
     margin-left: auto !important;
     margin-right: auto !important;
@@ -49,6 +50,7 @@
   #tabbox #tabList[mode="compact"] .tab[discarded="true"] {
     padding-bottom: 0 !important;
   }
+  #tabbox #tabList[mode="compact"] .tab[url="about:blank"] .thumbnail,
   #tabbox #tabList[mode="compact"] .tab[discarded="true"] .thumbnail {
     display: none !important;
   }
