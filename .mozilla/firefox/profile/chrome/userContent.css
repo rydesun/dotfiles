@@ -20,6 +20,17 @@
   }
   #tabbox #pinList:not(:empty) .tab {
     margin-bottom: 15px !important;
+    border-right-color: #d0d0ff !important;
+    background: white !important;
+  }
+  #tabbox #pinList:not(:empty) .tab[selected="true"] {
+    background: #d0d0ff !important;
+  }
+  #tabbox #pinList:not(:empty) .tab .line1 {
+    display: none !important;
+  }
+  #tabbox #pinList:not(:empty) .tab .line2 {
+    height: 2px !important;
   }
 
   #tabbox #tabList[mode="compact"] .tab {
@@ -62,5 +73,12 @@
   /* 隐藏新标签按钮 */
   #newTab {
     display: none !important;
+  }
+
+  #menu #contexts {
+    border-left: none !important;
+  }
+  #menu #contexts button {
+    color: #a0a0a0 !important;
   }
 }
