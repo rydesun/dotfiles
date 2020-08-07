@@ -24,6 +24,7 @@
 
 ### 以及配置
 
+- [x] `cargo`
 - [x] `fontconfig`
 - [x] `npm`
 - [x] `python`
