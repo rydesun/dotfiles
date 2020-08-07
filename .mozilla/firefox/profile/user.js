@@ -6,6 +6,8 @@ user_pref("browser.startup.homepage", "about:blank");
 user_pref("browser.newtabpage.enabled", false);
 /* 所有情况下都启用跟踪保护 */
 user_pref("privacy.trackingprotection.enabled", true);
+/* 阻止重定向形式的跟踪(效果有限) */
+user_pref("privacy.purge_trackers.enabled",  true);
 
 /* 打开about:config页面不警告 */
 user_pref("browser.aboutConfig.showWarning", false);
