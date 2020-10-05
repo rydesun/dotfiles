@@ -5,6 +5,8 @@ window:
     instance: Terminal Emulator
 font:
   size: 12
+  offset:
+    y: 5
 # colorscheme: Material
 colors:
   # Default colors
