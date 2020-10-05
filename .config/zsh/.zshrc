@@ -130,9 +130,15 @@ precmd() {
 	fi
 	# python virtualenv标志
 	if [ -n "$VIRTUAL_ENV" ]; then
-		PROMPT_pyvenv="%{$bg[cyan]$fg[black]%} pyvenv %{$reset_color%}"
+		PROMPT_pyvenv="%{$bg[cyan]$fg[white]%} pyvenv %{$reset_color%}"
 	else
 		PROMPT_pyvenv=""
+	fi
+	# nvm标志
+	if [ -n "$NVM_BIN" ]; then
+		PROMPT_nvm="%{$bg[cyan]$fg[white]%} nvm %{$reset_color%}"
+	else
+		PROMPT_nvm=""
 	fi
 	if command -v __git_ps1 &>/dev/null; then
 		PROMPT_git=$(__git_ps1 " %s${_icon_gitdir:-)}")
@@ -145,7 +151,7 @@ precmd() {
 	fi
 
 	PROMPT="${_color_host}▒${PROMPT_git} ${PROMPT_cwd}${PROMPT_tail}${_color_reset}"
-	RPROMPT="${PROMPT_err}${PROMPT_pyvenv}${PROMPT_tmux}${PROMPT_ssh}${PROMPT_host}"
+	RPROMPT="${PROMPT_err}${PROMPT_pyvenv}${PROMPT_nvm}${PROMPT_tmux}${PROMPT_ssh}${PROMPT_host}"
 
 	# 设置终端标题
 	print -n "\e]0;zsh ( ${_collapsed_pwd} )\a"
