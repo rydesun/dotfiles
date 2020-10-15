@@ -25,6 +25,10 @@
   background-color: unset !important;
 }
 
+#sidebar {
+  min-width: 11em !important;
+}
+
 /* 暗色侧边栏 */
 #sidebar-header {
   -moz-appearance: none !important;
