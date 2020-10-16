@@ -7,8 +7,7 @@ Xft.hintstyle: hintslight
 Xft.hinting: 1
 Xft.antialias: 1
 Xft.rgba: rgb
-*.font: xft:Iosevka Term SS04:pixelsize=18,\
-	xft:Noto Sans CJK SC:pixelsize=18
+*.font: xft:monospace:size=12
 
 !--- colorscheme: material ---!
 ! special
