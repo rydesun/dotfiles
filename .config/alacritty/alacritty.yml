@@ -4,7 +4,7 @@ window:
   class:
     instance: Terminal Emulator
 font:
-  size: 12
+  size: 9
   offset:
     y: 5
 # colorscheme: Material
