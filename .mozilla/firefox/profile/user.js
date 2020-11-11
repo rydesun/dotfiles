@@ -46,3 +46,13 @@ user_pref("media.peerconnection.enabled", false);
 /* 禁止获取媒体设备列表API
  * 注意: 需要同时禁止WebRTC */
 user_pref("media.navigator.enabled", false);
+
+/*==== 硬件视频加速 ====*/
+/* 开启WebRender */
+user_pref("gfx.webrender.all", true);
+/* 使用VA-API */
+user_pref("media.ffmpeg.vaapi.enabled", true);
+/* 禁用firefox内置的VP8/VP9解码 */
+user_pref("media.ffvpx.enabled", false);
+/* 显卡不支持AV1解码 */
+user_pref("media.av1.enabled", false);

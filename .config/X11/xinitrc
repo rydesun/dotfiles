@@ -23,6 +23,8 @@ export XMODIFIERS=@im=fcitx
 export QT_QPA_PLATFORMTHEME=qt5ct
 
 export BROWSER=firefox
+# Enable VA-API support for firefox
+export MOZ_X11_EGL=1
 
 # swap Caps_Lock and Escape
 setxkbmap -option caps:swapescape
