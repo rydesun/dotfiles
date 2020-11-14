@@ -26,7 +26,7 @@
 }
 
 #sidebar {
-  min-width: 11em !important;
+  min-width: 10em !important;
 }
 
 /* 暗色侧边栏 */
@@ -45,6 +45,7 @@ treechildren::-moz-tree-separator {
   border-color: #333 !important
 }
 #sidebar-splitter {
+  width: 4px !important;
   border: 0px !important;
   background-color: var(--frame-background-color) !important;
 }
