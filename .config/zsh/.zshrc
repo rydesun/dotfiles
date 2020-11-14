@@ -190,6 +190,7 @@ alias g='git' && compdef g=git
 alias py='python' && compdef py=python
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' && compdef config=git
 alias ssh='TERM=xterm-256color ssh'
+alias mountdisk="mount | grep -E '^(/dev/sd|/dev/nvme|/dev/mmcblk|gvfsd-fuse)' | awk '{print \$1 \"\t\" \$5 \"\t\" \$3 \"\n\t\t\" \$6}'"
 # >>>-----------------------------------
 
 # vim: foldmethod=marker:foldmarker=<<<---,>>>---
