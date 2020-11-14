@@ -14,6 +14,9 @@ GTK2_RC_FILES	DEFAULT=${XDG_CONFIG_HOME}/gtk-2.0/gtkrc
 # readline
 INPUTRC		DEFAULT=${XDG_CONFIG_HOME}/readline/inputrc
 
+# antibody
+ANTIBODY_HOME	DEFAULT=${XDG_DATA_HOME}/antibody
+
 # xorg-xauth
 XAUTHORITY	DEFAULT=${XDG_RUNTIME_DIR}/Xauthority
 
