@@ -70,7 +70,7 @@ if [[ -f /usr/share/fzf/completion.zsh ]]; then
 	source /usr/share/fzf/completion.zsh
 fi
 export FZF_COMPLETION_TRIGGER='~~'
-export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden'
+export FZF_DEFAULT_COMMAND='fd -uu -E .git -E .node_modules'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # >>>-----------------------------------
 
@@ -81,6 +81,8 @@ bindkey -e
 if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
 	source /usr/share/fzf/key-bindings.zsh
 fi
+# 默认 WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 # >>>-----------------------------------
 
 # 提示符 <<<----------------------------
