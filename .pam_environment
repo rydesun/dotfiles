@@ -82,4 +82,4 @@ DOCKER_CONFIG	DEFAULT=${XDG_CONFIG_HOME}/docker
 
 # PATH
 PATH		DEFAULT=@{HOME}/bin:${GOBIN}:${PYTHONUSERBASE}/bin:@{HOME}/.packages/node_modules/.bin\
-:/usr/bin:/usr/local/bin
+:/usr/local/sbin:/usr/local/bin:/usr/bin
