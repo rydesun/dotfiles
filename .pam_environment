@@ -11,6 +11,18 @@ XDG_DATA_HOME	DEFAULT=@{HOME}/.data
 # gtk2
 GTK2_RC_FILES	DEFAULT=${XDG_CONFIG_HOME}/gtk-2.0/gtkrc
 
+# qt5
+QT_QPA_PLATFORMTHEME	DEFAULT=qt5ct
+
+# fcitx
+GTK_IM_MODULE	DEFAULT=fcitx
+QT_IM_MODULE	DEFAULT=fcitx
+XMODIFIERS	DEFAULT=@im=fcitx
+
+# firefox
+# Enable VA-API support
+MOZ_X11_EGL	DEFAULT=1
+
 # readline
 INPUTRC		DEFAULT=${XDG_CONFIG_HOME}/readline/inputrc
 
