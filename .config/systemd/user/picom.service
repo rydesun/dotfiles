@@ -1,0 +1,9 @@
+[Unit]
+Description=X compositor
+
+[Service]
+Environment="LANG=zh_CN.UTF-8"
+ExecStart=/usr/bin/picom
+
+[Install]
+WantedBy=Xorg.target

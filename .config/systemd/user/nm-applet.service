@@ -1,0 +1,9 @@
+[Unit]
+Description=Applet for managing network connections
+
+[Service]
+Environment="LANG=zh_CN.UTF-8"
+ExecStart=/usr/bin/nm-applet
+
+[Install]
+WantedBy=Xorg.target

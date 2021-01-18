@@ -1,0 +1,9 @@
+[Unit]
+Description=Clipboard manager with searchable and editable history
+
+[Service]
+Environment="LANG=zh_CN.UTF-8"
+ExecStart=/usr/bin/copyq
+
+[Install]
+WantedBy=Xorg.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=A platform for building proxies to bypass network restrictions Service
+After=default.target
+
+[Service]
+; Rewrite config from qv2ray
+ExecStart=/usr/bin/v2ray -config %h/.config/qv2ray/generated/config.gen.json -config %h/.config/v2ray/config.json
+
+[Install]
+WantedBy=default.target

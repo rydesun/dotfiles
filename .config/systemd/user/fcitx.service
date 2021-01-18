@@ -1,0 +1,10 @@
+[Unit]
+Description=Input method framework
+
+[Service]
+Type=forking
+Environment="LANG=zh_CN.UTF-8"
+ExecStart=/usr/bin/fcitx-autostart
+
+[Install]
+WantedBy=Xorg.target

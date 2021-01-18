@@ -10,6 +10,8 @@ fi
 
 source ${XDG_CONFIG_HOME}/X11/profile
 
+systemctl start --user Xorg.target
+
 if [[ -n "$@" ]]; then
 	exec "$@"
 fi

@@ -1,0 +1,4 @@
+[Unit]
+Description=Launch desktop applications
+Requires=default.target
+After=default.target

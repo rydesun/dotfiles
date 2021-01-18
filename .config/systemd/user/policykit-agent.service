@@ -1,0 +1,9 @@
+[Unit]
+Description=The LXQt policykit authentication agent
+
+[Service]
+Environment="LANG=zh_CN.UTF-8"
+ExecStart=/usr/bin/lxqt-policykit-agent
+
+[Install]
+WantedBy=Xorg.target
