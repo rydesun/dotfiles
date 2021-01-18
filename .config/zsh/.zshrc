@@ -3,13 +3,6 @@ setopt no_beep			# 不响铃
 setopt correct			# 修正命令
 setopt interactive_comments	# 交互模式支持注释
 
-# 与当前主机相关的配置
-if [[ -d ${XDG_CONFIG_HOME}/zsh/hostrc.d ]]; then
-	for f in ${XDG_CONFIG_HOME}/zsh/hostrc.d/?*.zsh; do
-		source $f
-	done; unset f
-fi
-
 # 插件 <<<------------------------------
 command -v antibody &>/dev/null && source <(antibody init) && \
 antibody bundle <<EOF
@@ -72,6 +65,12 @@ fi
 export FZF_COMPLETION_TRIGGER='~~'
 export FZF_DEFAULT_COMMAND='fd -uu -E .git -E .node_modules'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# 当前环境的配置
+_ZSH_HOSTRC_COMMAND=${XDG_CONFIG_HOME}/zsh/hostrc.d/funcs.zsh
+if [[ -e $_ZSH_HOSTRC_COMMAND ]]; then
+		source $_ZSH_HOSTRC_COMMAND
+fi
 # >>>-----------------------------------
 
 # 按键绑定 <<<--------------------------
@@ -92,6 +91,11 @@ promptinit
 autoload -Uz colors
 colors
 setopt transient_rprompt	# 右提示符只出现一次
+
+_ZSH_HOSTRC_PROMPT=${XDG_CONFIG_HOME}/zsh/hostrc.d/colors.zsh
+if [[ -e $_ZSH_HOSTRC_PROMPT ]]; then
+		source $_ZSH_HOSTRC_PROMPT
+fi
 
 if [[ -n ${_SPEC_color_host} ]]; then
 	_color_host=${_SPEC_color_host}
@@ -185,12 +189,14 @@ alias l='ls -l'
 alias la='ls -Al'
 mcd() { mkdir -p $1 && cd $1 }
 
+alias x='xdg-open'
 alias v='nvim -R -c "nnoremap q :exit<CR>"' && compdef v=nvim # 使用neovim作为pager
 alias e='nvim' && compdef e=nvim
 alias es='nvim -S' && compdef es=nvim
 alias g='git' && compdef g=git
 alias py='python' && compdef py=python
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' && compdef config=git
+alias config.edit='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME nvim' && compdef config.edit=nvim
 alias ssh='TERM=xterm-256color ssh'
 alias mountdisk="mount | grep -E '^(/dev/sd|/dev/nvme|/dev/mmcblk|gvfsd-fuse)' | awk '{print \$1 \"\t\" \$5 \"\t\" \$3 \"\n\t\t\" \$6}'"
 # >>>-----------------------------------
