@@ -3,7 +3,7 @@ setopt no_beep			# 不响铃
 setopt correct			# 修正命令
 setopt interactive_comments	# 交互模式支持注释
 
-fpath=(${ZDOTDIR}/functions $fpath)
+fpath=(${ZDOTDIR}/functions ${ZDOTDIR}/Completion $fpath)
 
 # 插件 <<<------------------------------
 command -v antibody &>/dev/null && source <(antibody init) && \
