@@ -68,7 +68,7 @@ GOBIN		DEFAULT=@{HOME}/bin/go
 # python
 PYTHONSTARTUP		DEFAULT=${XDG_CONFIG_HOME}/python/repl_startup.py
 PYTHONPYCACHEPREFIX	DEFAULT=@{HOME}/.cache/python
-PYTHONUSERBASE		DEFAULT=@{HOME}/.packages/python
+PYTHONUSERBASE		DEFAULT=@{HOME}/.data/python
 # ipython
 IPYTHONDIR		DEFAULT=${XDG_CONFIG_HOME}/jupyter
 JUPYTER_CONFIG_DIR	DEFAULT=${XDG_CONFIG_HOME}/jupyter
@@ -94,5 +94,4 @@ BUNDLE_USER_PLUGIN	DEFAULT=${XDG_DATA_HOME}/bundle
 DOCKER_CONFIG	DEFAULT=${XDG_CONFIG_HOME}/docker
 
 # PATH
-PATH		DEFAULT=@{HOME}/bin:${GOBIN}:${PYTHONUSERBASE}/bin:@{HOME}/.packages/node_modules/.bin\
-:/usr/local/sbin:/usr/local/bin:/usr/bin
+PATH		DEFAULT=@{HOME}/bin:${GOBIN}:/usr/local/sbin:/usr/local/bin:/usr/bin
