@@ -1,7 +1,9 @@
-# zle基础配置
+# 基础配置
 setopt no_beep			# 不响铃
 setopt correct			# 修正命令
 setopt interactive_comments	# 交互模式支持注释
+
+fpath=(${ZDOTDIR}/functions $fpath)
 
 # 插件 <<<------------------------------
 command -v antibody &>/dev/null && source <(antibody init) && \
@@ -32,9 +34,7 @@ if [[ -f /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
 	source /usr/share/doc/pkgfile/command-not-found.zsh
 fi
 # function: 模仿fish折叠路径
-if [[ -f ${ZDOTDIR}/functions/fish_collapsed_pwd.zsh ]]; then
-	source ${ZDOTDIR}/functions/fish_collapsed_pwd.zsh
-fi
+autoload -Uz fish_collapsed_pwd
 # >>>-----------------------------------
 
 # 历史记录 <<<--------------------------
@@ -52,6 +52,9 @@ if [[ ! -d ${XDG_CACHE_HOME}/zsh/ ]]; then
 	mkdir -p ${XDG_CACHE_HOME}/zsh/
 fi
 compinit -d ${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}
+
+# 补全失败时的提示
+zstyle ':completion:*:warnings' format $'\e[31m -- No Matches Found --\e[0m'
 setopt complete_aliases		# 补全别名
 setopt list_packed		# 补全列表压缩列宽
 zstyle :compinstall filename ${XDG_CONFIG_HOME}/zsh/.zshrc
@@ -66,6 +69,8 @@ export FZF_COMPLETION_TRIGGER='~~'
 export FZF_DEFAULT_COMMAND='fd -uu -E .git -E .node_modules'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
+compdef proxychains=command
+
 # 当前环境的配置
 _ZSH_HOSTRC_COMMAND=${XDG_CONFIG_HOME}/zsh/hostrc.d/funcs.zsh
 if [[ -e $_ZSH_HOSTRC_COMMAND ]]; then
@@ -76,6 +81,10 @@ fi
 # 按键绑定 <<<--------------------------
 # 默认Emacs
 bindkey -e
+# 用$EDITOR编辑命令
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
 # fzf
 if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
 	source /usr/share/fzf/key-bindings.zsh
@@ -118,8 +127,8 @@ precmd() {
 		PROMPT_err=""
 	fi
 
-	if command -v _fish_collapsed_pwd &>/dev/null; then
-		_collapsed_pwd=$(_fish_collapsed_pwd)
+	if command -v fish_collapsed_pwd &>/dev/null; then
+		_collapsed_pwd=$(fish_collapsed_pwd)
 	fi
 	PROMPT_host="${_color_host}${_color_invert} %n@%m ${_color_reset}"
 	# ssh标志
@@ -191,8 +200,11 @@ mcd() { mkdir -p $1 && cd $1 }
 
 alias x='xdg-open'
 alias v='nvim -R -c "nnoremap q :exit<CR>"' && compdef v=nvim # 使用neovim作为pager
-alias e='nvim' && compdef e=nvim
-alias es='nvim -S' && compdef es=nvim
+if [[ -e $VIMRUNTIME ]]; then
+	alias e='nvr'
+else
+	alias e='nvim' && compdef e=nvim
+fi
 alias g='git' && compdef g=git
 alias py='python' && compdef py=python
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' && compdef config=git

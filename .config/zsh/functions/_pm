@@ -1,0 +1,6 @@
+#compdef pactree pmq pms pmi pml pmb pmd
+
+source /usr/share/zsh/site-functions/_pacman
+
+compdef _pacman_completions_installed_packages pactree pmq
+compdef _pacman_completions_all_packages pms pmi pml pmb pmd
