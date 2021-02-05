@@ -1,7 +1,10 @@
 export LANG=zh_CN.UTF-8
 
-# swap Caps_Lock and Escape
-setxkbmap -option caps:swapescape
-# swap Ctrl_R and Alt_R
-setxkbmap -option ctrl:rctrl_ralt
-setxkbmap -option ctrl:ralt_rctrl
+(
+	sleep 2
+	# swap Caps_Lock and Escape
+	setxkbmap -option caps:swapescape
+	# swap Ctrl_R and Alt_R
+	setxkbmap -option ctrl:rctrl_ralt
+	setxkbmap -option ctrl:ralt_rctrl
+) &
