@@ -2,6 +2,7 @@
 Description=X compositor
 
 [Service]
+Type=idle
 Environment="LANG=zh_CN.UTF-8"
 ExecStart=/usr/bin/picom
 

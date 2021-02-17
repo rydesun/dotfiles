@@ -1,5 +1,5 @@
 [Unit]
-Description=Adds communication between KDE and your smartphone
+Description=Communication Daemon between desktop and smartphone
 
 [Service]
 Type=idle

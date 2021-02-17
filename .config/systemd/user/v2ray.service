@@ -1,5 +1,5 @@
 [Unit]
-Description=A platform for building proxies to bypass network restrictions Service
+Description=Platform for building proxies to bypass network restrictions Service
 After=default.target
 
 [Service]

@@ -2,6 +2,7 @@
 Description=Clipboard manager with searchable and editable history
 
 [Service]
+Type=idle
 Environment="LANG=zh_CN.UTF-8"
 ExecStart=/usr/bin/copyq
 

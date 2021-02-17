@@ -2,6 +2,7 @@
 Description=Cross-platform V2ray Client written in Qt
 
 [Service]
+Type=idle
 Environment="LANG=zh_CN.UTF-8"
 ExecStart=/usr/bin/qv2ray
 

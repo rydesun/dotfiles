@@ -2,6 +2,7 @@
 Description=Applet for managing network connections
 
 [Service]
+Type=idle
 Environment="LANG=zh_CN.UTF-8"
 ExecStart=/usr/bin/nm-applet
 

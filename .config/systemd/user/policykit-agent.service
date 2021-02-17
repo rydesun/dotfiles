@@ -1,7 +1,8 @@
 [Unit]
-Description=The LXQt policykit authentication agent
+Description=LXQt policykit authentication agent
 
 [Service]
+Type=idle
 Environment="LANG=zh_CN.UTF-8"
 ExecStart=/usr/bin/lxqt-policykit-agent
 
