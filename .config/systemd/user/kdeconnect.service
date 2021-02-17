@@ -1,0 +1,11 @@
+[Unit]
+Description=Adds communication between KDE and your smartphone
+
+[Service]
+Type=idle
+Environment="LANG=zh_CN.UTF-8"
+ExecStartPre=/usr/bin/sleep 5
+ExecStart=/usr/bin/kdeconnect-indicator
+
+[Install]
+WantedBy=Xorg.target
