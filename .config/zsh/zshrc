@@ -110,7 +110,7 @@ fi
 _color_invert=$'%{\e[7m%}'
 _color_reset=$'%{\e[0m%}'
 if [[ -z ${_SPEC_PROMPT_disable_icon} ]]; then
-	_icon_error="😈"
+	_icon_error=" 😈"
 	_icon_gitdir="  "
 fi
 
@@ -118,7 +118,7 @@ ZLE_RPROMPT_INDENT=-1		# 去掉右提示符右侧多余空白
 precmd() {
 	# 上一条命令的运行结果
 	if [ $? -ne 0 ]; then
-		PROMPT_err="%{$bg[red]$fg[black]%} ${_icon_error:-E} %{$reset_color%}"
+		PROMPT_err=${_icon_error:-E}
 	else
 		PROMPT_err=""
 	fi
@@ -126,7 +126,9 @@ precmd() {
 	if command -v fish_collapsed_pwd &>/dev/null; then
 		_collapsed_pwd=$(fish_collapsed_pwd)
 	fi
-	PROMPT_host="${_color_host}${_color_invert} %n@%m ${_color_reset}"
+	if ! (($DISABLE_RPROMPT_host)); then
+		PROMPT_host="${_color_host}${_color_invert} %n@%m ${_color_reset}"
+	fi
 	# ssh标志
 	if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 		PROMPT_ssh="%{$bg[yellow]$fg[black]%} ssh %{$reset_color%}"
@@ -161,8 +163,8 @@ precmd() {
 		PROMPT_tail=" $ "
 	fi
 
-	PROMPT="${_color_host}▒${PROMPT_git} ${PROMPT_cwd}${PROMPT_tail}${_color_reset}"
-	RPROMPT="${PROMPT_err}${PROMPT_pyvenv}${PROMPT_nvm}${PROMPT_tmux}${PROMPT_ssh}${PROMPT_host}"
+	PROMPT="${_color_host}${PROMPT_sign}${PROMPT_err}${PROMPT_git} ${PROMPT_cwd}${PROMPT_tail}${_color_reset}"
+	RPROMPT="${PROMPT_pyvenv}${PROMPT_nvm}${PROMPT_tmux}${PROMPT_ssh}${PROMPT_host}"
 
 	# 设置终端标题
 	print -n "\e]0;zsh ( ${_collapsed_pwd} )\a"
