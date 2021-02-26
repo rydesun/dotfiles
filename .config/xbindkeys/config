@@ -1,0 +1,5 @@
+"xdotool keydown super && notify-send -t 5000 xdotool 正在持续按住Super键..."
+  b:9
+
+"xdotool keyup super; notify-send -t 5000 xdotool 松开Super键。"
+  Mod4 + b:8 + Release
