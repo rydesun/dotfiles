@@ -18,6 +18,10 @@
 #urlbar:not(.megabar), #urlbar.megabar > #urlbar-background, #searchbar {
   box-shadow: none !important;
 }
+/* 隐藏地址栏的容器图标 */
+#urlbar .identity-icon-fingerprint {
+  display: none !important;
+}
 
 /* 简化后退图标 */
 #back-button > .toolbarbutton-icon {
