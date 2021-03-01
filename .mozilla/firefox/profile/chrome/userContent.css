@@ -33,40 +33,45 @@
     height: 2px !important;
   }
 
-  #tabbox #tabList[mode="compact"] .tab {
+  #tabbox #tabList .tab {
     padding-top: 0 !important;
     padding-left: 0 !important;
     padding-bottom: 0 !important;
     margin-bottom: 15px !important;
+    margin-right: 4px !important;
     border-bottom: none !important;
   }
-  #tabbox #tabList[mode="compact"] .tab .bar {
+  #tabbox #tabList .tab .bar {
     height: 28px !important;
   }
-  #tabbox #tabList[mode="compact"] .tab .bar .title {
+  #tabbox #tabList .tab .bar .title {
     color: #333 !important;
   }
-  #tabbox #tabList[mode="compact"] .tab[selected="true"] .bar .title {
+  #tabbox #tabList .tab[selected="true"] .bar .title {
     font-weight: unset !important;
   }
-  #tabbox #tabList[mode="compact"] .tab .line1 {
+  #tabbox #tabList .tab .line1 {
     display: none !important;
   }
-  #tabbox #tabList[mode="compact"] .tab .thumbnail {
-    width: 90% !important;
-    margin-top: 5px !important;
-    margin-left: auto !important;
-    margin-right: 0 !important;
+  #tabbox #tabList .tab .thumbnail {
+    width: 100% !important;
+    margin: 0 !important;
+    box-shadow: inset 0px 1px 2px 0px #606060 !important;
   }
-  #tabbox #tabList[mode="compact"] .tab[discarded="true"] {
+  #tabbox #tabList .tab[discarded="true"] {
     padding-bottom: 0 !important;
   }
-  #tabbox #tabList[mode="compact"] .tab[url="about:blank"] .thumbnail,
-  #tabbox #tabList[mode="compact"] .tab[discarded="true"] .thumbnail {
+  #tabbox #tabList .tab[url^="about:"] .thumbnail,
+  #tabbox #tabList .tab[discarded="true"] .thumbnail {
     display: none !important;
   }
+  #tabbox #tabList .tab[url^="moz-extension:"] .line2,
+  #tabbox #tabList .tab[url^="https://addons.mozilla.org/"] .line2,
+  #tabbox #tabList .tab[url^="about:"] .line2 {
+    background-color: #ee9090;
+  }
   /* 自动隐藏关闭按钮 */
-  #tabbox #tabList[mode="compact"] .tab:not(:hover) button.close {
+  #tabbox #tabList .tab:not(:hover) button.close {
     display: none !important;
   }
 

@@ -25,8 +25,27 @@
   background-color: unset !important;
 }
 
-#sidebar {
-  min-width: 10em !important;
+/* 自动弹出式侧边栏 */
+#sidebar-box {
+    z-index: 1000 !important;
+    position: relative !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+}
+#sidebar-box #sidebar {
+    position: absolute !important;
+    width: 32px !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    transition: all 0.1s;
+}
+#sidebar-box #sidebar:hover {
+    min-width: 200px !important;
+    max-width: 200px !important;
+    box-shadow: 2px 0 13px 0px #333333;
+}
+#sidebar-splitter {
+  display: none !important;
 }
 
 /* 暗色侧边栏 */
@@ -43,11 +62,6 @@
 }
 treechildren::-moz-tree-separator {
   border-color: #333 !important
-}
-#sidebar-splitter {
-  width: 4px !important;
-  border: 0px !important;
-  background-color: var(--frame-background-color) !important;
 }
 
 /* 隐藏扩展侧边栏的头部 */
