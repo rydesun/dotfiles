@@ -66,12 +66,17 @@
     display: none !important;
   }
   #tabbox #tabList .tab[url^="moz-extension:"] .line2,
+  #tabbox #tabList .tab[url^="file:///"] .line2,
   #tabbox #tabList .tab[url^="https://addons.mozilla.org/"] .line2,
   #tabbox #tabList .tab[url^="about:"] .line2 {
     background-color: #ee9090;
   }
   /* 自动隐藏关闭按钮 */
   #tabbox #tabList .tab:not(:hover) button.close {
+    display: none !important;
+  }
+  /* 自动隐藏音量图标 */
+  body:not(:hover) div.audio {
     display: none !important;
   }
 
