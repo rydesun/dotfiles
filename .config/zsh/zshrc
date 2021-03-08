@@ -14,6 +14,8 @@ source ${ZINIT[BIN_DIR]}/zinit.zsh
 zinit light zdharma/fast-syntax-highlighting	# 语法高亮
 zinit ice lucid wait atload='_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions	# 提示建议
+zinit ice lucid wait
+zinit light 'hlissner/zsh-autopair'		# 自动闭合符号
 zinit light zsh-users/zsh-completions		# 更多命令补全
 zinit light skywind3000/z.lua			# 快速跳转目录
 
