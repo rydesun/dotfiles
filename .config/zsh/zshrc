@@ -6,13 +6,17 @@ setopt interactive_comments	# 交互模式支持注释
 fpath=(${ZDOTDIR}/functions ${ZDOTDIR}/Completion $fpath)
 
 # 插件 <<<------------------------------
-command -v antibody &>/dev/null && source <(antibody init) && \
-antibody bundle <<EOF
-skywind3000/z.lua
-zsh-users/zsh-completions
-zsh-users/zsh-autosuggestions
-zsh-users/zsh-syntax-highlighting
-EOF
+declare -A ZINIT
+ZINIT[HOME_DIR]=${XDG_DATA_HOME}/zinit
+ZINIT[BIN_DIR]=${ZINIT[HOME_DIR]}/bin
+source ${ZINIT[BIN_DIR]}/zinit.zsh
+
+zinit light zdharma/fast-syntax-highlighting	# 语法高亮
+zinit ice lucid wait atload='_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions	# 提示建议
+zinit light zsh-users/zsh-completions		# 更多命令补全
+zinit light skywind3000/z.lua			# 快速跳转目录
+
 # z.lua <<<-----------------------------
 # 数据文件路径
 export _ZL_DATA=${XDG_DATA_HOME}/zsh/zlua
