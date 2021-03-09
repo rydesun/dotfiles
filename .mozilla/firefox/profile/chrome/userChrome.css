@@ -2,13 +2,6 @@
   --frame-background-color: #445;
 }
 
-*|*:root:-moz-lwtheme {
-  --toolbar-bgcolor: #e4e5e7 !important;
-  --tab-line-color: #f0b0ff !important;
-  --lwt-toolbar-field-background-color: #e4e5e7 !important;
-  --lwt-toolbar-field-border-color: #e4e5e7 !important;
-}
-
 /* 隐藏标签栏 */
 #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
   visibility: collapse !important;

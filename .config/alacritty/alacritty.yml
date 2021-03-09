@@ -3,8 +3,6 @@ window:
     instance: Terminal Emulator
 font:
   size: 9
-  offset:
-    y: 4
 # colorscheme: Material
 colors:
   # Default colors
