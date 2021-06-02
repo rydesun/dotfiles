@@ -23,25 +23,26 @@
 }
 
 /* 自动弹出式侧边栏 */
-#sidebar-box {
-    z-index: 1000 !important;
-    position: relative !important;
-    min-width: 32px !important;
-    max-width: 32px !important;
+/* 强制在 VisualTab 扩展下有效 */
+#sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] {
+  z-index: 1000 !important;
+  position: relative !important;
+  min-width: 28px !important;
+  max-width: 28px !important;
 }
-#sidebar-box #sidebar {
-    position: absolute !important;
-    width: 32px !important;
-    min-width: 32px !important;
-    max-width: 32px !important;
-    transition: all 0.1s;
+#sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] #sidebar {
+  position: absolute !important;
+  transition: all 0.1s;
 }
-#sidebar-box #sidebar:hover {
-    min-width: 200px !important;
-    max-width: 200px !important;
-    box-shadow: 2px 0 13px 0px #333333;
+#sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] #sidebar:not(:hover) {
+  width: 28px !important;
+  min-width: 28px !important;
+  max-width: 28px !important;
 }
-#sidebar-splitter {
+#sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] #sidebar:hover {
+  box-shadow: 2px 0 13px 0px #333333;
+}
+#sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] + #sidebar-splitter {
   display: none !important;
 }
 
@@ -84,7 +85,7 @@ panelview#widget-overflow-mainView vbox#widget-overflow-fixed-list {
   flex-wrap: wrap !important;
 }
 panelview#widget-overflow-mainView vbox#widget-overflow-fixed-list toolbarbutton {
-  width: calc(100% / 6) !important;
+  width: calc(100% / 8) !important;
   height: 40px !important;
 }
 panelview#widget-overflow-mainView vbox#widget-overflow-fixed-list label.toolbarbutton-text {
