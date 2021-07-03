@@ -9,6 +9,7 @@ fpath=(${ZDOTDIR}/functions ${ZDOTDIR}/Completion $fpath)
 declare -A ZINIT
 ZINIT[HOME_DIR]=${XDG_DATA_HOME}/zinit
 ZINIT[BIN_DIR]=${ZINIT[HOME_DIR]}/bin
+ZINIT[ZCOMPDUMP_PATH]=${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}
 source ${ZINIT[BIN_DIR]}/zinit.zsh
 
 zinit light zdharma/fast-syntax-highlighting	# 语法高亮
@@ -196,6 +197,8 @@ alias ls='ls --color=auto --time-style=iso --human-readable'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias mv='mv -i'
+alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
+alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
 
 alias sl='ls'
 alias l='ls -l'
