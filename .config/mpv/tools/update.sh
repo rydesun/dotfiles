@@ -10,8 +10,12 @@ script_dir=${config_dir}/scripts/
 shader_dir=${config_dir}/shaders/
 
 echo "Updating scripts..."
-curl -fL --create-dirs -o "${script_dir}/osc.lua" \
-	https://github.com/422658476/MPV-EASY-Player/raw/master/mpv-easy-data/osc-style/osc-potplayer-box-knob-or-bar-0.lua
+curl -fL --create-dirs -o "${script_dir}/Thumbnailer.lua" \
+	https://github.com/deus0ww/mpv-conf/raw/master/scripts/Thumbnailer.lua
+curl -fL --create-dirs -o "${script_dir}/Thumbnailer_OSC.lua" \
+	https://github.com/deus0ww/mpv-conf/raw/master/scripts/Thumbnailer_OSC.lua
+curl -fL https://github.com/deus0ww/mpv-conf/raw/master/scripts/Thumbnailer_Worker.lua |
+	sed "s/'19'/'-19'/" > "${script_dir}/Thumbnailer_Worker.lua"
 
 curl -fL --create-dirs -o "${script_dir}/zenity-open-files.lua" \
 	https://github.com/alifarazz/mpv-zenity-open-files/raw/master/zenity-open-files.lua
