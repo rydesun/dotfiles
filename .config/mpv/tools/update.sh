@@ -22,7 +22,16 @@ curl -fL --create-dirs -o /tmp/mpv/fsrcnnx.7z \
 	&& 7z e -o"${shader_dir}" -y /tmp/mpv/fsrcnnx.7z FSRCNNX_x2_16-0-4-1.glsl \
 	&& rm /tmp/mpv/fsrcnnx.7z
 
+curl -fL --create-dirs -o "${shader_dir}/FSRCNNX_x2_8-0-4-1.glsl" \
+	https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_8-0-4-1.glsl
+
 curl -fL --create-dirs -o "${shader_dir}/FSRCNNX_x2_16-0-4-1_anime_enhance.glsl" \
 	https://github.com/HelpSeeker/FSRCNN-TensorFlow/releases/download/1.1_distort/FSRCNNX_x2_16-0-4-1_anime_enhance.glsl
+
+curl -fL --create-dirs -o "${shader_dir}/KrigBilateral.glsl" \
+	https://gist.github.com/igv/a015fc885d5c22e6891820ad89555637/raw
+
+curl -fL --create-dirs -o "${shader_dir}/adaptive-sharpen.glsl" \
+	https://gist.github.com/igv/8a77e4eb8276753b54bb94c1c50c317e/raw
 
 echo "Done."
