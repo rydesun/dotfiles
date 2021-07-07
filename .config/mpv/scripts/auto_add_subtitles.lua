@@ -43,7 +43,7 @@ local function add_current_subs()
     end
     local _, filename = utils.split_path(filepath)
     local prefix = filename:match("(.+%.[12][0-9][0-9][0-9])%..+") or
-        filename:match("(.+%.[0-9]+p)%..+") or
+        filename:match("(.+)%.[0-9]+p%..+") or
         filename:match("(.+)%..+")
     local dir = get_parrent_dir(filepath)
     add_subtitles(dir, prefix)
