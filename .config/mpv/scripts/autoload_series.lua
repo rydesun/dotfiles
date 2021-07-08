@@ -60,6 +60,9 @@ local function autoload_series()
     end
 
     local filepath = mp.get_property("path", "")
+    if filepath == nil or filepath:find("^http[s]?://") then
+        return
+    end
     local dir, filename = utils.split_path(filepath)
     if #dir == 0 then
         return
