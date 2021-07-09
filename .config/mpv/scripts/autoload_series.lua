@@ -1,35 +1,38 @@
 local mp = require 'mp'
+local opt = require 'mp.options'
 local utils = require 'mp.utils'
+
+local user_opts = {
+    max_distance = 2,   -- 文件名的最大差异
+    max_distance_ratio = 0.5,   -- 文件名的最大差异占比
+}
+
+local script_name = mp.get_script_name()
+opt.read_options(user_opts, script_name)
 
 local function levenshtein_distance(s1, s2)
     local t = {}
-    for i = 0, #s1 do
-        local arr = {}
-        for j = 0, #s2 do
-            local value = 0
-            if i == 0 then
-                value = j
-            elseif j == 0 then
-                value = i
-            end
-            table.insert(arr, value)
-        end
-        table.insert(t, arr)
+    for i = 0, #s2 do
+        table.insert(t, i)
     end
 
     for i = 2, #s1+1 do
+        local t2 = {i-1}
         for j = 2, #s2+1 do
-            local cost = 0
-            if s1:sub(i-1,i-1) ~= s2:sub(j-1,j-1) then
-                cost = 1
+            local value
+            if t[j-1] <= t[j] and t[j-1] <= t2[j-1] then
+                local cost = s1:sub(i-1,i-1) ~= s2:sub(j-1,j-1) and 1 or 0
+                value = t[j-1] + cost
+            elseif t[j] < t2[j-1] then
+                value = t[j] + 1
+            else
+                value = t2[j-1] + 1
             end
-            t[i][j] = math.min(
-                t[i-1][j] + 1,
-                t[i][j-1] + 1,
-                t[i-1][j-1] + cost)
+            table.insert(t2, value)
         end
+        t = t2
     end
-    return t[#s1+1][#s2+1]
+    return t[#s2+1]
 end
 
 local function similar_files(dir, filename)
@@ -45,7 +48,8 @@ local function similar_files(dir, filename)
                 goto continue
             end
             local distance = levenshtein_distance(basename, o_basename)
-            if distance <= 2 or (distance/#o_basename <= 0.5) then
+            if distance <= user_opts.max_distance
+                or (distance/#o_basename <= user_opts.max_distance_ratio) then
                 table.insert(res, file)
             end
         end
