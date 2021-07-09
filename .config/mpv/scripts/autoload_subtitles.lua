@@ -4,6 +4,7 @@ local opt = require 'mp.options'
 
 local user_opts = {
     subtitle_ext_pattern = "(srt|ass|sub)", -- 字幕文件名后缀
+    min_length = 3,                         -- 最小触发长度
     dir_depth = 2,                          -- 搜索目录的深度
     another_dir = "",                       -- 额外指定的目录
     subtitle_pattern = "[0-9]+_chinese",    -- 额外匹配的字幕
@@ -30,7 +31,7 @@ local function add_subtitles(dir, prefix)
     for subtitle_path in res.stdout:gmatch("[^\r\n]+") do
         local _, subtitle_name = utils.split_path(subtitle_path)
         if subtitle_name:lower():find(user_opts.subtitle_pattern) or
-            subtitle_name:lower():find(prefix_lower, 1, true) then
+            subtitle_name:lower():find(prefix_lower, 1, true) == 1 then
             mp.commandv('sub-add', subtitle_path, 'select')
         end
     end
@@ -42,6 +43,9 @@ local function add_current_subs()
         return
     end
     local _, filename = utils.split_path(filepath)
+    if #filename < user_opts.min_length then
+        return
+    end
     local prefix = filename:match("(.+%.[12][0-9][0-9][0-9])%..+") or
         filename:match("(.+)%.[0-9]+p%..+") or
         filename:match("(.+)%..+")
