@@ -1,7 +1,7 @@
 # Linux 配置
 
 - 使用 `pam_environment` 管理环境变量
-- 使用 `alacritty` 虚拟终端
+- 使用 `kitty` 虚拟终端
 - 使用 `material` 配色主题
 - 不使用 `Powerline` 和 `Oh My Zsh`
 

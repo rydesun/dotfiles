@@ -216,7 +216,7 @@ alias g='git' && compdef g=git
 alias py='python' && compdef py=python
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' && compdef config=git
 alias config.edit='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME nvim' && compdef config.edit=nvim
-alias ssh='TERM=xterm-256color ssh'
+alias ssh='kitty +kitten ssh'
 alias mountdisk="mount | grep -E '^(/dev/sd|/dev/nvme|/dev/mmcblk|gvfsd-fuse)' | awk '{print \$1 \"\t\" \$5 \"\t\" \$3 \"\n\t\t\" \$6}'"
 # >>>-----------------------------------
 
