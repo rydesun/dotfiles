@@ -28,3 +28,27 @@
 	helper = cache
 [url "https://github.com"]
 	insteadOf = git://github.com
+
+[pager]
+	diff = delta
+	show = delta
+	log = delta
+	reflog = delta
+
+[interactive]
+	diffFilter = delta --color-only --features=interactive
+
+[delta]
+	features = decorations
+
+[delta "decorations"]
+	commit-decoration-style = bold yellow ul
+	file-style = bold yellow
+	file-decoration-style = yellow box
+	hunk-header-style = file line-number syntax
+	hunk-header-decoration-style = cyan box
+	hunk-header-file-style = cyan
+	hunk-header-line-number-style = yellow
+
+[delta "interactive"]
+	keep-plus-minus-markers = false
