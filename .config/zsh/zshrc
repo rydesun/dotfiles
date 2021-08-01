@@ -193,7 +193,7 @@ GIT_PS1_DESCRIBE_STYLE="default"
 # sudo后面的命令可以是别名
 alias sudo='sudo '
 # 设置命令默认行为
-alias ls='ls --color=auto --time-style=iso --human-readable'
+alias ls='ls --color=auto --time-style=iso --human-readable --hyperlink=auto'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias mv='mv -i'
@@ -217,6 +217,7 @@ alias py='python' && compdef py=python
 alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' && compdef config=git
 alias config.edit='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME nvim' && compdef config.edit=nvim
 alias ssh='kitty +kitten ssh'
+alias rg='kitty +kitten hyperlinked_grep'
 alias mountdisk="mount | grep -E '^(/dev/sd|/dev/nvme|/dev/mmcblk|gvfsd-fuse)' | awk '{print \$1 \"\t\" \$5 \"\t\" \$3 \"\n\t\t\" \$6}'"
 # >>>-----------------------------------
 
