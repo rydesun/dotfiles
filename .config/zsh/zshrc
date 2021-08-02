@@ -93,6 +93,16 @@ bindkey -e
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^X^E' edit-command-line
+
+# 修改清屏方式
+# 将内容挤出屏幕而不是直接清空
+scroll-and-clear-screen() {
+    printf '\n%.0s' {1..$LINES}
+    zle clear-screen
+}
+zle -N scroll-and-clear-screen
+bindkey '^l' scroll-and-clear-screen
+
 # fzf
 if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
 	source /usr/share/fzf/key-bindings.zsh
@@ -206,7 +216,13 @@ alias la='ls -Al'
 mcd() { mkdir -p $1 && cd $1 }
 
 alias x='xdg-open'
-alias v='nvim -R -c "nnoremap q :exit<CR>"' && compdef v=nvim # 使用neovim作为pager
+alias v='nvim -R -c "nnoremap q :exit<CR>" -c "set signcolumn=no laststatus=0"' &&
+	compdef v=nvim # 使用neovim作为pager
+alias V='nvim -R -c "nnoremap q :exit<CR>" -c "set signcolumn=no laststatus=0" \
+	-c "set noswapfile" -c "silent! autocmd! myconfig_term" \
+	-c "silent write! /tmp/pager_buffer" \
+	-c "term cat /tmp/pager_buffer; rm /tmp/pager_buffer; cat"' &&
+	compdef V=nvim # 使用neovim作为pager，支持ANSI code
 if [[ -e $VIMRUNTIME ]]; then
 	alias e='nvr'
 else

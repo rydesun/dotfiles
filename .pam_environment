@@ -1,7 +1,7 @@
 # default
 EDITOR		DEFAULT=nvim
 BROWSER		DEFAULT=firefox
-MANPAGER	DEFAULT="nvim +Man!"
+MANPAGER	DEFAULT="nvim +Man! -c 'set signcolumn=no laststatus=0'"
 
 # xdg base directory
 XDG_CONFIG_HOME	DEFAULT=@{HOME}/.config
