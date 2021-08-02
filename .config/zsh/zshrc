@@ -2,6 +2,7 @@
 setopt no_beep			# 不响铃
 setopt correct			# 修正命令
 setopt interactive_comments	# 交互模式支持注释
+bindkey -e			# Emacs按键绑定
 
 fpath=(${ZDOTDIR}/functions ${ZDOTDIR}/Completion $fpath)
 
@@ -72,7 +73,7 @@ zstyle ':completion:*' matcher-list '' 'm:{-a-zA-Z}={_A-Za-z}'
 if [[ -f /usr/share/fzf/completion.zsh ]]; then
 	source /usr/share/fzf/completion.zsh
 fi
-export FZF_COMPLETION_TRIGGER='~~'
+export FZF_COMPLETION_TRIGGER=''
 export FZF_DEFAULT_COMMAND='fd -uu -E .git -E .node_modules'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -87,8 +88,6 @@ done; unset i
 # >>>-----------------------------------
 
 # 按键绑定 <<<--------------------------
-# 默认Emacs
-bindkey -e
 # 用$EDITOR编辑命令
 autoload -Uz edit-command-line
 zle -N edit-command-line
@@ -107,6 +106,10 @@ bindkey '^l' scroll-and-clear-screen
 if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
 	source /usr/share/fzf/key-bindings.zsh
 fi
+bindkey '^T' fzf-completion
+# 恢复TAB键的行为
+bindkey '^I' $fzf_default_completion
+
 # 默认 WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 # >>>-----------------------------------
