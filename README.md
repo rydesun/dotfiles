@@ -2,7 +2,7 @@
 
 - 使用 `pam_environment` 管理环境变量
 - 使用 `kitty` 虚拟终端
-- 使用 `material` 配色主题
+- 使用 [everforest](https://github.com/sainnhe/everforest) 配色主题
 - 不使用 `Powerline` 和 `Oh My Zsh`
 
 另见 [如何使用 Git 管理 Linux 配置？](https://2cat.cc/post/diyo4/)
