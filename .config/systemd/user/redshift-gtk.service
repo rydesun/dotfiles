@@ -1,0 +1,10 @@
+[Unit]
+Description=Redshift display colour temperature adjustment (GUI)
+
+[Service]
+Type=idle
+Environment="LANG=zh_CN.UTF-8"
+ExecStart=/usr/bin/redshift-gtk
+
+[Install]
+WantedBy=Xorg.target
