@@ -226,7 +226,7 @@ alias V='nvim -R -c "nnoremap q :exit<CR>" -c "set signcolumn=no laststatus=0" \
 	-c "silent write! /tmp/pager_buffer" \
 	-c "term cat /tmp/pager_buffer; rm /tmp/pager_buffer; cat"' &&
 	compdef V=nvim # 使用neovim作为pager，支持ANSI code
-if [[ -e $VIMRUNTIME ]]; then
+if [[ -e $NVIM_LISTEN_ADDRESS ]]; then
 	alias e='nvr'
 else
 	alias e='nvim' && compdef e=nvim
@@ -239,5 +239,14 @@ alias ssh='kitty +kitten ssh'
 alias rg='kitty +kitten hyperlinked_grep'
 alias mountdisk="mount | grep -E '^(/dev/sd|/dev/nvme|/dev/mmcblk|gvfsd-fuse)' | awk '{print \$1 \"\t\" \$5 \"\t\" \$3 \"\n\t\t\" \$6}'"
 # >>>-----------------------------------
+
+# neovim终端中的zsh自动设置neovim的工作目录
+if [[ -e $NVIM_LISTEN_ADDRESS ]]; then
+	function nvim_lcd() {
+		emulate -L zsh
+		nvr +"lcd $PWD"
+	}
+	chpwd_functions=(${chpwd_functions[@]} "nvim_lcd")
+fi
 
 # vim: foldmethod=marker:foldmarker=<<<---,>>>---
