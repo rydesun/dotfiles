@@ -219,14 +219,12 @@ alias la='ls -Al'
 mcd() { mkdir -p $1 && cd $1 }
 
 alias x='xdg-open'
-alias v="nvim -R --cmd 'let \$NVIM_AS_PAGER=1'" &&
-	compdef v=nvim # 使用neovim作为pager
-alias V="nvim -R --cmd 'let \$NVIM_AS_PAGER=1' \
-	-c 'silent write! /tmp/pager_buffer' \
-	-c 'term cat /tmp/pager_buffer; rm /tmp/pager_buffer; cat'" &&
-	compdef V=nvim # 使用neovim作为pager，支持ANSI code
+alias v="nvim -R --cmd 'let \$NVIM_AS_PAGER=1'" \
+	&& compdef v=nvim # 使用neovim作为pager
+alias V="nvim -R --cmd 'let \$NVIM_AS_PAGER=1' --cmd 'let \$HANDLE_ANSI=1'" \
+	&& compdef V=nvim # 使用neovim作为pager，支持ANSI code
 if [[ -e $NVIM_LISTEN_ADDRESS ]]; then
-	alias e='nvr'
+	alias e='nvr --remote-tab'
 else
 	alias e='nvim' && compdef e=nvim
 fi
