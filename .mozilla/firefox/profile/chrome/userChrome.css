@@ -35,9 +35,9 @@
   transition: all 0.1s;
 }
 #sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] #sidebar:not(:hover) {
-  width: 28px !important;
-  min-width: 28px !important;
-  max-width: 28px !important;
+  width: 25px !important;
+  min-width: 25px !important;
+  max-width: 25px !important;
 }
 #sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] #sidebar:hover {
   box-shadow: 2px 0 13px 0px #333333;

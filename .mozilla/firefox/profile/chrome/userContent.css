@@ -42,16 +42,22 @@
     border-bottom: none !important;
   }
   #tabbox #tabList .tab .bar {
-    height: 28px !important;
+    height: 24px !important;
   }
   #tabbox #tabList .tab .bar .title {
     color: #333 !important;
+  }
+  body:not(:hover) #tabList .tab .bar .title {
+    display: none !important;
   }
   #tabbox #tabList .tab[selected="true"] .bar .title {
     font-weight: unset !important;
   }
   #tabbox #tabList .tab .line1 {
     display: none !important;
+  }
+  #tabbox #tabList .tab .line2 {
+    width: 7px !important;
   }
   #tabbox #tabList .tab .thumbnail {
     width: 100% !important;
