@@ -70,11 +70,6 @@ treechildren::-moz-tree-separator {
   display: none !important;
 }
 
-/* 弹出的工具栏去除半透明阴影, 防止与picom阴影效果重复 */
-box.panel-arrowcontent {
-  margin: 0px !important;
-}
-
 /* 弹出工具栏 */
 panelview#widget-overflow-mainView vbox.panel-subview-body {
   display: block !important;
@@ -85,7 +80,7 @@ panelview#widget-overflow-mainView vbox#widget-overflow-fixed-list {
   flex-wrap: wrap !important;
 }
 panelview#widget-overflow-mainView vbox#widget-overflow-fixed-list toolbarbutton {
-  width: calc(100% / 8) !important;
+  width: calc(100% / 10) !important;
   height: 40px !important;
 }
 panelview#widget-overflow-mainView vbox#widget-overflow-fixed-list label.toolbarbutton-text {
