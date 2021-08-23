@@ -1,5 +1,5 @@
 :root {
-  --frame-background-color: #445;
+  --frame-background-color: #2b2a33;
 }
 
 /* 隐藏标签栏 */
@@ -27,17 +27,17 @@
 #sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] {
   z-index: 1000 !important;
   position: relative !important;
-  min-width: 28px !important;
-  max-width: 28px !important;
+  min-width: 35px !important;
+  max-width: 35px !important;
 }
 #sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] #sidebar {
   position: absolute !important;
   transition: all 0.1s;
 }
 #sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] #sidebar:not(:hover) {
-  width: 25px !important;
-  min-width: 25px !important;
-  max-width: 25px !important;
+  width: 35px !important;
+  min-width: 35px !important;
+  max-width: 35px !important;
 }
 #sidebar-box[sidebarcommand="visualtab_xuldev_org-sidebar-action"] #sidebar:hover {
   box-shadow: 2px 0 13px 0px #333333;
