@@ -56,12 +56,16 @@
   }
   #tabbox #tabList .tab .bar .title {
     color: white !important;
+    background: #404040 !important;
+    margin-left: 6px !important;
+    padding: 4px 8px !important;
+    border-radius: 12px 0 0 12px !important;
   }
   body:not(:hover) #tabList .tab .bar .title {
     display: none !important;
   }
   #tabbox #tabList .tab[selected="true"] .bar .title {
-    color: #d0d0ff !important;
+    color: #90c0ff !important;
     font-weight: unset !important;
   }
   #tabbox #tabList .tab .line1 {
