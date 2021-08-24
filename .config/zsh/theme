@@ -1,0 +1,21 @@
+_theme_use_icon() {
+	_PROMPT_ERR="%{$fg[red]%} %{$reset_color%}"
+	_PROMPT_OK="%{$fg[green]%} %{$reset_color%}"
+	_PROMPT_USER=%{$fg[blue]%}\$%{$reset_color%}
+	_PROMPT_ROOT=%{$fg[red]%}#%{$reset_color%}
+	_PROMPT_SSH=' '
+	_PROMPT_NVIM=' '
+	_PROMPT_PYVENV=' '
+	_PROMPT_NVM=' '
+}
+
+_theme_use_text() {
+	_PROMPT_ERR=%{$fg_bold[red]%}X%{$reset_color%}
+	_PROMPT_OK=%{$fg_bold[green]%}O%{$reset_color%}
+	_PROMPT_USER=%{$fg_bold[blue]%}\$%{$reset_color%}
+	_PROMPT_ROOT=%{$fg_bold[red]%}#%{$reset_color%}
+	_PROMPT_SSH=SSH
+	_PROMPT_NVIM=Vim
+	_PROMPT_PYVENV=Python
+	_PROMPT_NVM=Node
+}
