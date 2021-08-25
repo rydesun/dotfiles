@@ -173,11 +173,13 @@ scroll-and-clear-screen() {
 bindkey '^l' scroll-and-clear-screen
 
 # fzf
-[[ -f ${_SRC_FZF_KEYBIND} ]] && source ${_SRC_FZF_KEYBIND}
-# 替换默认的fzf widget
-bindkey '^T' fzf-completion
-# 恢复TAB键的行为
-bindkey '^I' $fzf_default_completion
+if [[ -f ${_SRC_FZF_KEYBIND} ]]; then
+	source ${_SRC_FZF_KEYBIND}
+	# 替换默认的fzf widget
+	bindkey '^T' fzf-completion
+	# 恢复TAB键的行为
+	bindkey '^I' $fzf_default_completion
+fi
 
 # 让 / 作为分隔符
 # 默认 WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
