@@ -1,27 +1,68 @@
-# 基础配置
-setopt no_beep			# 不响铃
-setopt correct			# 修正命令
-setopt interactive_comments	# 交互模式支持注释
+# <<< 环境
+_ZSH_DATA_DIR=${XDG_DATA_HOME}/zsh
+_ZSH_CACHE_DIR=${XDG_CACHE_HOME}/zsh
+_ZSH_PLUG_DIR=${XDG_DATA_HOME}/zinit
 
-fpath=(${ZDOTDIR}/functions ${ZDOTDIR}/Completion $fpath)
+[[ ${UID} == 0 || ${EUID} == 0 ]] && _ENV_ROOT=1
+[[ -n ${SSH_CLIENT:-${SSH_TTY}} ]] && _ENV_SSH=1
+[[ -n ${NVIM_LISTEN_ADDRESS} ]] && _ENV_NVIM=1
+[[ -n ${VIRTUAL_ENV} ]] && _ENV_PYVENV=1
+[[ -n ${NVM_BIN} ]] && _ENV_NVM=1
+[[ ${TERM} == *'-kitty' ]] && _ENV_MODERN_UI=1
 
-# 插件 <<<------------------------------
+# 外部资源
+_SRC_GIT_PROMPT=/usr/share/git/completion/git-prompt.sh
+_SRC_FZF_COMPLETION=/usr/share/fzf/completion.zsh
+_SRC_FZF_KEYBIND=/usr/share/fzf/key-bindings.zsh
+_SRC_PKGFILE_HINT=/usr/share/doc/pkgfile/command-not-found.zsh
+# >>>-----------------------------------
+
+
+# <<< 选项
+setopt correct			# 改正输错的命令
+setopt interactive_comments	# 交互模式下允许注释
+HISTSIZE=10000
+SAVEHIST=100000
+setopt share_history		# 多个实例共享历史记录
+setopt hist_ignore_dups		# 不记录多条连续重复的历史
+setopt hist_reduce_blanks	# 删除历史记录中的空行
+setopt hist_find_no_dups	# 查找历史记录时忽略重复项
+# >>>-----------------------------------
+
+
+# <<< 插件
 declare -A ZINIT
-ZINIT[HOME_DIR]=${XDG_DATA_HOME}/zinit
-ZINIT[BIN_DIR]=${ZINIT[HOME_DIR]}/bin
+ZINIT[HOME_DIR]=${_ZSH_PLUG_DIR}
+ZINIT[BIN_DIR]=${_ZSH_PLUG_DIR}/bin
+ZINIT[ZCOMPDUMP_PATH]=${_ZSH_CACHE_DIR}/zcompdump-${ZSH_VERSION}
 source ${ZINIT[BIN_DIR]}/zinit.zsh
 
+zinit ice lucid wait
 zinit light zdharma/fast-syntax-highlighting	# 语法高亮
 zinit ice lucid wait atload='_zsh_autosuggest_start'
-zinit light zsh-users/zsh-autosuggestions	# 提示建议
-zinit ice lucid wait
-zinit light 'hlissner/zsh-autopair'		# 自动闭合符号
+zinit light zsh-users/zsh-autosuggestions	# 提示历史命令
 zinit light zsh-users/zsh-completions		# 更多命令补全
+zinit ice lucid wait
 zinit light skywind3000/z.lua			# 快速跳转目录
 
-# z.lua <<<-----------------------------
+# git扩展
+zinit ice lucid wait'1' as"program" pick"$ZPFX/bin/git-*" \
+	src"etc/git-extras-completion.zsh" make"PREFIX=$ZPFX"
+zinit light tj/git-extras
+
+# 主题
+autoload -Uz colors && colors
+source ${ZDOTDIR}/theme
+((_ENV_MODERN_UI)) && _theme_use_icon || _theme_use_text
+
+# 其他
+fpath+=(${ZDOTDIR}/functions ${ZDOTDIR}/Completion)
+# function: 模仿fish折叠路径
+autoload -Uz fish_collapsed_pwd
+# >>>-----------------------------------
+# <<< z.lua (var)
 # 数据文件路径
-export _ZL_DATA=${XDG_DATA_HOME}/zsh/zlua
+export _ZL_DATA=${_ZSH_DATA_DIR}/zlua
 # 仅在当前路径$PWD改变时才更新数据库
 export _ZL_ADD_ONCE=1
 # 在跳转后显示目标路径名称
@@ -29,29 +70,68 @@ export _ZL_ECHO=1
 # 增强匹配模式
 export _ZL_MATCH_MODE=1
 # >>>-----------------------------------
-# zsh-autosuggestions <<<---------------
+# <<< zsh-autosuggestions (var)
 # 建议策略: history, completion, match_prev_cmd
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-# 开启异步模式
-ZSH_AUTOSUGGEST_USE_ASYNC=1
-# >>>-----------------------------------
-# pkgfile: 命令找不到时提示安装包
-if [[ -f /usr/share/doc/pkgfile/command-not-found.zsh ]]; then
-	source /usr/share/doc/pkgfile/command-not-found.zsh
-fi
-# function: 模仿fish折叠路径
-autoload -Uz fish_collapsed_pwd
 # >>>-----------------------------------
 
-# 历史记录 <<<--------------------------
-HISTSIZE=10000
-SAVEHIST=100000
-setopt share_history
-# 去掉重复和空白
-setopt hist_ignore_dups hist_reduce_blanks hist_find_no_dups
+
+# <<< 提示符
+setopt transient_rprompt	# 右提示符只出现一次
+# git状态
+[[ -f $_SRC_GIT_PROMPT ]] && source $_SRC_GIT_PROMPT
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+GIT_PS1_STATESEPARATOR=
+GIT_PS1_SHOWUPSTREAM="auto"
+GIT_PS1_DESCRIBE_STYLE="default"
+
+precmd() {
+	local last_status=$?
+	local prompt_array=()
+
+	# 上一条命令的运行结果
+	if [ $last_status -ne 0 ]; then
+		prompt_array+=$_PROMPT_ERR
+	else
+		prompt_array+=$_PROMPT_OK
+	fi
+
+	# git状态
+	if command -v __git_ps1 &>/dev/null; then
+		local git_status=$(__git_ps1 "%s")
+		if [[ -n $git_status ]]; then
+			prompt_array+=%{$fg[red]%}${git_status}%{$reset_color%}
+		fi
+	fi
+
+	# 工作目录
+	if command -v fish_collapsed_pwd &>/dev/null; then
+		prompt_array+=%{$fg[magenta]%}$(fish_collapsed_pwd)%{$reset_color%}
+	else
+		prompt_array+=$PWD
+	fi
+
+	((_ENV_PYVENV)) && prompt_array+=$_PROMPT_PYVENV
+	((_ENV_NVM)) && prompt_array+=$_PROMPT_NVM
+	((_ENV_NVIM)) && prompt_array+=$_PROMPT_NVIM
+	((_ENV_SSH)) && prompt_array+=$_PROMPT_SSH
+
+	# 用户类型
+	if ((_ENV_ROOT)); then
+		prompt_array+=$_PROMPT_ROOT
+	else
+		prompt_array+=$_PROMPT_USER
+	fi
+
+	PROMPT=" $prompt_array "
+}
+((_ENV_SSH)) && RPROMPT="%{$bg[red]$fg[black]%} %n@%m %{$reset_color%}"
 # >>>-----------------------------------
 
-# 命令补全 <<<--------------------------
+
+# <<< 补全
 autoload -Uz compinit
 # 指定缓存文件所在目录必须先确保该目录存在
 if [[ ! -d ${XDG_CACHE_HOME}/zsh/ ]]; then
@@ -61,160 +141,112 @@ compinit -d ${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}
 
 # 补全失败时的提示
 zstyle ':completion:*:warnings' format $'\e[31m -- No Matches Found --\e[0m'
-setopt complete_aliases		# 补全别名
-setopt list_packed		# 补全列表压缩列宽
+setopt complete_aliases		# 补全alias
+setopt list_packed		# 减小补全列表的列宽
 zstyle :compinstall filename ${ZDOTDIR}/zshrc
 zstyle ':completion:*' menu select
 # 模糊修正
 zstyle ':completion:*' matcher-list '' 'm:{-a-zA-Z}={_A-Za-z}'
+
 # fzf
-if [[ -f /usr/share/fzf/completion.zsh ]]; then
-	source /usr/share/fzf/completion.zsh
-fi
-export FZF_COMPLETION_TRIGGER='~~'
+[[ -f $_SRC_FZF_COMPLETION ]] && source $_SRC_FZF_COMPLETION
+export FZF_COMPLETION_TRIGGER=''
 export FZF_DEFAULT_COMMAND='fd -uu -E .git -E .node_modules'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 compdef proxychains=command
 
-# 当前环境的配置
-for i in ${ZDOTDIR}/hostrc.d/*.zsh; do
-if [[ -f $i ]]; then
-	source $i
-fi
-done; unset i
+# 命令找不到时提示软件名(通过pkgfile)
+[[ -f ${_SRC_PKGFILE_HINT} ]] && source ${_SRC_PKGFILE_HINT}
 # >>>-----------------------------------
 
-# 按键绑定 <<<--------------------------
-# 默认Emacs
-bindkey -e
-# 用$EDITOR编辑命令
-autoload -Uz edit-command-line
-zle -N edit-command-line
-bindkey '^X^E' edit-command-line
+
+# <<< 按键绑定
+bindkey -e	# emacs风格
+
+# 修改清屏方式
+# 将内容挤出屏幕而不是直接清空
+scroll-and-clear-screen() {
+    printf '\n%.0s' {1..$LINES}
+    zle clear-screen
+} && zle -N scroll-and-clear-screen
+bindkey '^l' scroll-and-clear-screen
+
 # fzf
-if [[ -f /usr/share/fzf/key-bindings.zsh ]]; then
-	source /usr/share/fzf/key-bindings.zsh
-fi
+[[ -f ${_SRC_FZF_KEYBIND} ]] && source ${_SRC_FZF_KEYBIND}
+# 替换默认的fzf widget
+bindkey '^T' fzf-completion
+# 恢复TAB键的行为
+bindkey '^I' $fzf_default_completion
+
+# 让 / 作为分隔符
 # 默认 WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 # >>>-----------------------------------
 
-# 提示符 <<<----------------------------
-setopt prompt_subst
-autoload -Uz promptinit
-promptinit
-autoload -Uz colors
-colors
-setopt transient_rprompt	# 右提示符只出现一次
 
-if [[ -n ${_SPEC_color_host} ]]; then
-	_color_host=${_SPEC_color_host}
-else
-	_color_host=$'%{\e[38;2;199;146;234m%}'
-fi
-_color_invert=$'%{\e[7m%}'
-_color_reset=$'%{\e[0m%}'
-if [[ -z ${_SPEC_PROMPT_disable_icon} ]]; then
-	_icon_error=" 😈"
-	_icon_gitdir="  "
-fi
-
-ZLE_RPROMPT_INDENT=-1		# 去掉右提示符右侧多余空白
-precmd() {
-	# 上一条命令的运行结果
-	if [ $? -ne 0 ]; then
-		PROMPT_err=${_icon_error:-E}
-	else
-		PROMPT_err=""
-	fi
-
-	if command -v fish_collapsed_pwd &>/dev/null; then
-		_collapsed_pwd=$(fish_collapsed_pwd)
-	fi
-	if ! (($DISABLE_RPROMPT_host)); then
-		PROMPT_host="${_color_host}${_color_invert} %n@%m ${_color_reset}"
-	fi
-	# ssh标志
-	if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-		PROMPT_ssh="%{$bg[yellow]$fg[black]%} ssh %{$reset_color%}"
-	else
-		PROMPT_ssh=""
-	fi
-	# tmux标志
-	if [ -n "$TMUX" ]; then
-		PROMPT_tmux="%{$bg[green]$fg[black]%} tmux %{$reset_color%}"
-	else
-		PROMPT_tmux=""
-	fi
-	# python virtualenv标志
-	if [ -n "$VIRTUAL_ENV" ]; then
-		PROMPT_pyvenv="%{$bg[cyan]$fg[white]%} pyvenv %{$reset_color%}"
-	else
-		PROMPT_pyvenv=""
-	fi
-	# nvm标志
-	if [ -n "$NVM_BIN" ]; then
-		PROMPT_nvm="%{$bg[cyan]$fg[white]%} nvm %{$reset_color%}"
-	else
-		PROMPT_nvm=""
-	fi
-	if command -v __git_ps1 &>/dev/null; then
-		PROMPT_git=$(__git_ps1 " %s${_icon_gitdir:-)}")
-	fi
-	PROMPT_cwd=${_collapsed_pwd}
-	if [[ $UID == 0 || $EUID == 0 ]]; then
-		PROMPT_tail=" # "
-	else
-		PROMPT_tail=" $ "
-	fi
-
-	PROMPT="${_color_host}${PROMPT_sign}${PROMPT_err}${PROMPT_git} ${PROMPT_cwd}${PROMPT_tail}${_color_reset}"
-	RPROMPT="${PROMPT_pyvenv}${PROMPT_nvm}${PROMPT_tmux}${PROMPT_ssh}${PROMPT_host}"
-
-	# 设置终端标题
-	print -n "\e]0;zsh ( ${_collapsed_pwd} )\a"
-}
-# git <<<-------------------------------
-if [[ -f /usr/share/git/completion/git-prompt.sh ]]; then
-	source /usr/share/git/completion/git-prompt.sh
-fi
-GIT_PS1_SHOWDIRTYSTATE=1
-GIT_PS1_SHOWSTASHSTATE=1
-GIT_PS1_SHOWUNTRACKEDFILES=1
-GIT_PS1_STATESEPARATOR=
-GIT_PS1_SHOWUPSTREAM="auto"
-GIT_PS1_DESCRIBE_STYLE="default"
-# >>>-----------------------------------
-# >>>-----------------------------------
-
-# 命令别名 <<<-----------------------------
-# sudo后面的命令可以是别名
+# <<< alias, function
+# sudo后面的命令可以是alias
 alias sudo='sudo '
-# 设置命令默认行为
-alias ls='ls --color=auto --time-style=iso --human-readable'
+
+# 命令的默认行为
+alias ls='ls --color=auto --time-style=iso --human-readable --hyperlink=auto'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias mv='mv -i'
+alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
+alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
+if command -v kitty &>/dev/null; then
+	alias ssh='kitty +kitten ssh'
+	alias rg='kitty +kitten hyperlinked_grep'
+fi
 
 alias sl='ls'
 alias l='ls -l'
 alias la='ls -Al'
-mcd() { mkdir -p $1 && cd $1 }
 
+# 命令缩写
 alias x='xdg-open'
-alias v='nvim -R -c "nnoremap q :exit<CR>"' && compdef v=nvim # 使用neovim作为pager
-if [[ -e $VIMRUNTIME ]]; then
-	alias e='nvr'
+alias v="nvim -R --cmd 'let \$NVIM_AS_PAGER=1'" \
+	&& compdef v=nvim # 使用neovim作为pager
+alias V="nvim -R --cmd 'let \$NVIM_AS_COLORFUL_PAGER=1'" \
+	&& compdef V=nvim # 使用neovim作为pager，支持ANSI code
+if [[ -e $_ENV_NVIM ]]; then
+	alias e='nvr --remote-tab'
 else
 	alias e='nvim' && compdef e=nvim
 fi
 alias g='git' && compdef g=git
-alias py='python' && compdef py=python
-alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME' && compdef config=git
-alias config.edit='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME nvim' && compdef config.edit=nvim
-alias ssh='TERM=xterm-256color ssh'
-alias mountdisk="mount | grep -E '^(/dev/sd|/dev/nvme|/dev/mmcblk|gvfsd-fuse)' | awk '{print \$1 \"\t\" \$5 \"\t\" \$3 \"\n\t\t\" \$6}'"
+alias cfg='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME git' && compdef cfg=git
+alias cfg.e='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME nvim' && compdef cfg.e=nvim
+
+mcd() { mkdir -p $1 && cd $1 }
+mountdisk() {
+	mount | grep -E '^(/dev/sd|/dev/nvme|/dev/mmcblk|gvfsd-fuse)' | \
+		awk '{print $1 "\t" $5 "\t" $3 "\n\t\t" $6}'
+}
+
+# Arch Linux
+alias pmq='pacman -Qs'
+alias pms='pacman -Ss'
+pmi() { pacman -Qi $1 2>/dev/null || pacman -Sii $1 }
+pmo() { pacman -Qoq $1 2>/dev/null || pkgfile -i $1 }
+pml() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | sed '/\/$/d' }
+pmb() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | awk -F/ '/\/usr\/bin\/.+[^/]$/{print $NF}' }
+pmd() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | grep -e '\.service$' -e '\.socket$' }
 # >>>-----------------------------------
 
-# vim: foldmethod=marker:foldmarker=<<<---,>>>---
+
+# <<< 自动执行
+# neovim终端中的zsh自动设置neovim的工作目录
+if ((_ENV_NVIM)); then
+	function nvim_lcd() {
+		emulate -L zsh
+		nvr +"lcd $PWD"
+	}
+	chpwd_functions+=nvim_lcd
+fi
+# >>>-----------------------------------
+
+
+# vim: foldmethod=marker:foldmarker=<<<,>>>:foldlevel=0
