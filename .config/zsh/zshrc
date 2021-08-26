@@ -27,6 +27,10 @@ setopt share_history		# 多个实例共享历史记录
 setopt hist_ignore_dups		# 不记录多条连续重复的历史
 setopt hist_reduce_blanks	# 删除历史记录中的空行
 setopt hist_find_no_dups	# 查找历史记录时忽略重复项
+
+# 设置$LS_COLORS，没有粗体
+eval $(dircolors)
+LS_COLORS=${LS_COLORS//=01/\=00}
 # >>>-----------------------------------
 
 
@@ -132,21 +136,37 @@ precmd() {
 
 
 # <<< 补全
+zstyle :compinstall filename ${ZDOTDIR}/zshrc
 autoload -Uz compinit
 # 指定缓存文件所在目录必须先确保该目录存在
 if [[ ! -d ${XDG_CACHE_HOME}/zsh/ ]]; then
 	mkdir -p ${XDG_CACHE_HOME}/zsh/
 fi
-compinit -d ${XDG_CACHE_HOME}/zsh/zcompdump-${ZSH_VERSION}
+compinit -d ${_ZSH_CACHE_DIR}/zcompdump-${ZSH_VERSION}
 
-# 补全失败时的提示
-zstyle ':completion:*:warnings' format $'\e[31m -- No Matches Found --\e[0m'
 setopt complete_aliases		# 补全alias
 setopt list_packed		# 减小补全列表的列宽
-zstyle :compinstall filename ${ZDOTDIR}/zshrc
+
+# 失败时的提示
+zstyle ':completion:*:warnings' format '%F{red} -- No Matches Found --%f'
+# 彩色菜单
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+# 使用菜单切换候选
 zstyle ':completion:*' menu select
-# 模糊修正
+# 列表分组
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format '%K{black} %d %k'
+# 文件列表目录优先
+zstyle ':completion:*' list-dirs-first true
+
+# 不区分大小写
 zstyle ':completion:*' matcher-list '' 'm:{-a-zA-Z}={_A-Za-z}'
+# 路径中多个斜杠被视为只有一个
+zstyle ':completion:*' squeeze-slashes true
+
+# 启用缓存
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path "${_ZSH_CACHE_DIR}/zcompcache"
 
 # fzf
 [[ -f $_SRC_FZF_COMPLETION ]] && source $_SRC_FZF_COMPLETION
@@ -163,6 +183,19 @@ compdef proxychains=command
 
 # <<< 按键绑定
 bindkey -e	# emacs风格
+
+# 补全菜单
+zmodload zsh/complist
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'J' vi-forward-blank-word
+bindkey -M menuselect 'K' vi-backward-blank-word
+bindkey -M menuselect 'H' beginning-of-buffer-or-history
+bindkey -M menuselect 'L' end-of-buffer-or-history
+bindkey -M menuselect 's' accept-and-hold
+bindkey -M menuselect '/' accept-and-infer-next-history
 
 # 修改清屏方式
 # 将内容挤出屏幕而不是直接清空
