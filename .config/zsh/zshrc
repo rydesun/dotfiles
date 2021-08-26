@@ -27,6 +27,7 @@ setopt share_history		# 多个实例共享历史记录
 setopt hist_ignore_dups		# 不记录多条连续重复的历史
 setopt hist_reduce_blanks	# 删除历史记录中的空行
 setopt hist_find_no_dups	# 查找历史记录时忽略重复项
+setopt auto_cd			# 进入目录而不是执行
 
 # 设置$LS_COLORS，没有粗体
 eval $(dircolors)
@@ -158,6 +159,7 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*:descriptions' format '%K{black} %d %k'
 # 文件列表目录优先
 zstyle ':completion:*' list-dirs-first true
+zstyle ':completion:*' group-order local-directories
 
 # 不区分大小写
 zstyle ':completion:*' matcher-list '' 'm:{-a-zA-Z}={_A-Za-z}'
@@ -210,9 +212,20 @@ if [[ -f ${_SRC_FZF_KEYBIND} ]]; then
 	source ${_SRC_FZF_KEYBIND}
 	# 替换默认的fzf widget
 	bindkey '^T' fzf-completion
-	# 恢复TAB键的行为
-	bindkey '^I' $fzf_default_completion
 fi
+
+first-tab() {
+    if [[ $#BUFFER == 0 ]]; then
+	BUFFER="ls "
+	CURSOR=3
+	zle list-choices
+	zle backward-kill-word
+    else
+        zle expand-or-complete
+    fi
+}
+zle -N first-tab
+bindkey '^I' first-tab
 
 # 让 / 作为分隔符
 # 默认 WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
