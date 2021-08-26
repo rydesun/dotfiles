@@ -228,10 +228,12 @@ alias sudo='sudo '
 alias ls='ls --color=auto --time-style=iso --human-readable --hyperlink=auto'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
+alias ip='ip --color=auto'
+alias ncdu='ncdu --color dark'
 alias mv='mv -i'
 alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
 alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
-if command -v kitty &>/dev/null; then
+if [[ $TERM == 'xterm-kitty' ]]; then
 	alias ssh='kitty +kitten ssh'
 	alias rg='kitty +kitten hyperlinked_grep'
 fi
