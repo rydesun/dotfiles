@@ -227,9 +227,9 @@ first-tab() {
 zle -N first-tab
 bindkey '^I' first-tab
 
-# 让 / 作为分隔符
+# 让 / = 作为分隔符
 # 默认 WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
-export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+export WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 # >>>-----------------------------------
 
 
@@ -249,6 +249,7 @@ alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
 if [[ $TERM == 'xterm-kitty' ]]; then
 	alias ssh='kitty +kitten ssh'
 	alias rg='kitty +kitten hyperlinked_grep'
+	alias icat='kitty +kitten icat'
 fi
 
 alias sl='ls'
@@ -266,6 +267,7 @@ if [[ -e $_ENV_NVIM ]]; then
 else
 	alias e='nvim' && compdef e=nvim
 fi
+alias d='delta' && compdef d=delta
 alias g='git' && compdef g=git
 alias cfg='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME git' && compdef cfg=git
 alias cfg.e='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME nvim' && compdef cfg.e=nvim
