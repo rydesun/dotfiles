@@ -1,1 +1,2 @@
 *.conf linguist-language=INI
+fontconfig/**/*.conf linguist-language=XML
