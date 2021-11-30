@@ -262,7 +262,7 @@ alias v="nvim -R --cmd 'let \$NVIM_AS_PAGER=1'" \
 	&& compdef v=nvim # 使用neovim作为pager
 alias V="nvim -R --cmd 'let \$NVIM_AS_COLORFUL_PAGER=1'" \
 	&& compdef V=nvim # 使用neovim作为pager，支持ANSI code
-if [[ -e $_ENV_NVIM ]]; then
+if (($_ENV_NVIM)); then
 	alias e='nvr --remote-tab'
 else
 	alias e='nvim' && compdef e=nvim
