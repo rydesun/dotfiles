@@ -60,6 +60,14 @@ autoload -Uz colors && colors
 source ${ZDOTDIR}/theme
 ((_ENV_MODERN_UI)) && _theme_use_icon || _theme_use_text
 
+# 与kitty集成
+if [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
+	export KITTY_SHELL_INTEGRATION=enabled
+	autoload -Uz "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+	kitty-integration
+	unfunction kitty-integration
+fi
+
 # 其他
 fpath+=(${ZDOTDIR}/functions ${ZDOTDIR}/Completion)
 # function: 模仿fish折叠路径
