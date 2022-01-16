@@ -1,10 +1,20 @@
-:root {
-  --frame-background-color: #2b2a33;
-}
-
 /* 隐藏标签栏 */
 #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
   visibility: collapse !important;
+}
+
+/* 地址栏高度 */
+#urlbar {
+  min-height: 16px !important;
+}
+#urlbar-input {
+  height: 16px !important;
+}
+
+/* 地址栏内图标 */
+.urlbar-page-action {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
 }
 
 /* 去除地址栏、搜索栏的阴影边框 */
@@ -68,6 +78,12 @@ treechildren::-moz-tree-separator {
 /* Bitwarden */
 #sidebar-box[sidebarcommand="_446900e4-71c2-419f-a6a7-df9c091e268b_-sidebar-action"] #sidebar-header {
   display: none !important;
+}
+
+/* 去除弹出菜单的阴影 */
+.menupopup-arrowscrollbox {
+  border: 0px !important;
+  margin: 0px !important;
 }
 
 /* 弹出工具栏 */

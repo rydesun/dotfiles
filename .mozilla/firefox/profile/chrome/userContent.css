@@ -1,7 +1,15 @@
+@import "color.css";
+
+@-moz-document url("about:blank") {
+  body {
+    background-color: var(--color-background-dark) !important;
+  }
+}
+
 /* Visual Tabs */
 @-moz-document regexp("^moz-extension://[a-zA-Z0-9-]+/sidebar/view\.html.*") {
   :root {
-    --background-color: #2b2a33 !important;
+    --background-color: var(--color-background-dark) !important;
     --separator-color: black !important;
   }
   #tabbox #tabList {
@@ -19,11 +27,11 @@
     border-bottom: unset !important;
   }
   #tabbox #pinList:not(:empty) .tab {
-    border-right-color: #d0d0ff !important;
+    border-right-color: var(--color-background-light) !important;
     background: white !important;
   }
   #tabbox #pinList:not(:empty) .tab[selected="true"] {
-    background: #d0d0ff !important;
+    background: var(--color-background-light) !important;
   }
   #tabbox #pinList:not(:empty) .tab .line1 {
     display: none !important;
@@ -46,13 +54,13 @@
 
   #tabbox #tabList .tab .bar .favicon {
     padding: 12px !important;
-    background-color: white !important;
+    background-color: #ccc !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
     border-radius: 5px !important;
   }
   #tabbox #tabList .tab[selected="true"] .bar .favicon {
-    background-color: #d0d0ff !important;
+    background-color: var(--color-background-light) !important;
   }
   #tabbox #tabList .tab .bar .title {
     color: white !important;
