@@ -9,4 +9,4 @@ fi
 
 echo Installing zinit...
 git clone --depth 1 --single-branch \
-	https://github.com/zdharma/zinit.git $zinit_bin_dir
+	https://github.com/zdharma-continuum/zinit.git $zinit_bin_dir

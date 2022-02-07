@@ -43,7 +43,7 @@ ZINIT[ZCOMPDUMP_PATH]=${_ZSH_CACHE_DIR}/zcompdump-${ZSH_VERSION}
 source ${ZINIT[BIN_DIR]}/zinit.zsh
 
 zinit ice lucid wait
-zinit light zdharma/fast-syntax-highlighting	# 语法高亮
+zinit light zdharma-continuum/fast-syntax-highlighting	# 语法高亮
 zinit ice lucid wait atload='_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions	# 提示历史命令
 zinit light zsh-users/zsh-completions		# 更多命令补全
