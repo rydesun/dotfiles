@@ -3,7 +3,7 @@
 	email = rydesun@gmail.com
 	signingkey = rydesun@gmail.com
 [alias]
-	lg = log --oneline --abbrev=4 --graph --decorate --all
+	lg = log --oneline --abbrev=4 --graph --decorate --all -5
 	gl = log --oneline --abbrev=4 --graph --decorate --all
 	st = status -s
 	c = commit
