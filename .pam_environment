@@ -42,6 +42,7 @@ HISTFILE	DEFAULT=${XDG_DATA_HOME}/zsh/history
 RANDFILE	DEFAULT=${XDG_DATA_HOME}/openssl/randfile
 
 # rust
+CARGO_HOME	DEFAULT=${XDG_DATA_HOME}/cargo
 RUSTUP_HOME	DEFAULT=${XDG_DATA_HOME}/rustup
 
 # golang
