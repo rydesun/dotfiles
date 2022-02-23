@@ -1,6 +1,6 @@
 _theme_use_icon() {
-	_PROMPT_ERR="%{$fg[red]%} %{$reset_color%}"
-	_PROMPT_OK="%{$fg[green]%} %{$reset_color%}"
+	_PROMPT_ERR="%F{#C03C5A}▌%F{reset}"
+	_PROMPT_OK="%F{#5DAC81}▌%F{reset}"
 	_PROMPT_USER=%{$fg[blue]%}\$%{$reset_color%}
 	_PROMPT_ROOT=%{$fg[red]%}#%{$reset_color%}
 	_PROMPT_SSH=' '
@@ -10,8 +10,8 @@ _theme_use_icon() {
 }
 
 _theme_use_text() {
-	_PROMPT_ERR=%{$fg_bold[red]%}X%{$reset_color%}
-	_PROMPT_OK=%{$fg_bold[green]%}O%{$reset_color%}
+	_PROMPT_ERR="%{$fg[red]%}▌%{$reset_color%}"
+	_PROMPT_OK="%{$fg[green]%}▌%{$reset_color%}"
 	_PROMPT_USER=%{$fg_bold[blue]%}\$%{$reset_color%}
 	_PROMPT_ROOT=%{$fg_bold[red]%}#%{$reset_color%}
 	_PROMPT_SSH=SSH
