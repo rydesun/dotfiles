@@ -84,6 +84,7 @@ export _ZL_ECHO=1
 export _ZL_MATCH_MODE=1
 # >>>-----------------------------------
 # <<< zsh-autosuggestions (var)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=0'
 # 建议策略: history, completion, match_prev_cmd
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # >>>-----------------------------------
@@ -138,7 +139,7 @@ precmd() {
 		prompt_array+=$_PROMPT_USER
 	fi
 
-	PROMPT=" $prompt_array "
+	PROMPT="$prompt_array "
 }
 ((_ENV_SSH)) && RPROMPT="%{$bg[red]$fg[black]%} %n@%m %{$reset_color%}"
 # >>>-----------------------------------
