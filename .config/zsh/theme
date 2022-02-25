@@ -1,3 +1,8 @@
+_PROMPT_COLOR_PWD=%{$fg[magenta]%}
+_PROMPT_COLOR_COLLAPSED_PWD=%{$fg[red]%}
+_PROMPT_COLOR_GIT=%{$fg[red]%}
+_PROMPT_COLOR_SSH=%{$bg[red]$fg[black]%}
+
 _theme_use_icon() {
 	_PROMPT_ERR="%F{#C03C5A}▌%F{reset}"
 	_PROMPT_OK="%F{#5DAC81}▌%F{reset}"

@@ -70,8 +70,8 @@ fi
 
 # 其他
 fpath+=(${ZDOTDIR}/functions ${ZDOTDIR}/Completion)
-# function: 模仿fish折叠路径
-autoload -Uz fish_collapsed_pwd
+# 折叠路径
+autoload -Uz collapsed_pwd
 # >>>-----------------------------------
 # <<< z.lua (var)
 # 数据文件路径
@@ -116,13 +116,13 @@ precmd() {
 	if command -v __git_ps1 &>/dev/null; then
 		local git_status=$(__git_ps1 "%s")
 		if [[ -n $git_status ]]; then
-			prompt_array+=%{$fg[red]%}${git_status}%{$reset_color%}
+			prompt_array+=${_PROMPT_COLOR_GIT}${git_status}%{$reset_color%}
 		fi
 	fi
 
 	# 工作目录
-	if command -v fish_collapsed_pwd &>/dev/null; then
-		prompt_array+=%{$fg[magenta]%}$(fish_collapsed_pwd)%{$reset_color%}
+	if command -v collapsed_pwd &>/dev/null; then
+		prompt_array+=${_PROMPT_COLOR_PWD}$(collapsed_pwd)%{$reset_color%}
 	else
 		prompt_array+=$PWD
 	fi
@@ -141,7 +141,7 @@ precmd() {
 
 	PROMPT="$prompt_array "
 }
-((_ENV_SSH)) && RPROMPT="%{$bg[red]$fg[black]%} %n@%m %{$reset_color%}"
+((_ENV_SSH)) && RPROMPT="${_PROMPT_COLOR_SSH} %n@%m %{$reset_color%}"
 # >>>-----------------------------------
 
 

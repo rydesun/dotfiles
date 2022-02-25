@@ -13,13 +13,14 @@
     local length=${#elements}
     for i in {1..$((length-1))}; do
         local elem=${elements[$i]}
-        if [[ ${#elem} > 1 ]]; then
+        if [[ $i > 2 ]] && [[ ${#elem} > 1 ]]; then
             local c=${elem:0:1}
             if [[ $c == '.' ]]; then
-                elements[$i]=${elem:0:2}
+                elem=${elem:0:2}
             else
-                elements[$i]=${elem:0:1}
+                elem=${elem:0:1}
             fi
+            elements[$i]=${_PROMPT_COLOR_COLLAPSED_PWD}$elem${_PROMPT_COLOR_PWD}
         fi
     done
 
