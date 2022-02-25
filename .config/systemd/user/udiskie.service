@@ -3,7 +3,6 @@ Description=Removable disk automounter using udisks
 
 [Service]
 Type=idle
-Environment="LANG=zh_CN.UTF-8"
 ExecStart=/usr/bin/udiskie --smart-tray
 
 [Install]

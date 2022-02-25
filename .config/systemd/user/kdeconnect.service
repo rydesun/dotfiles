@@ -3,7 +3,6 @@ Description=Communication Daemon between desktop and smartphone
 
 [Service]
 Type=idle
-Environment="LANG=zh_CN.UTF-8"
 ExecStartPre=/usr/bin/sleep 5
 ExecStart=/usr/bin/kdeconnect-indicator
 

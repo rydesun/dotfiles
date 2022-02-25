@@ -3,7 +3,6 @@ Description=Input method framework
 
 [Service]
 Type=forking
-Environment="LANG=zh_CN.UTF-8"
 ExecStart=/usr/bin/fcitx5 -d
 
 [Install]

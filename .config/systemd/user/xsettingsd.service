@@ -3,7 +3,6 @@ Description=Provides settings to X11 applications via the XSETTINGS specificatio
 
 [Service]
 Type=idle
-Environment="LANG=zh_CN.UTF-8"
 ExecStart=/usr/bin/xsettingsd
 
 [Install]
