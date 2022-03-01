@@ -1,6 +1,6 @@
 #!/bin/zsh -e
 
-zinit_bin_dir=${XDG_DATA_HOME:-~/.data}/zinit/bin
+zinit_bin_dir=${XDG_DATA_HOME:-~/.local/share}/zinit/bin
 
 if [[ -e $zinit_bin_dir ]]; then
 	echo Clean up old zinit bin dir.
