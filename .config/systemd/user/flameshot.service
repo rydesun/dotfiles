@@ -1,0 +1,9 @@
+[Unit]
+Description=Screenshot software
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/flameshot
+
+[Install]
+WantedBy=Xorg.target

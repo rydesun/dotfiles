@@ -1,9 +1,0 @@
-[Unit]
-Description=Cross-platform V2ray Client written in Qt
-
-[Service]
-Type=idle
-ExecStart=/usr/bin/qv2ray
-
-[Install]
-WantedBy=Xorg.target
