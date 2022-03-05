@@ -247,7 +247,7 @@ export WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 alias sudo='sudo '
 
 # 命令的默认行为
-alias ls='ls --color=auto --time-style=iso --human-readable --hyperlink=auto'
+alias ls='ls --color=auto --time-style=iso --human-readable --hyperlink=auto -F'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip --color=auto'
@@ -263,7 +263,8 @@ fi
 
 alias sl='ls'
 alias l='ls -l'
-alias la='ls -Al'
+alias la='ls -A'
+alias ll='ls -Al'
 
 # 命令缩写
 alias x='xdg-open'
