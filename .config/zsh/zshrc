@@ -267,9 +267,9 @@ alias la='ls -Al'
 
 # 命令缩写
 alias x='xdg-open'
-alias v="nvim -R --cmd 'let \$NVIM_AS_PAGER=1'" \
+alias v="nvim -R --cmd 'let paging=v:true'" \
 	&& compdef v=nvim # 使用neovim作为pager
-alias V="nvim -R --cmd 'let \$NVIM_AS_COLORFUL_PAGER=1'" \
+alias V="nvim -R --cmd 'let paging=v:true | let ansi=v:true'" \
 	&& compdef V=nvim # 使用neovim作为pager，支持ANSI code
 if (($_ENV_NVIM)); then
 	alias e='nvr --remote-tab'
