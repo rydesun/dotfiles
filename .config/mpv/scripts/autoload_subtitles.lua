@@ -3,7 +3,7 @@ local utils = require 'mp.utils'
 local opt = require 'mp.options'
 
 local user_opts = {
-    subtitle_ext_pattern = "(srt|ass|sub)", -- 字幕文件名后缀
+    subtitle_ext_pattern = "(srt|ass|sub|sup)", -- 字幕文件名后缀
     min_length = 3,                         -- 最小触发长度
     dir_depth = 2,                          -- 搜索目录的深度
     another_dir = "",                       -- 额外指定的目录
