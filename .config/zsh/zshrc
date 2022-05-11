@@ -3,12 +3,12 @@ _ZSH_DATA_DIR=${XDG_DATA_HOME}/zsh
 _ZSH_CACHE_DIR=${XDG_CACHE_HOME}/zsh
 _ZSH_PLUG_DIR=${XDG_DATA_HOME}/zinit
 
-[[ ${UID} == 0 || ${EUID} == 0 ]] && _ENV_ROOT=1
-[[ -n ${SSH_CLIENT:-${SSH_TTY}} ]] && _ENV_SSH=1
-[[ -n ${NVIM_LISTEN_ADDRESS} ]] && _ENV_NVIM=1
-[[ -n ${VIRTUAL_ENV} ]] && _ENV_PYVENV=1
-[[ -n ${NVM_BIN} ]] && _ENV_NVM=1
-[[ ${TERM} == *'-kitty' ]] && _ENV_MODERN_UI=1
+[[ -z $_ENV_ROOT ]] && [[ ${UID} == 0 || ${EUID} == 0 ]] && _ENV_ROOT=1
+[[ -z $_ENV_SSH ]] && [[ -n ${SSH_CLIENT:-${SSH_TTY}} ]] && _ENV_SSH=1
+[[ -z $_ENV_NVIM ]] && [[ -n ${NVIM_LISTEN_ADDRESS} ]] && _ENV_NVIM=1
+[[ -z $_ENV_PYVENV ]] && [[ -n ${VIRTUAL_ENV} ]] && _ENV_PYVENV=1
+[[ -z $_ENV_NVM ]] && [[ -n ${NVM_BIN} ]] && _ENV_NVM=1
+[[ -z $_ENV_FULL_UI ]] && [[ ${TERM} == *'-kitty' ]] && _ENV_FULL_UI=1
 
 # 外部资源
 _SRC_GIT_PROMPT=/usr/share/git/completion/git-prompt.sh
@@ -58,7 +58,7 @@ zinit light tj/git-extras
 # 主题
 autoload -Uz colors && colors
 source ${ZDOTDIR}/theme
-((_ENV_MODERN_UI)) && _theme_use_icon || _theme_use_text
+((_ENV_FULL_UI)) && _theme_use_icon || _theme_use_text
 
 # 与kitty集成
 if [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
