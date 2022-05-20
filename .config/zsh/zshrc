@@ -8,7 +8,7 @@ _ZSH_PLUG_DIR=${XDG_DATA_HOME}/zinit
 [[ -z $_ENV_NVIM ]] && [[ -n ${NVIM_LISTEN_ADDRESS} ]] && _ENV_NVIM=1
 [[ -z $_ENV_PYVENV ]] && [[ -n ${VIRTUAL_ENV} ]] && _ENV_PYVENV=1
 [[ -z $_ENV_NVM ]] && [[ -n ${NVM_BIN} ]] && _ENV_NVM=1
-[[ -z $_ENV_FULL_UI ]] && [[ ${TERM} == *'-kitty' ]] && _ENV_FULL_UI=1
+[[ -z $_ENV_FULL_UI ]] && [[ ! -z ${KITTY_PID} ]] && _ENV_FULL_UI=1
 
 # 外部资源
 _SRC_GIT_PROMPT=/usr/share/git/completion/git-prompt.sh
