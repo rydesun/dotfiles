@@ -269,10 +269,14 @@ alias ll='ls -Al'
 
 # 命令缩写
 alias x='xdg-open'
+
+# 需要搭配我的neovim配置
+# https://github.com/rydesun/neovim-config/blob/master/init.vim#L5
 alias v="nvim -R --cmd 'let paging=v:true'" \
 	&& compdef v=nvim # 使用neovim作为pager
 alias V="nvim -R --cmd 'let paging=v:true | let ansi=v:true'" \
 	&& compdef V=nvim # 使用neovim作为pager，支持ANSI code
+
 if (($_ENV_NVIM)); then
 	alias e='nvr --remote-tab'
 else
