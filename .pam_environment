@@ -1,7 +1,7 @@
 PATH		DEFAULT=@{HOME}/.bin
 EDITOR		DEFAULT=nvim
 BROWSER		DEFAULT=firefox
-MANPAGER	DEFAULT="nvim --cmd 'let paging=v:true' +Man!"
+MANPAGER	DEFAULT="nvim --cmd 'let paging=1' +Man!"
 
 # QT
 QT_QPA_PLATFORMTHEME		DEFAULT=qt5ct
