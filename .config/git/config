@@ -29,6 +29,9 @@
 [url "https://github.com"]
 	insteadOf = git://github.com
 
+[log]
+	date = iso
+
 [pager]
 	diff = delta
 	show = delta
