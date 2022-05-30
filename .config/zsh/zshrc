@@ -219,8 +219,6 @@ bindkey '^l' scroll-and-clear-screen
 # fzf
 if [[ -f ${_SRC_FZF_KEYBIND} ]]; then
 	source ${_SRC_FZF_KEYBIND}
-	# 替换默认的fzf widget
-	bindkey '^T' fzf-completion
 fi
 
 first-tab() {
