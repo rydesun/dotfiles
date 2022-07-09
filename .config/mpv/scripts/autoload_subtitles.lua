@@ -28,11 +28,17 @@ local function add_subtitles(dir, prefix)
     local res = utils.subprocess({args=cmd})
 
     local prefix_lower = prefix:lower()
+    local selected = false
     for subtitle_path in res.stdout:gmatch("[^\r\n]+") do
         local _, subtitle_name = utils.split_path(subtitle_path)
         if subtitle_name:lower():find(user_opts.subtitle_pattern) or
             subtitle_name:lower():find(prefix_lower, 1, true) == 1 then
-            mp.commandv('sub-add', subtitle_path, 'select')
+            if selected then
+                mp.commandv('sub-add', subtitle_path, 'auto')
+            else
+                mp.commandv('sub-add', subtitle_path, 'select')
+                selected = true
+            end
         end
     end
 end
