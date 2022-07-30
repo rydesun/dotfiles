@@ -8,7 +8,11 @@ local user_opts = {
 }
 
 local script_name = mp.get_script_name()
-opt.read_options(user_opts, script_name)
+local raw_user_opts = {dirs = ""}
+opt.read_options(raw_user_opts, script_name)
+if raw_user_opts.dirs ~= "" then
+    user_opts.dirs = utils.parse_json(raw_user_opts.dirs)
+end
 
 local function set_screenshot_dir()
     local filepath = mp.get_property("path")
