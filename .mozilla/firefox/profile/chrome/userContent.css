@@ -67,7 +67,7 @@
     background: #404040 !important;
     margin-left: 6px !important;
     padding: 4px 8px !important;
-    border-radius: 12px 0 0 12px !important;
+    border-radius: 7px 0 0 7px !important;
   }
   body:not(:hover) #tabList .tab .bar .title {
     display: none !important;
