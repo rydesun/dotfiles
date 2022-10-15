@@ -5,7 +5,7 @@ _ZSH_PLUG_DIR=${XDG_DATA_HOME}/zinit
 
 [[ -z $_ENV_ROOT ]] && [[ ${UID} == 0 || ${EUID} == 0 ]] && _ENV_ROOT=1
 [[ -z $_ENV_SSH ]] && [[ -n ${SSH_CLIENT:-${SSH_TTY}} ]] && _ENV_SSH=1
-[[ -z $_ENV_NVIM ]] && [[ -n ${NVIM_LISTEN_ADDRESS} ]] && _ENV_NVIM=1
+[[ -z $_ENV_NVIM ]] && [[ -n ${NVIM} ]] && _ENV_NVIM=1
 [[ -z $_ENV_PYVENV ]] && [[ -n ${VIRTUAL_ENV} ]] && _ENV_PYVENV=1
 [[ -z $_ENV_NVM ]] && [[ -n ${NVM_BIN} ]] && _ENV_NVM=1
 [[ -z $_ENV_FULL_UI ]] && [[ ! -z ${KITTY_PID} ]] && _ENV_FULL_UI=1
@@ -304,18 +304,6 @@ pmo() { pacman -Qoq $1 2>/dev/null || pkgfile -i $1 }
 pml() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | sed -e '/\/$/d' -e '/^\/usr\/share\/locale\//d' }
 pmb() { pml $1 | awk -F/ '/\/usr\/bin\/.+[^/]$/{print $NF}' }
 pmd() { pml $1 | grep -e '\.service$' -e '\.socket$' -e '\.timer$' -e '\.desktop$' }
-# >>>-----------------------------------
-
-
-# <<< 自动执行
-# neovim终端中的zsh自动设置neovim的工作目录
-if ((_ENV_NVIM)); then
-	function nvim_lcd() {
-		emulate -L zsh
-		nvr +"lcd $PWD"
-	}
-	chpwd_functions+=nvim_lcd
-fi
 # >>>-----------------------------------
 
 
