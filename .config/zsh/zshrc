@@ -208,6 +208,11 @@ bindkey -M menuselect 'L' end-of-buffer-or-history
 bindkey -M menuselect 's' accept-and-hold
 bindkey -M menuselect '/' accept-and-infer-next-history
 
+# 当前命令行在编辑器中打开
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
 # 修改清屏方式
 # 将内容挤出屏幕而不是直接清空
 scroll-and-clear-screen() {
