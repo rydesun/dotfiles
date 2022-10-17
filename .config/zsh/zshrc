@@ -154,7 +154,6 @@ if [[ ! -d ${XDG_CACHE_HOME}/zsh/ ]]; then
 fi
 compinit -d ${_ZSH_CACHE_DIR}/zcompdump-${ZSH_VERSION}
 
-setopt complete_aliases		# 补全alias
 setopt list_packed		# 减小补全列表的列宽
 
 # 失败时的提示
@@ -184,8 +183,6 @@ zstyle ':completion:*' cache-path "${_ZSH_CACHE_DIR}/zcompcache"
 export FZF_COMPLETION_TRIGGER=''
 export FZF_DEFAULT_COMMAND='fd -uu -E .git -E .node_modules'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-compdef proxychains=command
 
 # 命令找不到时提示软件名(通过pkgfile)
 [[ -f ${_SRC_PKGFILE_HINT} ]] && source ${_SRC_PKGFILE_HINT}
@@ -275,20 +272,19 @@ alias x='xdg-open'
 
 # 需要搭配我的neovim配置
 # https://github.com/rydesun/neovim-config/blob/master/init.lua#L3
-alias v="nvim -R --cmd 'let paging=1'" \
-	&& compdef v=nvim # 使用neovim作为pager
-alias V="nvim -R --cmd 'let paging=1 | let ansi=1'" \
-	&& compdef V=nvim # 使用neovim作为pager，支持ANSI code
+# 使用neovim作为pager
+alias v="nvim -R --cmd 'let paging=1'"
+# 使用neovim作为pager，支持ANSI code
+alias V="nvim -R --cmd 'let paging=1 | let ansi=1'"
 
 if (($_ENV_NVIM)); then
 	alias e='nvr --remote-tab'
 else
-	alias e='nvim' && compdef e=nvim
+	alias e='nvim'
 fi
-alias d='delta' && compdef d=delta
-alias g='git' && compdef g=git
-alias cfg='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME git' && compdef cfg=git
-alias cfg.e='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME nvim' && compdef cfg.e=nvim
+alias g='git'
+alias cfg='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME git'
+alias cfg.e='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME nvim'
 
 mcd() { mkdir -p $1 && cd $1 }
 mountdisk() {
