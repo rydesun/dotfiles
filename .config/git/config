@@ -2,55 +2,52 @@
 	name = rydesun
 	email = rydesun@gmail.com
 	signingkey = rydesun@gmail.com
+
+[log]
+	date = iso
+
 [alias]
-	lg = log --oneline --abbrev=4 --graph --decorate --all -5
-	gl = log --oneline --abbrev=4 --graph --decorate --all
+	lg = log --oneline --abbrev=5 --graph --decorate --all -5
+	gl = lg
 	st = status -s
 	c = commit
 	b = branch
 	p = push
 	co = checkout
 	rb = rebase
-	mg = merge
-	lt = ls-tree -rl --abbrev=4
 	ls = ls-files
-	lo = ls-files -o
-	lm = ls-files -m
-	lu = ls-files -u
-	ld = ls-files -d
-	cat = cat-file -p
 	d = diff
 	ds = diff --staged
 	s = show
+
 [pull]
 	rebase = true
+
 [credential]
 	helper = cache
+
 [url "https://github.com"]
 	insteadOf = git://github.com
 
-[log]
-	date = iso
+; === delta配置 ===
 
-[pager]
-	diff = delta
-	show = delta
-	log = delta
-	reflog = delta
+[core]
+	pager = delta
 
 [interactive]
-	diffFilter = delta --color-only --features=interactive
+	diffFilter = delta --color-only
 
 [delta]
-	features = decorations
+	; commit信息增加下划线
+	commit-decoration-style = bold ul
 
-[delta "decorations"]
-	commit-decoration-style = bold yellow ul
+	; 文件名以块状显示
 	file-style = bold black white
+	; 去掉文件名的下划线
 	file-decoration-style = none
-	hunk-header-style = line-number syntax
-	hunk-header-decoration-style = cyan ul
-	hunk-header-line-number-style = yellow
 
-[delta "interactive"]
-	keep-plus-minus-markers = false
+	; diff的配色
+	minus-style = syntax "#39180b"
+	minus-emph-style = normal "#734347"
+	plus-style = syntax "#1a2810"
+	plus-emph-style = normal "#406040"
