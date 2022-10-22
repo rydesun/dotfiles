@@ -1,4 +1,0 @@
-# Autostart X
-if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-	xinit qtile start -b x11
-fi
