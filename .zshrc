@@ -260,7 +260,7 @@ WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 # sudo后面的命令可以是alias
 alias sudo='sudo '
 
-# 命令的默认行为
+### 命令的默认行为
 alias ls='ls --color=auto --time-style=iso --human-readable --hyperlink=auto -F'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
@@ -271,12 +271,19 @@ alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
 alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
 alias rsync="rsync -avhHP"
 
+### 与kitty集成
+if ((Z_ENV_KITTY)); then
+    alias ssh='kitty +kitten ssh'
+    alias rg='kitty +kitten hyperlinked_grep'
+    alias icat='kitty +kitten icat'
+fi
+
+### 命令缩写
 alias sl='ls'
 alias l='ls -l'
 alias la='ls -A'
 alias ll='ls -Al'
-
-# 命令缩写
+alias g='git'
 alias x='xdg-open'
 
 # 需要搭配我的neovim配置
@@ -291,7 +298,6 @@ if (($Z_ENV_NVIM)); then
 else
     alias e='nvim'
 fi
-alias g='git'
 alias cfg='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME git'
 alias cfg.e='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME nvim'
 
@@ -309,21 +315,6 @@ pmo() { pacman -Qoq $1 2>/dev/null || pkgfile -i $1 }
 pml() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | sed -e '/\/$/d' -e '/^\/usr\/share\/locale\//d' }
 pmb() { pml $1 | awk -F/ '/\/usr\/bin\/.+[^/]$/{print $NF}' }
 pmd() { pml $1 | grep -e '\.service$' -e '\.socket$' -e '\.timer$' -e '\.desktop$' }
-# }}}
-
-# {{{ kitty集成
-if [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
-    export KITTY_SHELL_INTEGRATION=enabled
-    autoload -Uz "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
-    kitty-integration
-    unfunction kitty-integration
-fi
-
-if ((Z_ENV_KITTY)); then
-    alias ssh='kitty +kitten ssh'
-    alias rg='kitty +kitten hyperlinked_grep'
-    alias icat='kitty +kitten icat'
-fi
 # }}}
 
 # vim: foldmethod=marker:foldlevel=0
