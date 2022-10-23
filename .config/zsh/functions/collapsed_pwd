@@ -20,7 +20,7 @@
             else
                 elem=${elem:0:1}
             fi
-            elements[$i]=${_PROMPT_COLOR_COLLAPSED_PWD}$elem${_PROMPT_COLOR_PWD}
+            elements[$i]=${Z_PROMPT_COLOR_COLLAPSED_PWD}$elem${Z_PROMPT_COLOR_PWD}
         fi
     done
 

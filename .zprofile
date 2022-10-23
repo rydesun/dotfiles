@@ -7,7 +7,6 @@ export XDG_DATA_HOME=~/.data
 # export XDG_STATE_HOME=~/.state
 
 ### Zsh
-export ZDOTDIR="$XDG_CONFIG_HOME"/zsh
 export HISTFILE="$XDG_DATA_HOME"/zsh/history
 
 ### 终端
@@ -17,6 +16,9 @@ export MANPAGER="nvim +Man! --cmd 'let paging=1'"
 
 ### GnuPG
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+
+### Go
+export GOPATH="$XDG_DATA_HOME"/go
 
 ### Javascript
 export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
