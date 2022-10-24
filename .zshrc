@@ -1,10 +1,18 @@
 # {{{ 环境
 Z_CONFIG_DIR="${XDG_CONFIG_HOME:-~/.config}"/zsh
 Z_DATA_DIR="${XDG_DATA_HOME:-~/.local/share}"/zsh
-Z_PLUG_DIR="${XDG_DATA_HOME:-~/.local/share}"/zinit
 Z_CACHE_DIR="${XDG_CACHE_HOME:-~/.cache}"/zsh
-# 指定缓存文件所在目录必须先确保该目录存在
-[[ ! -d "$Z_CACHE_DIR" ]] && mkdir -p "$Z_CACHE_DIR"
+
+Z_COMP_DIR="$Z_CACHE_DIR"
+Z_COMPDUMP_PATH="$Z_COMP_DIR"/zcompdump
+Z_COMPCACHE_DIR="$Z_COMP_DIR"/zcompcache
+# 指定zcompdump所在目录必须确保该目录存在
+[[ ! -d "$Z_COMP_DIR" ]] && mkdir -p "$Z_COMP_DIR"
+
+# zinit目录
+Z_ZINIT_DIR="${XDG_DATA_HOME:-~/.local/share}"/zinit/zinit.git
+declare -A ZINIT
+ZINIT[ZCOMPDUMP_PATH]="$Z_COMPDUMP_PATH"
 
 # 是否为ROOT用户
 [[ $UID == 0 || $EUID == 0 ]] && Z_ENV_ROOT=1
@@ -40,11 +48,7 @@ setopt hist_find_no_dups	# 查找历史记录时忽略重复项
 # }}}
 
 # {{{ 插件
-declare -A ZINIT
-ZINIT[HOME_DIR]="$Z_PLUG_DIR"
-ZINIT[BIN_DIR]="$Z_PLUG_DIR"/bin
-ZINIT[ZCOMPDUMP_PATH]="$Z_CACHE_DIR"/zcompdump-$ZSH_VERSION
-source "$ZINIT[BIN_DIR]"/zinit.zsh
+source "$Z_ZINIT_DIR"/zinit.zsh
 
 ### 语法高亮
 zinit ice lucid wait
@@ -53,8 +57,9 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 ### 提示历史命令
 zinit ice lucid wait atload='_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=0'
-# 建议策略: history, completion, match_prev_cmd
+# 颜色 (注意console)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=0,bold'
+# 先查找历史，如果没找到就采用补全
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 ### 更多的命令补全
@@ -171,7 +176,7 @@ setopt transient_rprompt
 
 # {{{ 补全
 autoload -Uz compinit
-compinit -d "$Z_CACHE_DIR"/zcompdump-$ZSH_VERSION
+compinit -d "$Z_COMPDUMP_PATH"
 
 # 压缩补全列表的列宽
 setopt list_packed
@@ -196,7 +201,7 @@ zstyle ':completion:*' squeeze-slashes true
 
 # 启用缓存
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "$Z_CACHE_DIR"/zcompcache
+zstyle ':completion:*' cache-path "$Z_COMPCACHE_DIR"
 
 # fzf
 [[ -f "$Z_SRC_FZF_COMPLETION" ]] && source "$Z_SRC_FZF_COMPLETION"
