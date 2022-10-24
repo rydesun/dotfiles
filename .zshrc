@@ -14,6 +14,8 @@ Z_CACHE_DIR="${XDG_CACHE_HOME:-~/.cache}"/zsh
 [[ -n $NVIM ]] && Z_ENV_NVIM=1
 # 是否在kitty中
 [[ $TERM == 'xterm-kitty' ]] && Z_ENV_KITTY=1
+# 是否在桌面
+[[ -n $DISPLAY || $Z_ENV_KITTY != 0 ]] && Z_ENV_DESKTOP=1
 
 ### 外部资源
 fpath+=("$Z_CONFIG_DIR"/functions "$Z_CONFIG_DIR"/completions)
@@ -86,22 +88,17 @@ autoload -Uz colors && colors
 Z_PROMPT_COLOR_PWD=%{$fg[magenta]%}
 Z_PROMPT_COLOR_COLLAPSED_PWD=%{$fg[white]%}
 Z_PROMPT_COLOR_GIT=%{$fg[red]%}
-Z_PROMPT_COLOR_SSH=%{$bg[red]$fg[black]%}
 
-if ((Z_ENV_KITTY)); then
-    Z_PROMPT_ERR="%F{#C03C5A}▌%F{reset}"
-    Z_PROMPT_OK="%F{#5DAC81}▌%F{reset}"
-    Z_PROMPT_USER=%{$fg[blue]%}\$%{$reset_color%}
-    Z_PROMPT_ROOT=%{$fg[red]%}#%{$reset_color%}
-    Z_PROMPT_SSH=' '
-    Z_PROMPT_NVIM=' '
+Z_PROMPT_ERR="%{$fg[red]%}▌%{$reset_color%}"
+Z_PROMPT_OK="%{$fg[blue]%}▌%{$reset_color%}"
+Z_PROMPT_USER=%{$fg_bold[blue]%}\$%{$reset_color%}
+Z_PROMPT_ROOT=%{$fg_bold[red]%}#%{$reset_color%}
+if ((Z_ENV_DESKTOP)); then
+    Z_PROMPT_SSH="%{$fg[blue]%}歷%{$reset_color%}"
+    Z_PROMPT_NVIM="%{$fg[blue]%} %{$reset_color%}"
 else
-    Z_PROMPT_ERR="%{$fg[red]%}▌%{$reset_color%}"
-    Z_PROMPT_OK="%{$fg[green]%}▌%{$reset_color%}"
-    Z_PROMPT_USER=%{$fg_bold[blue]%}\$%{$reset_color%}
-    Z_PROMPT_ROOT=%{$fg_bold[red]%}#%{$reset_color%}
-    Z_PROMPT_SSH=SSH
-    Z_PROMPT_NVIM=Vim
+    Z_PROMPT_SSH=%{$fg[blue]%}SSH%{$reset_color%}
+    Z_PROMPT_NVIM=%{$fg[blue]%}VIM%{$reset_color%}
 fi
 # }}}
 
@@ -131,6 +128,10 @@ precmd() {
         prompt_array+=$Z_PROMPT_OK
     fi
 
+    # 显示运行环境
+    ((Z_ENV_SSH)) && prompt_array+=$Z_PROMPT_SSH
+    ((Z_ENV_NVIM)) && prompt_array+=$Z_PROMPT_NVIM
+
     # 当前目录的git状态
     if command -v __git_ps1 &>/dev/null; then
         local git_status=$(__git_ps1 "%s")
@@ -146,10 +147,6 @@ precmd() {
         prompt_array+=$PWD
     fi
 
-    # 显示运行环境
-    ((Z_ENV_NVIM)) && prompt_array+=$Z_PROMPT_NVIM
-    ((Z_ENV_SSH)) && prompt_array+=$Z_PROMPT_SSH
-
     # 用户类型
     if ((Z_ENV_ROOT)); then
         prompt_array+=$Z_PROMPT_ROOT
@@ -160,8 +157,13 @@ precmd() {
     PROMPT="$prompt_array "
 }
 
-# 在SSH环境中显示右提示符
-((Z_ENV_SSH)) && RPROMPT="$Z_PROMPT_COLOR_SSH %n@%m %{$reset_color%}"
+# 只在SSH环境中显示右提示符
+if ((Z_ENV_SSH)); then
+    Z_RPROMPT_NAME=%{$bg[red]$fg[black]%}%n%{$reset_color%}
+    Z_RPROMPT_AT=%{$bg[magenta]$fg[black]%}@%{$reset_color%}
+    Z_RPROMPT_HOST=%{$bg[red]$fg[black]%}%m%{$reset_color%}
+    RPROMPT=$Z_RPROMPT_NAME$Z_RPROMPT_AT$Z_RPROMPT_HOST
+fi
 
 # 右提示符只出现一次
 setopt transient_rprompt
