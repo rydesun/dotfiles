@@ -4,7 +4,7 @@ path=($path ~/.bin)
 export XDG_CONFIG_HOME=~/.config
 export XDG_CACHE_HOME=~/.cache
 export XDG_DATA_HOME=~/.data
-# export XDG_STATE_HOME=~/.state
+export XDG_STATE_HOME=~/.state
 
 ### Zsh
 export HISTFILE="$XDG_DATA_HOME"/zsh/history

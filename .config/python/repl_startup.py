@@ -2,8 +2,8 @@ import atexit
 import os
 import readline
 
-
-xdg_data_home = os.getenv('XDG_DATA_HOME', os.path.expanduser('~/.data'))
+xdg_data_home = os.getenv(
+    'XDG_DATA_HOME', os.path.expanduser('~/.local/share'))
 data_dir = os.path.join(xdg_data_home, 'python')
 readline_history_file = os.path.join(data_dir, 'history')
 
