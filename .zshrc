@@ -9,11 +9,6 @@ Z_COMPCACHE_DIR="$Z_COMP_DIR"/zcompcache
 # 指定zcompdump所在目录必须确保该目录存在
 [[ ! -d "$Z_COMP_DIR" ]] && mkdir -p "$Z_COMP_DIR"
 
-# zinit目录
-Z_ZINIT_DIR="${XDG_DATA_HOME:-~/.local/share}"/zinit/zinit.git
-declare -A ZINIT
-ZINIT[ZCOMPDUMP_PATH]="$Z_COMPDUMP_PATH"
-
 # 是否为ROOT用户
 [[ $UID == 0 || $EUID == 0 ]] && Z_ENV_ROOT=1
 # 是否在SSH会话中
@@ -26,12 +21,22 @@ ZINIT[ZCOMPDUMP_PATH]="$Z_COMPDUMP_PATH"
 [[ -n $DISPLAY || $Z_ENV_KITTY != 0 ]] && Z_ENV_DESKTOP=1
 
 ### 外部资源
+# 本地插件
 fpath+=("$Z_CONFIG_DIR"/functions "$Z_CONFIG_DIR"/completions)
+
+# zinit插件管理器
+Z_ZINIT_BIN=/usr/share/zinit/zinit.zsh
+if [[ ! -f "$Z_ZINIT_BIN" ]]; then
+    Z_ZINIT_BIN="${XDG_DATA_HOME:-~/.local/share}"/zinit/zinit.git/zinit.zsh
+fi
+
 # git的prompt部件
 Z_SRC_GIT_PROMPT=/usr/share/git/git-prompt.sh
+
 # fzf补全
 Z_SRC_FZF_COMPLETION=/usr/share/fzf/completion.zsh
 Z_SRC_FZF_KEYBIND=/usr/share/fzf/key-bindings.zsh
+
 # pkgfile查找缺失的命令
 Z_SRC_PKGFILE_HINT=/usr/share/doc/pkgfile/command-not-found.zsh
 # }}}
@@ -48,7 +53,15 @@ setopt hist_find_no_dups	# 查找历史记录时忽略重复项
 # }}}
 
 # {{{ 插件
-source "$Z_ZINIT_DIR"/zinit.zsh
+if [[ -f "$Z_ZINIT_BIN" ]]; then
+    source "$Z_ZINIT_BIN"
+else
+    echo "zinit not found" >/dev/stderr
+fi
+
+declare -A ZINIT
+# 由于zcompdump的路径被修改，所以需要配置zinit使用同一路径
+ZINIT[ZCOMPDUMP_PATH]="$Z_COMPDUMP_PATH"
 
 ### 语法高亮
 zinit ice lucid wait
