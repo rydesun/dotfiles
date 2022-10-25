@@ -268,15 +268,13 @@ WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 alias sudo='sudo '
 
 ### 命令的默认行为
-alias ls='ls --color=auto --time-style=iso --human-readable --hyperlink=auto -F'
+alias ls='ls --color=auto --time-style=iso --human-readable --hyperlink=auto -F -v'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip --color=auto'
-alias ncdu='ncdu --color dark'
 alias mv='mv -i'
 alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
 alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
-alias rsync="rsync -avhHP"
 
 ### 与kitty集成
 if ((Z_ENV_KITTY)); then
