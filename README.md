@@ -1,8 +1,9 @@
 # Linux 配置
 
 ~~使用 `pam_environment` 管理环境变量 (被上游移除。溜了溜了)~~  
-使用 `zprofile`(zsh) + `xprofile`(xinit) 管理环境变量，
-调用 `dbus-update-activation-environment`同步到 systemd
+使用 `zprofile` (zsh 作为 login shell) 管理环境变量，
+调用 `dbus-update-activation-environment --systemd`
+同步选择的环境变量到 systemd
 
 使用 [kitty](https://sw.kovidgoyal.net/kitty/) 虚拟终端
 

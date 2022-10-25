@@ -37,10 +37,34 @@ export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 ### SQLite
 export SQLITE_HISTORY="$XDG_DATA_HOME"/sqlite_history
 
-# 同步环境变量到所有systemd将要启动的程序
+# 环境变量 (桌面) {{{
+### Qt
+# 用qt5ct配置Qt主题
+export QT_QPA_PLATFORMTHEME=qt5ct
+# 禁止Qt自动缩放。用xrdb手动设置DPI
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
+
+### Fcitx
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=@im=fcitx
+export SDL_IM_MODULE=fcitx
+# Kitty需要该变量
+export GLFW_IM_MODULE=ibus
+# }}}
+
+# 同步所有环境变量到所有systemd将要启动的程序
 dbus-update-activation-environment --systemd --all
 
-# 自启X环境
+# NOTE: 直接在登录shell中自启桌面环境
+# 只在桌面环境使用中文
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-    xinit qtile start
+    dbus-update-activation-environment --systemd LANG=zh_CN.UTF-8
+    if true; then
+        LANG=zh_CN.UTF-8 xinit qtile start
+    else
+        LANG=zh_CN.UTF-8 qtile start -b wayland
+    fi
 fi
+
+# vim:foldmethod=marker

@@ -71,11 +71,11 @@ zinit light skywind3000/z.lua
 # 数据文件路径
 export _ZL_DATA="$Z_DATA_DIR"/zlua
 # 仅在当前路径$PWD改变时才更新数据库
-_ZL_ADD_ONCE=1
+export _ZL_ADD_ONCE=1
 # 在跳转后显示目标路径名称
-_ZL_ECHO=1
+export _ZL_ECHO=1
 # 增强匹配模式
-_ZL_MATCH_MODE=1
+export _ZL_MATCH_MODE=1
 
 ### 更多的git命令
 zinit ice lucid wait'1' as"program" pick"$ZPFX/bin/git-*" \
