@@ -2,12 +2,14 @@
 Z_CONFIG_DIR="${XDG_CONFIG_HOME:-~/.config}"/zsh
 Z_DATA_DIR="${XDG_DATA_HOME:-~/.local/share}"/zsh
 Z_CACHE_DIR="${XDG_CACHE_HOME:-~/.cache}"/zsh
+# 指定DATA和CACHE目录必须确保该目录存在，
+# 否则zsh无法写入。zsh不会主动创建这些目录
+[[ ! -d "$Z_DATA_DIR" ]] && mkdir -p "$Z_DATA_DIR"
+[[ ! -d "$Z_CACHE_DIR" ]] && mkdir -p "$Z_CACHE_DIR"
 
 Z_COMP_DIR="$Z_CACHE_DIR"
 Z_COMPDUMP_PATH="$Z_COMP_DIR"/zcompdump
 Z_COMPCACHE_DIR="$Z_COMP_DIR"/zcompcache
-# 指定zcompdump所在目录必须确保该目录存在
-[[ ! -d "$Z_COMP_DIR" ]] && mkdir -p "$Z_COMP_DIR"
 
 # 是否为ROOT用户
 [[ $UID == 0 || $EUID == 0 ]] && Z_ENV_ROOT=1
