@@ -291,13 +291,6 @@ alias mv='mv -i'
 alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
 alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
 
-### 与kitty集成
-if ((Z_ENV_KITTY)); then
-    alias ssh='kitty +kitten ssh'
-    alias rg='kitty +kitten hyperlinked_grep'
-    alias icat='kitty +kitten icat'
-fi
-
 ### 命令缩写
 alias sl='ls'
 alias l='ls -l'
@@ -318,6 +311,17 @@ if (($Z_ENV_NVIM)); then
 else
     alias e='nvim'
 fi
+
+### 与kitty集成
+if ((Z_ENV_KITTY)); then
+    alias ssh='kitty +kitten ssh'
+    alias rg='kitty +kitten hyperlinked_grep'
+    alias icat='kitty +kitten icat'
+    if ((Z_ENV_SSH)) then
+        alias e='edit-in-kitty --type tab --title nvim-scp'
+    fi
+fi
+
 alias cfg='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME git'
 alias cfg.e='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME nvim'
 
