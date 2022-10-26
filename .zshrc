@@ -18,7 +18,7 @@ Z_COMPCACHE_DIR="$Z_COMP_DIR"/zcompcache
 # 是否在kitty中
 [[ $TERM == 'xterm-kitty' ]] && Z_ENV_KITTY=1
 # 是否在桌面
-[[ -n $DISPLAY || $Z_ENV_KITTY != 0 ]] && Z_ENV_DESKTOP=1
+[[ -n $DISPLAY || $Z_ENV_KITTY -gt 0 ]] && Z_ENV_DESKTOP=1
 
 ### 外部资源
 # 本地插件
