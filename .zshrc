@@ -14,13 +14,13 @@ Z_COMPCACHE_DIR="$Z_COMP_DIR"/zcompcache
 # 是否为ROOT用户
 [[ $UID == 0 || $EUID == 0 ]] && Z_ENV_ROOT=1
 # 是否在SSH会话中
-[[ -n ${SSH_CLIENT:-${SSH_TTY}} ]] && Z_ENV_SSH=1
+[[ ${SSH_CLIENT:-${SSH_TTY}} ]] && Z_ENV_SSH=1
 # 是否在Neovim终端中
-[[ -n $NVIM ]] && Z_ENV_NVIM=1
+[[ $NVIM ]] && Z_ENV_NVIM=1
 # 是否在kitty中
 [[ $TERM == 'xterm-kitty' ]] && Z_ENV_KITTY=1
 # 是否在桌面
-[[ -n $DISPLAY || $Z_ENV_KITTY -gt 0 ]] && Z_ENV_DESKTOP=1
+[[ $DISPLAY || $Z_ENV_KITTY -gt 0 ]] && Z_ENV_DESKTOP=1
 
 ### 外部资源
 # 本地插件
@@ -155,7 +155,7 @@ precmd() {
     # 当前目录的git状态
     if command -v __git_ps1 &>/dev/null; then
         local git_status=$(__git_ps1 "%s")
-        if [[ -n $git_status ]]; then
+        if [[ $git_status ]]; then
             prompt_array+=$Z_PROMPT_COLOR_GIT$git_status%{$reset_color%}
         fi
     fi
