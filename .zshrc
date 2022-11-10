@@ -1,7 +1,7 @@
 # {{{ 环境
-Z_CONFIG_DIR="${XDG_CONFIG_HOME:-~/.config}"/zsh
-Z_DATA_DIR="${XDG_DATA_HOME:-~/.local/share}"/zsh
-Z_CACHE_DIR="${XDG_CACHE_HOME:-~/.cache}"/zsh
+Z_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"/zsh
+Z_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}"/zsh
+Z_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}"/zsh
 # 指定DATA和CACHE目录必须确保该目录存在，
 # 否则zsh无法写入。zsh不会主动创建这些目录
 [[ ! -d "$Z_DATA_DIR" ]] && mkdir -p "$Z_DATA_DIR"
@@ -288,8 +288,8 @@ alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip --color=auto'
 alias mv='mv -i'
-alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
-alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
+alias mitmproxy="mitmproxy --set confdir=${XDG_CONFIG_HOME:-$HOME/.config}/mitmproxy"
+alias mitmweb="mitmweb --set confdir=${XDG_CONFIG_HOME:-$HOME/.config}/mitmproxy"
 
 ### 命令缩写
 alias sl='ls'
