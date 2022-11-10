@@ -1,10 +1,30 @@
 typeset -U path PATH
 path=($path ~/.bin)
 
-export XDG_CONFIG_HOME=~/.config
-export XDG_CACHE_HOME=~/.cache
+### XDG目录
+# 非必要可以不设置成环境变量
+XDG_CONFIG_HOME=~/.config
+XDG_CACHE_HOME=~/.cache
+# 修改位置，所以需要export
 export XDG_DATA_HOME=~/.data
 export XDG_STATE_HOME=~/.state
+
+### Flatpak安装的程序
+# 由于修改了 $XDG_DATA_HOME 的位置，
+# 并且 /etc/profile.d/flatpak.sh 和 /etc/profile.d/flatpak-bindir.sh
+# 两个文件读取 $XDG_DATA_HOME 早于 ~/.zprofile 修改 $XDG_DATA_HOME，
+# 所以这两个文件没有成功设置目录在修改后的 $XDG_DATA_HOME。
+# 需要手动添加至 $XDG_DATA_DIRS 和 $PATH
+FLATPAK_DATA_DIR="$XDG_DATA_HOME"/flatpak/exports/share
+FLATPAK_BIN_DIR="$XDG_DATA_HOME"/flatpak/exports/bin
+[[ -d "$FLATPAK_DATA_DIR" ]] &&
+    XDG_DATA_DIRS="$FLATPAK_DATA_DIR":"$XDG_DATA_DIRS"
+[[ -d "$FLATPAK_BIN_DIR" ]] && path=("$FLATPAK_BIN_DIR" $path)
+
+### Flatpak中的Steam安装的程序
+STEAM_DESKTOP=~/.var/app/com.valvesoftware.Steam/.local/share/
+[[ -d "$STEAM_DESKTOP" ]] &&
+    XDG_DATA_DIRS="$STEAM_DESKTOP":"$XDG_DATA_DIRS"
 
 ### Zsh
 export HISTFILE="$XDG_DATA_HOME"/zsh/history
