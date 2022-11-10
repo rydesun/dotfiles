@@ -29,7 +29,7 @@ fpath+=("$Z_CONFIG_DIR"/functions "$Z_CONFIG_DIR"/completions)
 # zinit插件管理器
 Z_ZINIT_BIN=/usr/share/zinit/zinit.zsh
 if [[ ! -f "$Z_ZINIT_BIN" ]]; then
-    Z_ZINIT_BIN="${XDG_DATA_HOME:-~/.local/share}"/zinit/zinit.git/zinit.zsh
+    Z_ZINIT_BIN="${XDG_DATA_HOME:-$HOME/.local/share}"/zinit/zinit.git/zinit.zsh
 fi
 
 # git的prompt部件
@@ -287,6 +287,7 @@ alias ls='ls --color=auto --time-style=iso --human-readable --hyperlink=auto -F 
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip --color=auto'
+alias cp='cp -i'
 alias mv='mv -i'
 alias mitmproxy="mitmproxy --set confdir=${XDG_CONFIG_HOME:-$HOME/.config}/mitmproxy"
 alias mitmweb="mitmweb --set confdir=${XDG_CONFIG_HOME:-$HOME/.config}/mitmproxy"
@@ -298,6 +299,7 @@ alias la='ls -A'
 alias ll='ls -Al'
 alias g='git'
 alias x='xdg-open'
+alias e='nvim'
 
 # 需要搭配我的neovim配置
 # https://github.com/rydesun/neovim-config/blob/master/init.lua#L3
@@ -305,12 +307,6 @@ alias x='xdg-open'
 alias v="nvim -R --cmd 'let paging=1'"
 # 使用neovim作为pager，支持ANSI code
 alias V="nvim -R --cmd 'let paging=1 | let ansi=1'"
-
-if (($Z_ENV_NVIM)); then
-    alias e='nvr --remote-tab'
-else
-    alias e='nvim'
-fi
 
 ### 与kitty集成
 if ((Z_ENV_KITTY)); then

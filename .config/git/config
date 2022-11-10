@@ -16,8 +16,8 @@
 	co = checkout
 	rb = rebase
 	ls = ls-files
-	d = diff
-	ds = diff --staged
+	d = diff --relative
+	ds = diff --staged --relative
 	s = show
 
 [pull]
@@ -29,10 +29,12 @@
 [url "https://github.com"]
 	insteadOf = git://github.com
 
-; === delta配置 ===
-
 [core]
 	pager = delta
+	; https://github.com/samjwill/nvim-unception#working-with-git
+	editor = nvim --cmd 'let g:unception_block_while_host_edits=1'
+
+; === delta配置 ===
 
 [interactive]
 	diffFilter = delta --color-only
