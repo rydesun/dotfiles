@@ -13,11 +13,12 @@
   > #sidebar:hover {
   min-width: 200px !important;
   max-width: 200px !important;
-  box-shadow: 1px 0 10px var(--color-shadow);
+  box-shadow: 1px 0 8px var(--color-shadow);
 }
 #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]
   > #sidebar {
   transition: all 200ms;
+  box-shadow: 1px 0 ThreeDShadow;
 }
 
 /* 隐藏Sidebery侧边栏的头部 */
