@@ -1,0 +1,21 @@
+/* 隐藏标签栏 */
+#main-window:not([tabsintitlebar="true"]) #TabsToolbar {
+  visibility: collapse;
+}
+
+/* 去除工具栏最左和最右的空白边距 */
+:root {
+  --toolbar-start-end-padding: 0 !important;
+}
+
+/* 减小工具栏的高度 (需要减小地址栏的最小高度) */
+/* 不采用修改 :root 的 --urlbar-min-height 的方式，
+ * 因为该方式会导致地址栏内部最右侧的图标显示有问题 */
+#urlbar {
+  min-height: 20px !important;
+}
+
+/* 隐藏地址栏内部的容器图标 */
+#urlbar .identity-icon-fingerprint {
+  display: none;
+}

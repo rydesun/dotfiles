@@ -1,0 +1,44 @@
+/* {{{ 标签侧边栏 (使用扩展Sidebery) */
+/* https://addons.mozilla.org/zh-CN/firefox/addon/sidebery */
+/* 需要关闭 Tabs tree */
+
+/* Sidebery侧边栏在Hover时自动弹出 */
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
+  min-width: 32px !important;
+  max-width: 32px !important;
+  position: relative !important;
+  z-index: 1000;
+}
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]
+  > #sidebar:hover {
+  min-width: 200px !important;
+  max-width: 200px !important;
+  box-shadow: 1px 0 10px var(--color-shadow);
+}
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]
+  > #sidebar {
+  transition: all 200ms;
+}
+
+/* 隐藏Sidebery侧边栏的头部 */
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]
+  > #sidebar-header {
+  display: none;
+}
+
+/* 隐藏Sidebery侧边栏右侧的用于调整大小的分割条 */
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]
+  + #sidebar-splitter {
+  display: none;
+}
+/* }}} */
+
+/* {{{ Bitwarden */
+/* 隐藏Bitwarden侧边栏的头部 */
+#sidebar-box[sidebarcommand="_446900e4-71c2-419f-a6a7-df9c091e268b_-sidebar-action"]
+  > #sidebar-header {
+  display: none;
+}
+/* }}} */
+
+/* vim:fdm=marker
