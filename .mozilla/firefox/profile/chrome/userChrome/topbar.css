@@ -8,11 +8,23 @@
   --toolbar-start-end-padding: 0 !important;
 }
 
-/* 减小工具栏的高度 (需要减小地址栏的最小高度) */
-/* 不采用修改 :root 的 --urlbar-min-height 的方式，
- * 因为该方式会导致地址栏内部最右侧的图标显示有问题 */
-#urlbar {
-  min-height: 20px !important;
+/* 去除工具栏的火狐自带图标的边距 */
+:root {
+  --toolbarbutton-outer-padding: 0 !important;
+}
+
+/* 减小工具栏的高度 */
+#nav-bar {
+  max-height: 26px !important;
+}
+
+/* 修改地址栏的边框，以适应窄的工具栏高度 */
+#urlbar-background {
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: 1px solid var(--toolbar-field-border-color);
+  border-right: 1px solid var(--toolbar-field-border-color);
+  border-radius: unset !important;
 }
 
 /* 隐藏地址栏内部的容器图标 */

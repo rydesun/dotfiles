@@ -4,8 +4,8 @@
 
 /* Sidebery侧边栏在Hover时自动弹出 */
 #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
-  min-width: 32px !important;
-  max-width: 32px !important;
+  min-width: 30px !important;
+  max-width: 30px !important;
   position: relative !important;
   z-index: 1000;
 }
