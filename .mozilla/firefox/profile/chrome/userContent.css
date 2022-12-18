@@ -1,7 +1,0 @@
-@import "color.css";
-
-@-moz-document url("about:blank"), url("about:newtab") {
-  body {
-    background-color: var(--color-background-dark) !important;
-  }
-}

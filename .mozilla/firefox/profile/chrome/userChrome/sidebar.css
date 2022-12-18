@@ -13,7 +13,7 @@
   > #sidebar:hover {
   min-width: 200px !important;
   max-width: 200px !important;
-  box-shadow: 0 0 10px var(--color-shadow);
+  box-shadow: 0 0 10px black;
 }
 #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]
   > #sidebar {

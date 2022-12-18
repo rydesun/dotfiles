@@ -1,6 +1,6 @@
-/* 隐藏标签栏 */
+/* 隐藏标签栏 (标签栏嵌入标题栏的情况除外) */
 #main-window:not([tabsintitlebar="true"]) #TabsToolbar {
-  visibility: collapse;
+  display: none;
 }
 
 /* 去除工具栏最左和最右的空白边距 */
@@ -13,9 +13,15 @@
   --toolbarbutton-outer-padding: 0 !important;
 }
 
-/* 减小工具栏的高度 */
+/* 强制设置工具栏的高度为固定值 */
 #nav-bar {
   max-height: 25px !important;
+}
+
+/* 修复工具栏中的前进后退图标 (为什么特殊？) */
+#nav-bar .toolbarbutton-icon[type="menu"] {
+  padding: 4px !important;
+  border-radius: 0 !important;
 }
 
 /* 只在Hover时显示地址栏右侧的扩展图标 */
