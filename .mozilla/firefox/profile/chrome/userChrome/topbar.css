@@ -24,13 +24,13 @@
   border-radius: 0 !important;
 }
 
-/* 只在Hover时显示地址栏右侧的扩展图标 */
-#nav-bar:not(:hover) #urlbar-container ~ .toolbaritem-combined-buttons {
+/* 只在Hover时显示地址栏右侧的图标 */
+#nav-bar:not(:hover) #urlbar-container ~ .chromeclass-toolbar-additional {
   opacity: 0;
   transition-delay: 400ms;
 }
-#nav-bar #urlbar-container ~ .toolbaritem-combined-buttons {
-  transition: opacity 200ms;
+#nav-bar #urlbar-container ~ .chromeclass-toolbar-additional {
+  transition: opacity 600ms;
 }
 #nav-bar:not(:hover) #page-action-buttons {
   max-width: 0;
@@ -52,4 +52,14 @@
 /* 地址栏内部左侧的盒子 */
 #urlbar #identity-box {
   margin: 2px 8px;
+}
+
+/* 隐藏地址栏内部左侧的盾牌 */
+#urlbar #tracking-protection-icon-container {
+  display: none !important;
+}
+
+/* 隐藏空地址栏的文本 */
+#urlbar-input::placeholder {
+  opacity: 0 !important;
 }
