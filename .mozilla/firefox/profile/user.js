@@ -39,8 +39,6 @@ user_pref("privacy.resistFingerprinting", true);
 /* 禁止WebGL
  * 开启RFP即可减少WebGL信息熵 */
 // user_pref("webgl.disabled", true);
-/* 禁止Web Audio API */
-user_pref("dom.webaudio.enabled", false);
 /* 禁止WebRTC */
 user_pref("media.peerconnection.enabled", false);
 /* 禁止获取媒体设备列表API
