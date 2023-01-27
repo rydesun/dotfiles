@@ -24,20 +24,37 @@
   border-radius: 0 !important;
 }
 
-/* 只在Hover时显示地址栏右侧的图标 */
-#nav-bar:not(:hover) #urlbar-container ~ .chromeclass-toolbar-additional {
+/* 只在鼠标悬停时显示地址栏右侧的图标 */
+#nav-bar #urlbar-container ~ .chromeclass-toolbar-additional,
+#nav-bar #nav-bar-overflow-button,
+#nav-bar #unified-extensions-button,
+#nav-bar #PanelUI-menu-button {
   opacity: 0;
+  transition-property: opacity;
+  transition-duration: 600ms;
   transition-delay: 400ms;
 }
-#nav-bar #urlbar-container ~ .chromeclass-toolbar-additional {
-  transition: opacity 600ms;
+#nav-bar:hover:not([urlbar-exceeds-toolbar-bounds="true"])
+  #urlbar-container
+  ~ .chromeclass-toolbar-additional,
+#nav-bar:hover:not([urlbar-exceeds-toolbar-bounds="true"])
+  #nav-bar-overflow-button,
+#nav-bar:hover:not([urlbar-exceeds-toolbar-bounds="true"])
+  #unified-extensions-button,
+#nav-bar:hover:not([urlbar-exceeds-toolbar-bounds="true"])
+  #PanelUI-menu-button {
+  opacity: 100;
+  transition-delay: 0ms;
 }
-#nav-bar:not(:hover) #page-action-buttons {
-  max-width: 0;
-}
+
+/* 只在鼠标悬停时显示地址栏内部右侧的图标 */
 #nav-bar #page-action-buttons {
-  max-width: 9999px;
+  max-width: 0;
   transition: max-width 1s ease-in-out;
+}
+#nav-bar:hover:not([urlbar-exceeds-toolbar-bounds="true"])
+  #page-action-buttons {
+  max-width: 9999px;
 }
 
 /* 修改地址栏的边框，以适应窄的工具栏高度 */
