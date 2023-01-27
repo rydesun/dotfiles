@@ -1,9 +1,0 @@
-[Unit]
-Description=LXQt policykit authentication agent
-
-[Service]
-Type=idle
-ExecStart=/usr/bin/lxqt-policykit-agent
-
-[Install]
-WantedBy=Xorg.target

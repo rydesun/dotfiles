@@ -1,9 +1,8 @@
 [Unit]
-Description=copyq
+Description=network-manager-applet
 
 [Service]
-ExecStartPre=sleep 5
-ExecStart=/usr/bin/copyq
+ExecStart=/usr/bin/nm-applet
 
 [Install]
 WantedBy=X11.target

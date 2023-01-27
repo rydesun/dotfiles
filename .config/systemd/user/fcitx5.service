@@ -1,9 +1,10 @@
 [Unit]
-Description=Input method framework
+Description=fcitx5
 
 [Service]
 Type=forking
 ExecStart=/usr/bin/fcitx5 -d
 
 [Install]
-WantedBy=Xorg.target
+WantedBy=X11.target
+WantedBy=Wayland.target

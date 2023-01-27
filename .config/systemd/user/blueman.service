@@ -1,9 +1,9 @@
 [Unit]
-Description=Bluetooth Manager
+Description=blueman
 
 [Service]
-Type=idle
 ExecStart=/usr/bin/blueman-applet
 
 [Install]
-WantedBy=Xorg.target
+WantedBy=X11.target
+WantedBy=Wayland.target

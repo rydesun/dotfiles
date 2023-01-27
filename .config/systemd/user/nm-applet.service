@@ -1,9 +1,0 @@
-[Unit]
-Description=Applet for managing network connections
-
-[Service]
-Type=idle
-ExecStart=/usr/bin/nm-applet
-
-[Install]
-WantedBy=Xorg.target

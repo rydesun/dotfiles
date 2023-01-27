@@ -1,9 +1,8 @@
 [Unit]
-Description=Provides settings to X11 applications via the XSETTINGS specification
+Description=xsettingsd
 
 [Service]
-Type=idle
 ExecStart=/usr/bin/xsettingsd
 
 [Install]
-WantedBy=Xorg.target
+WantedBy=X11.target

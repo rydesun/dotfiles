@@ -1,9 +1,9 @@
 [Unit]
-Description=The LXQt Config Monitor
+Description=lxqt-config-monitor
 
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/lxqt-config-monitor -l
 
 [Install]
-WantedBy=Xorg.target
+WantedBy=X11.target

@@ -1,10 +1,9 @@
 [Unit]
-Description=Communication Daemon between desktop and smartphone
+Description=kdeconnect
 
 [Service]
-Type=idle
-ExecStartPre=/usr/bin/sleep 5
 ExecStart=/usr/bin/kdeconnect-indicator
 
 [Install]
-WantedBy=Xorg.target
+WantedBy=X11.target
+WantedBy=Wayland.target
