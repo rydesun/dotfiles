@@ -17,21 +17,31 @@ export XDG_STATE_HOME=~/.state
 # 需要手动添加至 $XDG_DATA_DIRS 和 $PATH
 FLATPAK_DATA_DIR="$XDG_DATA_HOME"/flatpak/exports/share
 FLATPAK_BIN_DIR="$XDG_DATA_HOME"/flatpak/exports/bin
-[[ -d "$FLATPAK_DATA_DIR" ]] &&
+[[ -d "$FLATPAK_DATA_DIR" ]] && \
     XDG_DATA_DIRS="$FLATPAK_DATA_DIR":"$XDG_DATA_DIRS"
 [[ -d "$FLATPAK_BIN_DIR" ]] && path=("$FLATPAK_BIN_DIR" $path)
 
 ### Flatpak中的Steam安装的程序
 STEAM_DESKTOP=~/.var/app/com.valvesoftware.Steam/.local/share/
-[[ -d "$STEAM_DESKTOP" ]] &&
+[[ -d "$STEAM_DESKTOP" ]] && \
     XDG_DATA_DIRS="$STEAM_DESKTOP":"$XDG_DATA_DIRS"
+# 修复steam程序名
+if [[ -f "$FLATPAK_BIN_DIR"/com.valvesoftware.Steam ]]; then
+    [[ ! -f "$FLATPAK_BIN_DIR"/steam ]] && \
+        ln -s com.valvesoftware.Steam "$FLATPAK_BIN_DIR"/steam
+else
+    [[ -f "$FLATPAK_BIN_DIR"/steam ]] && rm "$FLATPAK_BIN_DIR"/steam
+fi
+
+### 默认程序
+export EDITOR=nvim
+export BROWSER=firefox
 
 ### Zsh
 export HISTFILE="$XDG_DATA_HOME"/zsh/history
 
 ### 终端
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
-export EDITOR=nvim
 export MANPAGER="nvim +Man! --cmd 'let paging=1'"
 
 ### GnuPG
@@ -57,12 +67,17 @@ export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 ### SQLite
 export SQLITE_HISTORY="$XDG_DATA_HOME"/sqlite_history
 
-# 环境变量 (桌面) {{{
+# {{{ 图形环境
 ### Qt
-# 用qt5ct配置Qt主题
+# 无桌面环境用qt5ct配置Qt主题
 export QT_QPA_PLATFORMTHEME=qt5ct
+
 # 禁止Qt自动缩放。用xrdb手动设置DPI
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
+
+### GTK
+# 配合xdg-desktop-portal-kde使用
+export GTK_USE_PORTAL=1
 
 ### Fcitx
 export GTK_IM_MODULE=fcitx

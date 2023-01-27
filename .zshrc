@@ -52,6 +52,7 @@ setopt share_history		# 多个实例共享历史记录
 setopt hist_ignore_dups		# 不记录多条连续重复的历史
 setopt hist_reduce_blanks	# 删除历史记录中的空行
 setopt hist_find_no_dups	# 查找历史记录时忽略重复项
+setopt hist_ignore_space    # 不记录空格开头的命令
 # }}}
 
 # {{{ 插件
@@ -230,6 +231,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # {{{ 按键绑定
 bindkey -e	# emacs风格
+bindkey '^U' backward-kill-line
 
 # 补全菜单
 zmodload zsh/complist
@@ -247,7 +249,7 @@ bindkey -M menuselect '/' accept-and-infer-next-history
 # 当前命令行在编辑器中打开
 autoload -Uz edit-command-line
 zle -N edit-command-line
-bindkey "^X^E" edit-command-line
+bindkey '^X^E' edit-command-line
 
 # 修改清屏方式
 # 将内容挤出屏幕而不是直接清空
@@ -255,11 +257,12 @@ scroll-and-clear-screen() {
     printf '\n%.0s' {1..$LINES}
     zle clear-screen
 } && zle -N scroll-and-clear-screen
-bindkey '^l' scroll-and-clear-screen
+bindkey '^L' scroll-and-clear-screen
 
 # fzf
 [[ -f "$Z_SRC_FZF_KEYBIND" ]] && source "$Z_SRC_FZF_KEYBIND"
 
+# 空行按Tab时，展示当前目录
 first-tab() {
     if [[ $#BUFFER == 0 ]]; then
         BUFFER="ls "
@@ -300,6 +303,8 @@ alias ll='ls -Al'
 alias g='git'
 alias x='xdg-open'
 alias e='nvim'
+alias f='ranger'
+d() { diff -u "$1" "$2" | delta }
 
 # 需要搭配我的neovim配置
 # https://github.com/rydesun/neovim-config/blob/master/init.lua#L3
