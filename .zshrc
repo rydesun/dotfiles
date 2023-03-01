@@ -304,7 +304,15 @@ alias g='git'
 alias x='xdg-open'
 alias e='nvim'
 alias f='ranger'
-d() { diff -u "$1" "$2" | delta }
+d() {
+    if [ "$#" -eq 1 ]; then
+        # 查看单个patch
+        cat $1 | delta
+    else
+        # 比较两个文件
+        diff -u "$1" "$2" | delta
+    fi
+}
 
 # 需要搭配我的neovim配置
 # https://github.com/rydesun/neovim-config/blob/master/init.lua#L3
