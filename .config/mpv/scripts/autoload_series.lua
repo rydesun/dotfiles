@@ -73,7 +73,9 @@ local function autoload_series()
     end
 
     local files = similar_files(dir, filename)
-    table.sort(files)
+    table.sort(files, function(s1, s2)
+        if #s1 ~= #s2 then return #s1 < #s2 else return s1 < s2 end
+    end)
     for i = 1, #files do
         if files[i] ~= filename then
             mp.commandv("loadfile", dir..'/'..files[i], "append")
