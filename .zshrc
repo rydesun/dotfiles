@@ -73,10 +73,13 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 ### 提示历史命令
 zinit ice lucid wait atload='_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
-# 颜色 (注意console)
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=0,bold'
+# 颜色 (注意tty)
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=0'
 # 先查找历史，如果没找到就采用补全
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+# 修改按键
+ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line)
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(forward-word forward-char)
 
 ### 更多的命令补全
 zinit light zsh-users/zsh-completions
