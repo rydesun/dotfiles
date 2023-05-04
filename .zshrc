@@ -118,7 +118,7 @@ Z_PROMPT_OK="%{$fg[blue]%}▌%{$reset_color%}"
 Z_PROMPT_USER=%{$fg_bold[blue]%}\$%{$reset_color%}
 Z_PROMPT_ROOT=%{$fg_bold[red]%}#%{$reset_color%}
 if ((Z_ENV_DESKTOP)); then
-    Z_PROMPT_SSH="%{$fg[blue]%}歷%{$reset_color%}"
+    Z_PROMPT_SSH="%{$fg[blue]%}󰒍 %{$reset_color%}"
     Z_PROMPT_NVIM="%{$fg[blue]%} %{$reset_color%}"
 else
     Z_PROMPT_SSH=%{$fg[blue]%}SSH%{$reset_color%}
