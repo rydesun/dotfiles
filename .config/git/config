@@ -30,6 +30,9 @@
 	insteadOf = git://github.com
 
 [core]
+	; Unicode文件名
+	quotepath = off
+
 	pager = delta
 	; https://github.com/samjwill/nvim-unception#working-with-git
 	editor = nvim --cmd 'let g:unception_block_while_host_edits=1'
