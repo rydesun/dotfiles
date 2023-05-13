@@ -2,6 +2,6 @@
 @import "userChrome/topbar.css";
 
 /* 去除弹出菜单的透明边框 (与compositor冲突) */
-.menupopup-arrowscrollbox, slot:nth-child(1) {
-  margin: 0 !important;
+menupopup, panel {
+  --panel-shadow-margin: 0 !important;
 }

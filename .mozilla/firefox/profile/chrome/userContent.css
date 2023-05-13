@@ -1,0 +1,7 @@
+/* Sidebery */
+@-moz-document regexp("^moz-extension://[a-zA-Z0-9-]+/sidebar/index\.html.*")
+{
+  #root .Tab .close {
+    transition: opacity 200ms ease-in;
+  }
+}
