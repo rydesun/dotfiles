@@ -317,12 +317,12 @@ d() {
     fi
 }
 
-# 需要搭配我的neovim配置
-# https://github.com/rydesun/neovim-config/blob/master/init.lua#L3
+# 需要搭配neovim配置
+# https://github.com/rydesun/neovim-config/blob/master/init.lua#L4
 # 使用neovim作为pager
 alias v="nvim -R --cmd 'let paging=1'"
 # 使用neovim作为pager，支持ANSI code
-alias V="nvim -R --cmd 'let paging=1 | let ansi=1'"
+alias V="sh -c \"exec nvim 63<&0 </dev/null --cmd 'let termcat=63'\""
 
 ### 与kitty集成
 if ((Z_ENV_KITTY)); then
