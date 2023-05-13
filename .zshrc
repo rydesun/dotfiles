@@ -320,7 +320,7 @@ d() {
 # 需要搭配neovim配置
 # https://github.com/rydesun/neovim-config/blob/master/init.lua#L4
 # 使用neovim作为pager
-alias v="nvim -R --cmd 'let paging=1'"
+alias v="nvim -R --cmd 'let pager=1'"
 # 使用neovim作为pager，支持ANSI code
 alias V="sh -c \"exec nvim 63<&0 </dev/null --cmd 'let termcat=63'\""
 

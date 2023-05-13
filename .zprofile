@@ -42,7 +42,7 @@ export HISTFILE="$XDG_DATA_HOME"/zsh/history
 
 ### 终端
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
-export MANPAGER="nvim +Man! --cmd 'let paging=1'"
+export MANPAGER="nvim +Man! --cmd 'let pager=1'"
 
 ### GnuPG
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
