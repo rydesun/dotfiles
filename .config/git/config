@@ -7,9 +7,11 @@
 	date = iso
 
 [alias]
-	lg = log --oneline --abbrev=5 --graph --decorate --all -5
+	lgl = log --oneline --abbrev=5 --graph --decorate --all
+	lg = lgl -5
 	gl = lg
-	st = status -s
+	st = status --short
+	sts = show --name-status
 	c = commit
 	b = branch
 	p = push
