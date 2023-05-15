@@ -9,23 +9,22 @@
     local offset=${#home}
     [[ "$pwd" == "$home/"* ]] && pwd="~${pwd:$offset}"
 
-    local elements=("${(s:/:)pwd}")
-    local length=${#elements}
-    for i in {1..$((length-1))}; do
-        local elem=${elements[$i]}
-        if [[ $i > 2 ]] && [[ ${#elem} > 1 ]]; then
-            local c=${elem:0:1}
-            if [[ $c == '.' ]]; then
-                elem=${elem:0:2}
-            else
-                elem=${elem:0:1}
-            fi
-            elements[$i]=${Z_PROMPT_COLOR_COLLAPSED_PWD}$elem${Z_PROMPT_COLOR_PWD}
-        fi
+    local names=("${(s:/:)pwd}")
+    local sum=${#names}
+    ((sum <= 3)) && echo "$pwd" && return
+
+
+    for i in {3..$((sum-1))}; do
+        local name=${names[$i]}
+        [[ ${#name} == 1 ]] && continue
+
+        local first_c=${name:0:1}
+        [[ $first_c == '.' ]] && name=${name:0:2} || name=${name:0:1}
+        names[$i]=$Z_PROMPT_COLOR_COLLAPSED_PWD$name$Z_PROMPT_COLOR_PWD_L
     done
 
     local IFS="/"
-    echo "${elements[*]}"
+    echo "${names[*]}"
 }
 
 # vim:set filetype=zsh:
