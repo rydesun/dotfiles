@@ -114,7 +114,7 @@ Z_PROMPT_ERR=%F{red}%K{black}▌%f%k
 Z_PROMPT_OK=%F{blue}%K{black}▌%f%k
 Z_PROMPT_PWD_L=%F{blue}%K{black}
 Z_PROMPT_PWD_R=" %f%k"
-Z_PROMPT_COLLAPSED_PWD=%F{cyan}%K{black}
+Z_PROMPT_COLLAPSED_PWD=%F{red}%K{black}
 if ((Z_ENV_DESKTOP)); then
     Z_PROMPT_SSH=%F{blue}%f
     Z_PROMPT_NVIM=%F{blue}%f
@@ -142,6 +142,10 @@ if [[ -f $Z_SRC_GIT_PROMPT ]]; then
 fi
 
 # 加载折叠路径部件
+# 开头保持不压缩的目录名的个数
+Z_COLLAPSED_PWD_RESERVE_COMPONENTS=1
+# 最大路径长度(非严格)
+Z_COLLAPSED_PWD_MAX_LENGTH=32
 autoload -Uz collapsed_pwd
 
 precmd() {

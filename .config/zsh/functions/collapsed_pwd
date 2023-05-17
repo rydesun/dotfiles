@@ -1,3 +1,6 @@
+Z_COLLAPSED_PWD_RESERVE_COMPONENTS=${Z_COLLAPSED_PWD_RESERVE_COMPONENTS:-1}
+Z_COLLAPSED_PWD_MAX_LENGTH=${Z_COLLAPSED_PWD_MAX_LENGTH:-32}
+
 () {
     [[ $# == 0 ]] && local pwd="$PWD" || local pwd=$1
     [[ -z "$pwd" || "$pwd" == "/" ]] && echo $pwd && return
@@ -10,21 +13,29 @@
     [[ "$pwd" == "$home/"* ]] && pwd="~${pwd:$offset}"
 
     local names=("${(s:/:)pwd}")
-    local sum=${#names}
-    ((sum <= 3)) && echo "$pwd" && return
+    local component_count=${#names}
+    (( component_count <= Z_COLLAPSED_PWD_RESERVE_COMPONENTS + 2 )) &&
+        echo "$pwd" && return
 
+    local chars_length=${#pwd}
+    local begin_index=$(( Z_COLLAPSED_PWD_RESERVE_COMPONENTS + 2 ))
+    local end_index=$(( component_count - 1 ))
+    for i in {$begin_index..$end_index}; do
+        (( chars_length <= Z_COLLAPSED_PWD_MAX_LENGTH )) && break
 
-    for i in {3..$((sum-1))}; do
         local name=${names[$i]}
         [[ ${#name} == 1 ]] && continue
 
         local first_c=${name:0:1}
-        [[ $first_c == '.' ]] && name=${name:0:2} || name=${name:0:1}
+        [[ $first_c == '.' ]] && offset=2 || offset=1
+        chars_length=$(( chars_length - ${#name:$offset} ))
+        name=${name:0:$offset}
         names[$i]=$Z_PROMPT_COLLAPSED_PWD$name$Z_PROMPT_PWD_L
     done
 
     local IFS="/"
     echo "${names[*]}"
 }
+
 
 # vim:set filetype=zsh:
