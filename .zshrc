@@ -109,21 +109,20 @@ eval $(dircolors)
 LS_COLORS=${LS_COLORS//=01/\=00}
 
 autoload -Uz colors && colors
-Z_PROMPT_ERR=%{$fg[red]$bg[grey]%}▌%{$reset_color%}
-Z_PROMPT_OK=%{$fg[blue]$bg[grey]%}▌%{$reset_color%}
-Z_PROMPT_COLOR_PWD_L=%{$fg[blue]$bg[grey]%}
-Z_PROMPT_COLOR_PWD_R=' '
-Z_PROMPT_COLOR_COLLAPSED_PWD=%{$fg[cyan]$bg[grey]%}
+Z_PROMPT_ERR=%F{red}%K{black}▌%f%k
+Z_PROMPT_OK=%F{blue}%K{black}▌%f%k
+Z_PROMPT_PWD_L=%F{blue}%K{black}
+Z_PROMPT_PWD_R=" %f%k"
+Z_PROMPT_COLLAPSED_PWD=%F{cyan}%K{black}
 if ((Z_ENV_DESKTOP)); then
-    Z_PROMPT_SSH=%{$fg[blue]%}%{$reset_color%}
-    Z_PROMPT_NVIM=%{$fg[blue]%}%{$reset_color%}
+    Z_PROMPT_SSH=%F{blue}%f
+    Z_PROMPT_NVIM=%F{blue}%f
 else
-    Z_PROMPT_SSH=%{$fg_bold[blue]%}[ssh]%{$reset_color%}
-    Z_PROMPT_NVIM=%{$fg_bold[blue]%}[vim]%{$reset_color%}
+    Z_PROMPT_SSH=%B%F{blue}[ssh]%b%f
+    Z_PROMPT_NVIM=%B%F{blue}[vim]%b%f
 fi
-Z_PROMPT_COLOR_GIT=
-Z_PROMPT_USER=%{$fg_bold[blue]%}»%{$reset_color%}
-Z_PROMPT_ROOT=%{$fg_bold[red]%}»%{$reset_color%}
+Z_PROMPT_USER=%B%F{blue}»%b%f
+Z_PROMPT_ROOT=%B%F{red}»%b%f
 # }}}
 
 # {{{ PROMPT
@@ -146,25 +145,25 @@ autoload -Uz collapsed_pwd
 
 precmd() {
     local last_status=$?
-    local prompt_array=()
+    typeset -A Z_PROMPT
 
     # 指示上一条命令的运行结果
     if (($last_status)); then
-        prompt_array+=$Z_PROMPT_ERR
+        Z_PROMPT[last_status]=$Z_PROMPT_ERR
     else
-        prompt_array+=$Z_PROMPT_OK
+        Z_PROMPT[last_status]=$Z_PROMPT_OK
     fi
 
     # 显示当前目录
     if command -v collapsed_pwd &>/dev/null; then
-        prompt_array+=$Z_PROMPT_COLOR_PWD_L$(collapsed_pwd)$Z_PROMPT_COLOR_PWD_R%{$reset_color%}
+        Z_PROMPT[cwd]=$Z_PROMPT_PWD_L$(collapsed_pwd)$Z_PROMPT_PWD_R
     else
-        prompt_array+=$Z_PROMPT_COLOR_PWD_L$PWD$Z_PROMPT_COLOR_PWD_R%{$reset_color%}
+        Z_PROMPT[cwd]=$Z_PROMPT_PWD_L$PWD$Z_PROMPT_PWD_R
     fi
 
     # 显示运行环境
-    ((Z_ENV_SSH)) && prompt_array+=$Z_PROMPT_SSH
-    ((Z_ENV_NVIM)) && prompt_array+=$Z_PROMPT_NVIM
+    ((Z_ENV_SSH)) && Z_PROMPT[indicator_ssh]=$Z_PROMPT_SSH
+    ((Z_ENV_NVIM)) && Z_PROMPT[indicator_nvim]=$Z_PROMPT_NVIM
 
     # 当前目录的git状态
     if command -v __git_ps1 &>/dev/null; then
@@ -172,26 +171,32 @@ precmd() {
         if [[ $git_status ]]; then
             git_status=${git_status/master/∙}
             git_status=${git_status/main/∙}
-            prompt_array+=$Z_PROMPT_COLOR_GIT$git_status%{$reset_color%}
+            Z_PROMPT[git]=$git_status
         fi
     fi
 
     # 用户类型
     if ((Z_ENV_ROOT)); then
-        prompt_array+=$Z_PROMPT_ROOT
+        Z_PROMPT[user]=$Z_PROMPT_ROOT
     else
-        prompt_array+=$Z_PROMPT_USER
+        Z_PROMPT[user]=$Z_PROMPT_USER
     fi
 
-    PROMPT="${prompt_array[1]}${prompt_array[2]} ${prompt_array:2} "
+    local prompt_array=( \
+        # last_status和cwd中间没有空格
+        $Z_PROMPT[last_status]$Z_PROMPT[cwd] \
+        $Z_PROMPT[indicator_ssh] \
+        $Z_PROMPT[indicator_nvim] \
+        $Z_PROMPT[git] \
+        $Z_PROMPT[user] \
+    )
+    PROMPT="$prompt_array[@] "
 }
 
 # 只在SSH环境中显示右提示符
 if ((Z_ENV_SSH)); then
-    Z_RPROMPT_NAME="%{$bg[grey]$fg[yellow]%} %n%{$reset_color%}"
-    Z_RPROMPT_AT=%{$bg[grey]$fg[white]%}@%{$reset_color%}
-    Z_RPROMPT_HOST="%{$bg[grey]$fg[yellow]%}%m %{$reset_color%}"
-    RPROMPT=$Z_RPROMPT_NAME$Z_RPROMPT_AT$Z_RPROMPT_HOST
+    Z_PROMPT_HOST="%K{black}%F{yellow} %n%F{white}@%F{yellow}%m %f%k"
+    RPROMPT=$Z_PROMPT_HOST
 fi
 
 # 右提示符只出现一次

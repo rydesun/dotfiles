@@ -20,7 +20,7 @@
 
         local first_c=${name:0:1}
         [[ $first_c == '.' ]] && name=${name:0:2} || name=${name:0:1}
-        names[$i]=$Z_PROMPT_COLOR_COLLAPSED_PWD$name$Z_PROMPT_COLOR_PWD_L
+        names[$i]=$Z_PROMPT_COLLAPSED_PWD$name$Z_PROMPT_PWD_L
     done
 
     local IFS="/"
