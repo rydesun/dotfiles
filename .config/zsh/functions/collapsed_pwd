@@ -1,5 +1,6 @@
 Z_COLLAPSED_PWD_RESERVE_COMPONENTS=${Z_COLLAPSED_PWD_RESERVE_COMPONENTS:-1}
 Z_COLLAPSED_PWD_MAX_LENGTH=${Z_COLLAPSED_PWD_MAX_LENGTH:-32}
+Z_COLLAPSED_PWD_EXPAND_LAST=${Z_COLLAPSED_PWD_EXPAND_LAST:-1}
 
 () {
     [[ $# == 0 ]] && local pwd="$PWD" || local pwd=$1
@@ -17,21 +18,32 @@ Z_COLLAPSED_PWD_MAX_LENGTH=${Z_COLLAPSED_PWD_MAX_LENGTH:-32}
     (( component_count <= Z_COLLAPSED_PWD_RESERVE_COMPONENTS + 2 )) &&
         echo "$pwd" && return
 
-    local chars_length=${#pwd}
+    local total_count=${#pwd}
     local begin_index=$(( Z_COLLAPSED_PWD_RESERVE_COMPONENTS + 2 ))
     local end_index=$(( component_count - 1 ))
     for i in {$begin_index..$end_index}; do
-        (( chars_length <= Z_COLLAPSED_PWD_MAX_LENGTH )) && break
+        (( total_count <= Z_COLLAPSED_PWD_MAX_LENGTH )) && break
 
         local name=${names[$i]}
-        [[ ${#name} == 1 ]] && continue
-
         local first_c=${name:0:1}
         [[ $first_c == '.' ]] && offset=2 || offset=1
-        chars_length=$(( chars_length - ${#name:$offset} ))
-        name=${name:0:$offset}
-        names[$i]=$Z_PROMPT_COLLAPSED_PWD$name$Z_PROMPT_PWD_L
+        local new_name=${name:0:$offset}
+        (( ${#name} == ${#new_name} )) && continue
+        names[$i]=$Z_PROMPT_COLLAPSED_PWD$new_name$Z_PROMPT_PWD_L
+
+        total_count=$(( total_count - ${#name:$offset} ))
+        local last_collapsed=($i $name $offset)
     done
+
+    # 尽可能展开最后一个压缩的目录名
+    if ((Z_COLLAPSED_PWD_EXPAND_LAST)) && [[ -n $last_collapsed ]]; then
+        local expand_count=$(( Z_COLLAPSED_PWD_MAX_LENGTH - total_count ))
+        if (( expand_count > 0 )); then
+            local expanded_count=$(( expand_count + last_collapsed[3] ))
+            local new_name=${${last_collapsed[2]}:0:$expanded_count}
+            names[$last_collapsed[1]]=$Z_PROMPT_COLLAPSED_PWD$new_name$Z_PROMPT_PWD_L
+        fi
+    fi
 
     local IFS="/"
     echo "${names[*]}"
