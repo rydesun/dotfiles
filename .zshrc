@@ -146,6 +146,8 @@ fi
 Z_COLLAPSED_PWD_RESERVE_COMPONENTS=1
 # 最大路径长度(非严格)
 Z_COLLAPSED_PWD_MAX_LENGTH=32
+# 当空间足够时，尽可能展开最后一个压缩的目录名
+#Z_COLLAPSED_PWD_EXPAND_LAST=yes
 autoload -Uz collapsed_pwd
 
 precmd() {
