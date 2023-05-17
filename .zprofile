@@ -42,7 +42,7 @@ export HISTFILE="$XDG_DATA_HOME"/zsh/history
 
 ### 终端
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
-export MANPAGER="nvim +Man! --cmd 'let pager=1'"
+export MANPAGER="nvim +Man!"
 
 ### GnuPG
 export GNUPGHOME="$XDG_DATA_HOME"/gnupg
@@ -89,12 +89,15 @@ export GLFW_IM_MODULE=ibus
 # }}}
 
 # 同步所有环境变量到所有systemd将要启动的程序
-dbus-update-activation-environment --systemd --all
+command -v dbus-update-activation-environment &>/dev/null && \
+    dbus-update-activation-environment --systemd --all 2>/dev/null
 
 # NOTE: 直接在登录shell中自启桌面环境
-# 只在桌面环境使用中文
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-    dbus-update-activation-environment --systemd LANG=zh_CN.UTF-8
+    # 只在桌面环境使用中文
+    command -v dbus-update-activation-environment &>/dev/null && \
+        dbus-update-activation-environment --systemd LANG=zh_CN.UTF-8 2>/dev/null
+
     if true; then
         LANG=zh_CN.UTF-8 xinit qtile start
     else

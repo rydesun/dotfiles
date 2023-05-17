@@ -59,7 +59,8 @@ setopt hist_ignore_space    # 不记录空格开头的命令
 if [[ -f "$Z_ZINIT_BIN" ]]; then
     source "$Z_ZINIT_BIN"
 else
-    echo "zinit not found" >/dev/stderr
+    echo "zinit: not found" >/dev/stderr
+    zinit() {}
 fi
 
 declare -A ZINIT
