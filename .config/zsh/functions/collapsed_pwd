@@ -1,6 +1,7 @@
 Z_COLLAPSED_PWD_RESERVE_COMPONENTS=${Z_COLLAPSED_PWD_RESERVE_COMPONENTS:-1}
 Z_COLLAPSED_PWD_MAX_LENGTH=${Z_COLLAPSED_PWD_MAX_LENGTH:-32}
-Z_COLLAPSED_PWD_EXPAND_LAST=${Z_COLLAPSED_PWD_EXPAND_LAST:-no}
+Z_COLLAPSED_PWD_EXPAND_LAST=${Z_COLLAPSED_PWD_EXPAND_LAST:-yes}
+Z_COLLAPSED_PWD_EXPAND_ELLIPSIS=${Z_COLLAPSED_PWD_EXPAND_ELLIPSIS:-⋯⋯}
 
 () {
     [[ $# == 0 ]] && local pwd="$PWD" || local pwd=$1
@@ -37,16 +38,16 @@ Z_COLLAPSED_PWD_EXPAND_LAST=${Z_COLLAPSED_PWD_EXPAND_LAST:-no}
 
     # 尽可能展开最后一个压缩的目录名
     if [[ $Z_COLLAPSED_PWD_EXPAND_LAST = yes ]] && [[ -n $last_collapsed ]]; then
-        local free_count=$(( Z_COLLAPSED_PWD_MAX_LENGTH - total_count ))
+        ellipsis_count=${#Z_COLLAPSED_PWD_EXPAND_ELLIPSIS}
+        local free_count=$(( Z_COLLAPSED_PWD_MAX_LENGTH - total_count -
+            ellipsis_count ))
         if (( free_count > 0 )); then
-            local visible_count=$(( free_count + last_collapsed[3] ))
+            local visible_count_half=$(( (free_count + last_collapsed[3]) / 2 ))
             local full_name=$last_collapsed[2]
-            local new_name=${full_name:0:$visible_count}
-            if [[ ${#new_name} == ${#full_name} ]]; then
-                names[$last_collapsed[1]]=$new_name
-            else
-                names[$last_collapsed[1]]=$Z_PROMPT_COLLAPSED_PWD$new_name$Z_PROMPT_PWD_L
-            fi
+            local new_name_left=${full_name:0:$visible_count_half}
+            local new_name_right=${full_name:$(( ${#full_name} - visible_count_half ))}
+            local new_name=$new_name_left$Z_COLLAPSED_PWD_EXPAND_ELLIPSIS$new_name_right
+            names[$last_collapsed[1]]=$Z_PROMPT_COLLAPSED_PWD$new_name$Z_PROMPT_PWD_L
         fi
     fi
 
