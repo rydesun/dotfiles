@@ -3,57 +3,67 @@ Z_COLLAPSED_PWD_MAX_LENGTH=${Z_COLLAPSED_PWD_MAX_LENGTH:-32}
 Z_COLLAPSED_PWD_EXPAND_LAST=${Z_COLLAPSED_PWD_EXPAND_LAST:-yes}
 Z_COLLAPSED_PWD_EXPAND_ELLIPSIS=${Z_COLLAPSED_PWD_EXPAND_ELLIPSIS:-⋯⋯}
 
-() {
-    [[ $# == 0 ]] && local pwd="$PWD" || local pwd=$1
-    [[ -z "$pwd" || "$pwd" == "/" ]] && echo $pwd && return
+local color_l=$Z_PROMPT_COLLAPSED_PWD
+local color_r=$Z_PROMPT_PWD_L
 
-    pwd="${pwd%/}"
-    local home="${HOME%/}"
-    [[ "$pwd" == "$home" ]] && echo "~" && return
+if [[ $# == 0 ]] then
+    local pwd="$PWD"
+else
+    local pwd=$1
+    color_l=$2
+    color_r=$3
+fi
 
-    local offset=${#home}
-    [[ "$pwd" == "$home/"* ]] && pwd="~${pwd:$offset}"
+[[ -z "$pwd" || "$pwd" == "/" ]] && echo $pwd && return
 
-    local names=("${(s:/:)pwd}")
-    local component_count=${#names}
-    (( component_count <= Z_COLLAPSED_PWD_RESERVE_COMPONENTS + 2 )) &&
-        echo "$pwd" && return
+pwd="${pwd%/}"
+local home="${HOME%/}"
+[[ "$pwd" == "$home" ]] && echo "~" && return
 
-    local total_count=${#pwd}
-    local begin_index=$(( Z_COLLAPSED_PWD_RESERVE_COMPONENTS + 2 ))
-    local end_index=$(( component_count - 1 ))
-    for i in {$begin_index..$end_index}; do
-        (( total_count <= Z_COLLAPSED_PWD_MAX_LENGTH )) && break
+local offset=${#home}
+[[ "$pwd" == "$home/"* ]] && pwd="~${pwd:$offset}"
 
-        local full_name=${names[$i]}
-        local first_c=${full_name:0:1}
-        [[ $first_c == '.' ]] && offset=2 || offset=1
-        local new_name=${full_name:0:$offset}
-        (( ${#full_name} == ${#new_name} )) && continue
-        names[$i]=$Z_PROMPT_COLLAPSED_PWD$new_name$Z_PROMPT_PWD_L
+local names=("${(s:/:)pwd}")
+local component_count=${#names}
+(( component_count <= Z_COLLAPSED_PWD_RESERVE_COMPONENTS + 2 )) &&
+    echo "$pwd" && return
 
-        total_count=$(( total_count - ${#full_name:$offset} ))
-        local last_collapsed=($i $full_name $offset)
-    done
+local total_count=${#pwd}
+local begin_index=$(( Z_COLLAPSED_PWD_RESERVE_COMPONENTS + 2 ))
+local end_index=$(( component_count - 1 ))
+for i in {$begin_index..$end_index}; do
+    (( total_count <= Z_COLLAPSED_PWD_MAX_LENGTH )) && break
 
-    # 尽可能展开最后一个压缩的目录名
-    if [[ $Z_COLLAPSED_PWD_EXPAND_LAST = yes ]] && [[ -n $last_collapsed ]]; then
-        ellipsis_count=${#Z_COLLAPSED_PWD_EXPAND_ELLIPSIS}
-        local free_count=$(( Z_COLLAPSED_PWD_MAX_LENGTH - total_count -
-            ellipsis_count ))
-        if (( free_count > 0 )); then
-            local visible_count_half=$(( (free_count + last_collapsed[3]) / 2 ))
-            local full_name=$last_collapsed[2]
-            local new_name_left=${full_name:0:$visible_count_half}
-            local new_name_right=${full_name:$(( ${#full_name} - visible_count_half ))}
-            local new_name=$new_name_left$Z_COLLAPSED_PWD_EXPAND_ELLIPSIS$new_name_right
-            names[$last_collapsed[1]]=$Z_PROMPT_COLLAPSED_PWD$new_name$Z_PROMPT_PWD_L
-        fi
+    local full_name=${names[$i]}
+    local first_c=${full_name:0:1}
+    [[ $first_c == '.' ]] && offset=2 || offset=1
+    local new_name=${full_name:0:$offset}
+    (( ${#full_name} == ${#new_name} )) && continue
+    names[$i]=$color_l$new_name$color_r
+
+    total_count=$(( total_count - ${#full_name:$offset} ))
+    local last_collapsed=($i $full_name $offset)
+done
+
+# 尽可能展开最后一个压缩的目录名
+if [[ $Z_COLLAPSED_PWD_EXPAND_LAST = yes ]] && [[ -n $last_collapsed ]]; then
+    ellipsis_count=${#Z_COLLAPSED_PWD_EXPAND_ELLIPSIS}
+    local free_count=$(( Z_COLLAPSED_PWD_MAX_LENGTH - total_count -
+        ellipsis_count ))
+    if (( free_count > 0 )); then
+        local visible_count=$(( free_count + last_collapsed[3] ))
+        local visible_count_right=$(( visible_count / 2 ))
+        local visible_count_left=$(( visible_count_right + (visible_count % 2) ))
+        local full_name=$last_collapsed[2]
+        local new_name_left=${full_name:0:$visible_count_left}
+        local new_name_right=${full_name:$(( ${#full_name} - visible_count_right ))}
+        local new_name=$new_name_left$Z_COLLAPSED_PWD_EXPAND_ELLIPSIS$new_name_right
+        names[$last_collapsed[1]]=$color_l$new_name$color_r
     fi
+fi
 
-    local IFS="/"
-    echo "${names[*]}"
-}
+local IFS="/"
+echo "${names[*]}"
 
 
 # vim:set filetype=zsh:

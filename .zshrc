@@ -128,8 +128,8 @@ Z_PROMPT_ROOT=%B%F{red}»%b%f
 
 # {{{ PROMPT
 # 加载git状态部件
-if [[ -f $Z_SRC_GIT_PROMPT ]]; then
-    source $Z_SRC_GIT_PROMPT
+if [[ -f "$Z_SRC_GIT_PROMPT" ]]; then
+    source "$Z_SRC_GIT_PROMPT"
     GIT_PS1_SHOWCOLORHINTS=1
     GIT_PS1_COMPRESSSPARSESTATE=1
     GIT_PS1_SHOWCONFLICTSTATE=yes
@@ -149,6 +149,8 @@ Z_COLLAPSED_PWD_MAX_LENGTH=32
 # 当空间足够时，尽可能展开最后一个压缩的目录名
 Z_COLLAPSED_PWD_EXPAND_LAST=yes
 autoload -Uz collapsed_pwd
+# 如果不先执行，$()替换就会每次都读取文件？
+collapsed_pwd &>/dev/null
 
 precmd() {
     local last_status=$?
