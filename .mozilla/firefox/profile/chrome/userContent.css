@@ -4,4 +4,8 @@
   #root .Tab .close {
     transition: opacity 200ms ease-in;
   }
+
+  #root .PinnedTab .close {
+    display: none !important;
+  }
 }
