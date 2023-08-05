@@ -52,7 +52,8 @@ setopt share_history		# 多个实例共享历史记录
 setopt hist_ignore_dups		# 不记录多条连续重复的历史
 setopt hist_reduce_blanks	# 删除历史记录中的空行
 setopt hist_find_no_dups	# 查找历史记录时忽略重复项
-setopt hist_ignore_space    # 不记录空格开头的命令
+setopt hist_ignore_space	# 不记录空格开头的命令
+setopt extended_history		# 记录时间戳
 # }}}
 
 # {{{ 插件

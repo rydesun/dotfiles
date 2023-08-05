@@ -2,10 +2,8 @@ typeset -U path PATH
 path=($path ~/.bin)
 
 ### XDG目录
-# 非必要可以不设置成环境变量
-XDG_CONFIG_HOME=~/.config
-XDG_CACHE_HOME=~/.cache
-# 修改位置，所以需要export
+export XDG_CONFIG_HOME=~/.config
+export XDG_CACHE_HOME=~/.cache
 export XDG_DATA_HOME=~/.data
 export XDG_STATE_HOME=~/.state
 
@@ -68,6 +66,9 @@ export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export SQLITE_HISTORY="$XDG_DATA_HOME"/sqlite_history
 
 # {{{ 图形环境
+# 鼠标主题
+export XCURSOR_PATH="$XDG_DATA_HOME"/icons:/usr/share/icons
+
 ### Qt
 # 无桌面环境用qt5ct配置Qt主题
 export QT_QPA_PLATFORMTHEME=qt5ct
