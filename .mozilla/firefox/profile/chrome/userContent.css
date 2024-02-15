@@ -1,11 +1,29 @@
 /* Sidebery */
-@-moz-document regexp("^moz-extension://[a-zA-Z0-9-]+/sidebar/index\.html.*")
+@-moz-document regexp("^moz-extension://[a-zA-Z0-9-]+/sidebar/sidebar\.html.*")
 {
-  #root .Tab .close {
+  /* 修复在侧边栏开始弹出时，关闭按钮与网站图标重叠在一起的问题 */
+  #root .Tab:hover .close {
     transition: opacity 200ms ease-in;
   }
 
-  #root .PinnedTab .close {
-    display: none !important;
+  /* 固定标签页不需要显示关闭按钮 */
+  #root .PinnedTabsBar .close {
+    display: none;
+  }
+  #root .PinnedTabsBar .t-box {
+    mask: unset !important;
+  }
+
+  /* 声音播放按钮放在网站图标左上角 */
+  #root .panel[data-pos="center"] .audio {
+    left: 0 !important;
+    width: var(--tabs-pinned-audio-btn-width) !important;
+    height: var(--tabs-pinned-audio-btn-height) !important;
+    background-color: var(--frame-bg);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+  #root .Tab .t-box {
+    --audio-btn-offset: 0 !important;
   }
 }
