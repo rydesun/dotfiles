@@ -1,7 +1,2 @@
 @import "userChrome/sidebar.css";
 @import "userChrome/topbar.css";
-
-/* 去除弹出菜单的透明边框 (与compositor冲突) */
-menupopup, panel {
-  --panel-shadow-margin: 0 !important;
-}
