@@ -2,7 +2,6 @@
 Description=copyq
 
 [Service]
-ExecStartPre=sleep 5
 ExecStart=/usr/bin/copyq
 
 [Install]

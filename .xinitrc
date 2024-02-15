@@ -17,8 +17,5 @@ if [[ -n "$@" ]]; then
     # 启动锁屏程序
     xss-lock -- betterlockscreen -l &
 
-    # 启动所有systemd管理的桌面程序
-    systemctl start --user X11.target &
-
     exec "$@"
 fi
