@@ -68,6 +68,10 @@ declare -A ZINIT
 # 由于zcompdump的路径被修改，所以需要配置zinit使用同一路径
 ZINIT[ZCOMPDUMP_PATH]="$Z_COMPDUMP_PATH"
 
+# 由于延迟加载，可以覆盖下面配置的fzf的部分按键绑定
+zinit ice lucid wait
+zinit light ellie/atuin
+
 ### 语法高亮
 zinit ice lucid wait
 zinit light zdharma-continuum/fast-syntax-highlighting
