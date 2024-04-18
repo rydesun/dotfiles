@@ -5,6 +5,9 @@ local utils = require 'mp.utils'
 local user_opts = {
     max_distance = 2,   -- 文件名的最大差异
     max_distance_ratio = 0.5,   -- 文件名的最大差异占比
+    video_types = {
+        '3g2', ' 3gp', ' asf', ' avi', ' f4v', ' flv', ' h264', ' h265', ' m2ts', ' m4v', ' mkv', ' mov', ' mp4', ' mp4v',
+        ' mpeg', ' mpg', ' ogm', ' ogv', ' rm', ' rmvb', ' ts', ' vob', ' webm', ' wmv', ' y4m' },
 }
 
 local script_name = mp.get_script_name()
@@ -38,24 +41,27 @@ end
 local function similar_files(dir, filename)
     local o_basename, o_ext = filename:match("(.+)%.(.+)")
     local files = utils.readdir(dir, "files")
-    local res = {}
+    local res, skipped = {}, 0
     for _, file in pairs(files) do
         if file == filename then
             table.insert(res, file)
+            goto continue
+        end
+        local basename, ext = file:match("(.+)%.(.+)")
+        ext = ext:lower()
+        if ext ~= o_ext then
+            goto continue
+        end
+        local distance = levenshtein_distance(basename, o_basename)
+        if distance <= user_opts.max_distance
+            or (distance/#o_basename <= user_opts.max_distance_ratio) then
+            table.insert(res, file)
         else
-            local basename, ext = file:match("(.+)%.(.+)")
-            if ext ~= o_ext then
-                goto continue
-            end
-            local distance = levenshtein_distance(basename, o_basename)
-            if distance <= user_opts.max_distance
-                or (distance/#o_basename <= user_opts.max_distance_ratio) then
-                table.insert(res, file)
-            end
+            skipped = skipped + 1
         end
         ::continue::
     end
-    return res
+    return res, skipped
 end
 
 local function autoload_series()
@@ -72,7 +78,7 @@ local function autoload_series()
         return
     end
 
-    local files = similar_files(dir, filename)
+    local files, skipped = similar_files(dir, filename)
     table.sort(files, function(s1, s2)
         if #s1 ~= #s2 then return #s1 < #s2 else return s1 < s2 end
     end)
@@ -82,6 +88,9 @@ local function autoload_series()
         else
             mp.commandv("playlist-move", 0, i)
         end
+    end
+    if skipped > 0 then
+        mp.osd_message("skipped: ".. skipped, 3)
     end
 end
 

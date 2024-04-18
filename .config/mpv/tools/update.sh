@@ -4,19 +4,11 @@ config_dir=${XDG_CONFIG_HOME:-~/.config}/mpv/
 script_dir=${config_dir}/scripts/
 shader_dir=${config_dir}/shaders/
 
-echo "Updating scripts..."
-curl -fL --create-dirs -o "${script_dir}/Thumbnailer.lua" \
-	https://github.com/deus0ww/mpv-conf/raw/master/scripts/Thumbnailer.lua
-curl -fL --create-dirs -o "${script_dir}/Thumbnailer_OSC.lua" \
-	https://github.com/deus0ww/mpv-conf/raw/master/scripts/Thumbnailer_OSC.lua
-curl -fL https://github.com/deus0ww/mpv-conf/raw/master/scripts/Thumbnailer_Worker.lua |
-	sed "s/'19'/'-19'/" > "${script_dir}/Thumbnailer_Worker.lua"
+echo "Updating uosc..."
+bash -c "$(curl -fL https://raw.githubusercontent.com/tomasklaen/uosc/HEAD/installers/unix.sh)"
 
-curl -fL --create-dirs -o "${script_dir}/playlistmanager.lua" \
-	https://github.com/jonniek/mpv-playlistmanager/raw/master/playlistmanager.lua
-
-curl -fL --create-dirs -o "${script_dir}/zenity-open-files.lua" \
-	https://github.com/alifarazz/mpv-zenity-open-files/raw/master/zenity-open-files.lua
+curl -fL --create-dirs -o "${script_dir}/thumbfast.lua" \
+	https://github.com/po5/thumbfast/raw/master/thumbfast.lua
 
 echo "Updating shaders..."
 curl -fL --create-dirs -o "${shader_dir}/FSRCNNX_x2_8-0-4-1.glsl" \
