@@ -308,19 +308,30 @@ bindkey '^I' first-tab
 WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 # }}}
 
+wide_backward_kill_word() {
+    OLD_WORDCHARS=$WORDCHARS
+    WORDCHARS=\''"*?_-.[]~=/&;!#$%^(){}<>:'
+    zle backward-kill-word
+    WORDCHARS=$OLD_WORDCHARS
+}
+zle -N wide_backward_kill_word
+bindkey '^[^W' wide_backward_kill_word
+
 # {{{ 命令
 # sudo后面的命令可以是alias
 alias sudo='sudo '
 
 ### 命令的默认行为
-alias ls='ls --color=auto --time-style=iso --human-readable --hyperlink=auto -F -v'
+alias ls='ls --color=auto --time-style=iso --human-readable --hyperlink=auto \
+    --group-directories-first --classify --sort=version'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip --color=auto'
 alias cp='cp -i'
 alias mv='mv -i'
-alias mitmproxy="mitmproxy --set confdir=${XDG_CONFIG_HOME:-$HOME/.config}/mitmproxy"
-alias mitmweb="mitmweb --set confdir=${XDG_CONFIG_HOME:-$HOME/.config}/mitmproxy"
+MITMPROXY_DIR="${XDG_DATA_HOME:-$HOME/.local/share}"/mitmproxy
+alias mitmproxy="SSLKEYLOGFILE=$MITMPROXY_DIR/sslkeylogfile.txt mitmproxy --set confdir=$MITMPROXY_DIR"
+alias mitmweb="SSLKEYLOGFILE=$MITMPROXY_DIR/sslkeylogfile.txt mitmweb --set confdir=$MITMPROXY_DIR"
 
 ### 命令缩写
 alias sl='ls'
@@ -371,7 +382,7 @@ mountdisk() {
 alias pmq='pacman -Qs'
 alias pms='pacman -Ss'
 pmi() { pacman -Qii $1 2>/dev/null || pacman -Sii $1 }
-pmo() { pacman -Qoq $1 2>/dev/null || pkgfile -i $1 }
+pmo() { pacman -Qoq $1 2>/dev/null || pacman -F $1 2>/dev/null || pkgfile -i $1 }
 pml() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | sed -e '/\/$/d' -e '/^\/usr\/share\/locale\//d' }
 pmb() { pml $1 | awk -F/ '/\/usr\/bin\/.+[^/]$/{print $NF}' }
 pmd() { pml $1 | grep -e '\.service$' -e '\.socket$' -e '\.timer$' -e '\.desktop$' }
