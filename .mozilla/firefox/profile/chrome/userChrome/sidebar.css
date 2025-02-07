@@ -1,6 +1,5 @@
 /* {{{ 标签侧边栏 (使用扩展Sidebery) */
 /* https://addons.mozilla.org/zh-CN/firefox/addon/sidebery */
-/* 需要关闭 Tabs tree */
 
 /* Sidebery侧边栏在Hover时自动弹出 */
 #sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {

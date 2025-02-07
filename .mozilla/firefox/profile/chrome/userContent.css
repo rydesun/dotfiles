@@ -1,6 +1,11 @@
 /* Sidebery */
 @-moz-document regexp("^moz-extension://[a-zA-Z0-9-]+/sidebar/sidebar\.html.*")
 {
+  /* 侧边栏折叠时不显示树状缩进 */
+  body:not(:hover) .Tab[data-lvl] {
+      padding-left: inherit !important;
+  }
+
   /* 修复在侧边栏开始弹出时，关闭按钮与网站图标重叠在一起的问题 */
   #root .Tab:hover .close {
     transition: opacity 200ms ease-in;
