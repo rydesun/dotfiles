@@ -66,6 +66,8 @@ export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export SQLITE_HISTORY="$XDG_DATA_HOME"/sqlite_history
 
 # {{{ 图形环境
+export XDG_MENU_PREFIX=plasma-
+
 # 鼠标主题
 export XCURSOR_PATH="$XDG_DATA_HOME"/icons:/usr/share/icons
 

@@ -303,6 +303,13 @@ first-tab() {
 zle -N first-tab
 bindkey '^I' first-tab
 
+add_sudo() {
+    BUFFER="sudo $BUFFER"
+    CURSOR=$(($CURSOR + 5))
+}
+zle -N add_sudo
+bindkey '^X^R' add_sudo
+
 # 让 / = 作为分隔符
 # 默认 WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
@@ -339,7 +346,7 @@ alias l='ls -l'
 alias la='ls -A'
 alias ll='ls -Al'
 alias g='git'
-alias x='xdg-open'
+alias x='kde-open'
 alias e='nvim'
 alias f='ranger'
 d() {
