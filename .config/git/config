@@ -41,36 +41,20 @@
 ; {{{ delta配置(需要安装delta)
 ; https://github.com/dandavison/delta
 [core]
-	; https://github.com/dandavison/delta/issues/447
-	pager = delta --features "$(case \
-		"$(gsettings get org.gnome.desktop.interface color-scheme)" \
-		in *light*) echo light-theme;; *) echo dark-theme;; esac)"
+	pager = delta
 
 [interactive]
 	diffFilter = delta --color-only
 
 [delta]
-	; 去掉文件名的下划线
-	file-decoration-style = none
-
-[delta "dark-theme"]
-	; commit信息增加下划线
-	commit-decoration-style = bold ul
+	; nN按键导航
+	navigate = true
 	; 文件名以块状显示
 	file-style = bold black white
-
-	; diff的配色
-	minus-style = syntax "#39180b"
-	minus-emph-style = normal "#734347"
-	plus-style = syntax "#1a2810"
-	plus-emph-style = normal "#406040"
-
-[delta "light-theme"]
-	commit-decoration-style = bold ul orange
-	file-style = bold white black
-
-	; diff的配色
-	syntax-theme = "GitHub"
+	; 去掉文件名的下划线
+	file-decoration-style = none
+	; commit信息增加下划线
+	commit-decoration-style = bold ul
 ; }}}
 
 
