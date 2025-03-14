@@ -1,2 +1,5 @@
 [tool.pyright]
 extraPaths = ["/usr/lib/kitty"]
+
+[tool.ruff]
+line-length = 79
