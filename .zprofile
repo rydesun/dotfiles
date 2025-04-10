@@ -77,6 +77,7 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 
 # 禁止Qt自动缩放。用xrdb手动设置DPI
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
+export QT_ENABLE_HIGHDPI_SCALING=0
 
 ### GTK
 # 配合xdg-desktop-portal-kde使用

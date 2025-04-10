@@ -313,7 +313,6 @@ bindkey '^X^R' add_sudo
 # 让 / = 作为分隔符
 # 默认 WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
-# }}}
 
 wide_backward_kill_word() {
     OLD_WORDCHARS=$WORDCHARS
@@ -323,6 +322,7 @@ wide_backward_kill_word() {
 }
 zle -N wide_backward_kill_word
 bindkey '^[^W' wide_backward_kill_word
+# }}}
 
 # {{{ 命令
 # sudo后面的命令可以是alias
@@ -348,7 +348,6 @@ alias ll='ls -Al'
 alias g='git'
 alias x='kde-open'
 alias e='nvim'
-alias f='ranger'
 d() {
     if [ "$#" -eq 1 ]; then
         # 查看单个patch
