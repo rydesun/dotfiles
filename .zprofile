@@ -2,10 +2,11 @@ typeset -U path PATH
 path=($path ~/.bin)
 
 ### XDG目录
-export XDG_CONFIG_HOME=~/.config
-export XDG_CACHE_HOME=~/.cache
-export XDG_DATA_HOME=~/.data
-export XDG_STATE_HOME=~/.state
+if [[ "$HOME" == */ ]]; then HOME=${HOME:0:-1}; fi
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.data
+export XDG_STATE_HOME=$HOME/.state
 
 ### Flatpak安装的程序
 # 由于修改了 $XDG_DATA_HOME 的位置，
