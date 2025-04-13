@@ -38,8 +38,7 @@
 	; https://github.com/samjwill/nvim-unception#working-with-git
 	editor = nvim --cmd 'let g:unception_block_while_host_edits=1'
 
-; {{{ delta配置(需要安装delta)
-; https://github.com/dandavison/delta
+; {{{ delta配置(需要安装delta https://github.com/dandavison/delta)
 [core]
 	pager = delta
 
@@ -47,14 +46,25 @@
 	diffFilter = delta --color-only
 
 [delta]
-	; nN按键导航
+	; nN按键导航到其他文件
 	navigate = true
-	; 文件名以块状显示
-	file-style = bold black white
+	; hunk header去掉导航label
+	hunk-label =
+
+	; 文件名高亮
+	file-style = bold black blue
 	; 去掉文件名的下划线
 	file-decoration-style = none
-	; commit信息增加下划线
-	commit-decoration-style = bold ul
+
+	; hunk header高亮行号
+	hunk-header-line-number-style = bold black blue
+	; hunk header高亮文件名(如果设置)
+	hunk-header-file-style = bold black blue
+	; hunk header去掉box边框
+	hunk-header-decoration-style = none
+
+	; commit增加下划线
+	commit-decoration-style = ul
 ; }}}
 
 
