@@ -19,12 +19,11 @@ except FileNotFoundError:
 readline.set_history_length(1000000)
 atexit.register(readline.write_history_file, readline_history_file)
 
-# 让输出的数据结构和Traceback带有语法高亮
+# 让输出的数据结构带有语法高亮
 # 需要安装python-rich
 try:
-    from rich import inspect, pretty, traceback
+    from rich import inspect, pretty
     pretty.install()
     inspect_methods = partial(inspect, methods=True)
-    traceback.install()
 except Exception:
     pass
