@@ -13,7 +13,7 @@ local user_opts = {
 local script_name = mp.get_script_name()
 opt.read_options(user_opts, script_name)
 
-local function get_parrent_dir(filepath)
+local function get_parent_dir(filepath)
     return utils.split_path(utils.join_path(
         mp.get_property("working-directory"), filepath))
 end
@@ -22,7 +22,7 @@ local function add_subtitles(dir, prefix)
     local cmd = {'find', dir, '-maxdepth', tostring(user_opts.dir_depth),
             '-regextype', 'posix-egrep', '-regex', ".*\\."..user_opts.subtitle_ext_pattern}
     if user_opts.another_dir ~= "" then
-        local another_dir = user_opts.another_dir:gsub('^~/', os.getenv("HOME"))
+        local another_dir = user_opts.another_dir:gsub('^~', os.getenv("HOME"))
         table.insert(cmd, 2, another_dir)
     end
     local res = utils.subprocess({args=cmd})
@@ -55,7 +55,7 @@ local function add_current_subs()
     local prefix = filename:match("(.+%.[12][0-9][0-9][0-9])%..+") or
         filename:match("(.+)%.[0-9]+p%..+") or
         filename:match("(.+)%..+")
-    local dir = get_parrent_dir(filepath)
+    local dir = get_parent_dir(filepath)
     add_subtitles(dir, prefix)
 end
 
