@@ -277,6 +277,19 @@ bindkey -M menuselect '/' accept-and-infer-next-history
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^X^E' edit-command-line
+if ((Z_ENV_KITTY)); then
+    NVIM_PLUGIN_DIR="${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/lazy
+    NVIM_KITTY_PLUGIN="$NVIM_PLUGIN_DIR"/kitty-scrollback.nvim/scripts/edit_command_line.sh
+    if [[ -f "$NVIM_KITTY_PLUGIN" ]]; then
+        function kitty_scrollback_edit_command_line() {
+            VISUAL="$NVIM_KITTY_PLUGIN"
+            zle edit-command-line
+            zle kill-whole-line
+        }
+        zle -N kitty_scrollback_edit_command_line
+        bindkey '^X^E' kitty_scrollback_edit_command_line
+    fi
+fi
 
 # 修改清屏方式
 # 将内容挤出屏幕而不是直接清空
