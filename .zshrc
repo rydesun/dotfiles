@@ -361,6 +361,7 @@ alias ll='ls -Al'
 alias g='git'
 alias x='kde-open'
 alias e='nvim'
+alias ec='e --cmd "let g:disable_lazy_plugins=1"'
 d() {
     if [ "$#" -eq 1 ]; then
         # 查看单个patch
@@ -393,7 +394,7 @@ alias cfg.e='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME nvim'
 
 mcd() { mkdir -p $1 && cd $1 }
 mountdisk() {
-    mount | grep -E '^(/dev/sd|/dev/nvme|/dev/mmcblk|gvfsd-fuse)' | \
+    mount | grep -E '(^(/dev/sd|/dev/nvme|/dev/mmcblk|/dev/mapper|gvfsd-fuse)|type fuse.sshfs)' | \
         awk '{print $1 "\t" $5 "\t" $3 "\n\t\t" $6}'
 }
 
