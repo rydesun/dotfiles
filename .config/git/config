@@ -11,7 +11,7 @@
 		--pretty=format:'%C(auto)%h %C(blue)%ad%C(auto)%d %s' \
 		--date=format:'%y/%m/%d'
 	llga = log --graph --decorate --all --abbrev=5 \
-		--pretty=format:'%C(auto)%h %C(blue)%ad%C(auto)%d %s %C(dim white)(%an)' \
+		--pretty=format:'%C(auto)%h %C(blue)%ad%C(auto)%d %s %C(dim white)(%an)%n%b' \
 		--date=format:'%y/%m/%d %H:%M%z'
 	lg = lga -5
 	llg = llga -5
