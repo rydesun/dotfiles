@@ -1,4 +1,5 @@
 local mp = require 'mp'
+local utils = require 'mp.utils'
 
 local function get_xattr_comment(path)
     local p = io.popen(string.format(
@@ -74,7 +75,7 @@ local function create_chapters()
     end
 end
 
-local function get_current_chapter_pos()
+local function get_current_chapter()
     local chapter_list = mp.get_property_native("chapter-list")
     if not chapter_list or #chapter_list == 0 then return end
     local current_time = mp.get_property_number("time-pos", 0)
@@ -87,7 +88,7 @@ local function get_current_chapter_pos()
             break
         end
     end
-    return current_chapter and current_chapter.time or nil
+    return current_chapter and current_chapter or nil
 end
 
 local function append_current_time()
@@ -104,11 +105,11 @@ local function append_current_time()
 end
 
 local function remove_current_time()
-    local current_chapter_pos = get_current_chapter_pos()
-    if not current_chapter_pos then return end
+    local current_chapter = get_current_chapter()
+    if not current_chapter then return end
 
-    mp.commandv("seek", current_chapter_pos, "absolute")
-    local tstr = format_time(current_chapter_pos)
+    mp.commandv("seek", current_chapter.time, "absolute")
+    local tstr = format_time(current_chapter.time)
     local path = mp.get_property("path")
     if not path then return end
     local comment = get_xattr_comment(path) or ""
@@ -124,6 +125,105 @@ local function remove_current_time()
     end
 end
 
+local function modify_current_title()
+    local current_chapter = get_current_chapter()
+    if not current_chapter then return end
+
+    local res = utils.subprocess({
+        args = { "kdialog", "--inputbox", "编辑标题", current_chapter.title },
+        cancellable = false
+    })
+    if res.error or res.status ~= 0 then return end
+    local input = res.stdout:gsub("^%s+", ""):gsub("%s+$", "")
+
+    local path = mp.get_property("path")
+    if not path then return end
+    local comment = get_xattr_comment(path)
+    if not comment then return end
+    local tstr = format_time(current_chapter.time)
+
+    if input ~= "" then
+        local new_fmt = "{" .. tstr .. " " .. input .. "}"
+        comment = comment:gsub("{" .. tstr .. "%s*[^}]*}", new_fmt)
+        mp.osd_message("时间标记的新标题：" .. input)
+    else
+        local new_fmt = "{" .. tstr .. "}"
+        comment = comment:gsub("{" .. tstr .. "%s*[^}]*}", new_fmt)
+        mp.osd_message("清除时间标记的标题")
+    end
+    set_xattr_comment(path, comment)
+    create_chapters()
+end
+
+local mark_combo = {
+    enabled = false,
+    timer = nil,
+}
+mp.register_script_message('set', function(prop, _)
+    if prop ~= "timemark-combo" then return end
+    mark_combo.toggle()
+end)
+
+function mark_combo.toggle()
+    mark_combo.enabled = not mark_combo.enabled
+    if mark_combo.enabled then
+        local chapter_list = mp.get_property_native("chapter-list")
+        if #chapter_list == 0 then
+            mark_combo.stop()
+            return
+        end
+        if mp.get_property_native("pause") then
+            mp.commandv("set", "pause", "no")
+        end
+        mp.commandv('script-message-to', 'uosc', 'set', 'timemark-combo', "yes")
+        mark_combo.multistep(chapter_list)
+    else
+        mark_combo.stop()
+    end
+end
+
+function mark_combo.stop()
+    mp.commandv('script-message-to', 'uosc', 'set', 'timemark-combo', "no")
+    mark_combo.enabled = false
+    if mark_combo.timer then
+        mark_combo.timer:kill()
+        mark_combo.timer = nil
+    end
+end
+
+function mark_combo.multistep(chapter_list)
+    local min_duration = 10
+    if mp.get_property_native("pause") then
+        mark_combo.stop()
+        return
+    end
+    -- 必须防止相邻的两个时间标记过近导致错过当前标记
+    local current_time = mp.get_property_number("time-pos", 0) - min_duration
+    local next_chapter
+    for _, chapter in ipairs(chapter_list) do
+        if chapter.time >= current_time then
+            next_chapter = chapter
+            break
+        end
+    end
+    if not next_chapter then
+        -- 从头播放
+        next_chapter = chapter_list[1]
+    end
+
+    local title = next_chapter.title
+    if title and title ~= "" then mp.osd_message(title) end
+    mp.commandv("seek", next_chapter.time, "absolute")
+    local duration = min_duration + math.random(min_duration / 2)
+    mark_combo.timer = mp.add_timeout(duration, function()
+        mark_combo.multistep(chapter_list)
+    end)
+end
+
 mp.register_event("file-loaded", create_chapters)
+mp.register_event("file-loaded", mark_combo.stop)
+
 mp.register_script_message("xattr-append-timemark", append_current_time)
 mp.register_script_message("xattr-remove-timemark", remove_current_time)
+mp.register_script_message("xattr-modify-timemark-title", modify_current_title)
+mp.register_script_message("timemark-combo-toggle", mark_combo.toggle)
