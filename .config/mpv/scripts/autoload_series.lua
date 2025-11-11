@@ -48,6 +48,7 @@ local function similar_files(dir, filename)
             goto continue
         end
         local basename, ext = file:match("(.+)%.(.+)")
+        if not ext then goto continue end
         ext = ext:lower()
         if ext ~= o_ext then
             goto continue
