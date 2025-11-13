@@ -75,20 +75,21 @@ local function create_chapters()
     end
 end
 
-local function get_current_chapter()
+local function get_current_and_next_chapter()
     local chapter_list = mp.get_property_native("chapter-list")
     if not chapter_list or #chapter_list == 0 then return end
     local current_time = mp.get_property_number("time-pos", 0)
 
-    local current_chapter
+    local current_chapter, next_chapter
     for _, chapter in ipairs(chapter_list) do
         if current_time >= chapter.time then
             current_chapter = chapter
         else
+            next_chapter = chapter
             break
         end
     end
-    return current_chapter and current_chapter or nil
+    return current_chapter, next_chapter
 end
 
 local function append_current_time()
@@ -105,7 +106,7 @@ local function append_current_time()
 end
 
 local function remove_current_time()
-    local current_chapter = get_current_chapter()
+    local current_chapter = get_current_and_next_chapter()
     if not current_chapter then return end
 
     mp.commandv("seek", current_chapter.time, "absolute")
@@ -126,7 +127,7 @@ local function remove_current_time()
 end
 
 local function modify_current_title()
-    local current_chapter = get_current_chapter()
+    local current_chapter = get_current_and_next_chapter()
     if not current_chapter then return end
 
     local res = utils.subprocess({
@@ -197,24 +198,32 @@ function mark_combo.multistep(chapter_list)
         mark_combo.stop()
         return
     end
-    -- 必须防止相邻的两个时间标记过近导致错过当前标记
-    local current_time = mp.get_property_number("time-pos", 0) - min_duration
-    local next_chapter
-    for _, chapter in ipairs(chapter_list) do
-        if chapter.time >= current_time then
-            next_chapter = chapter
-            break
+
+    local current_time = mp.get_property_number("time-pos", 0)
+    local duration = min_duration + math.random(min_duration / 2)
+    local current_chapter, next_chapter = get_current_and_next_chapter()
+
+    if current_chapter then
+        local current_offset = current_time - current_chapter.time
+        -- 防止相邻的两个时间标记过近导致错过当前标记，需要先播放完当前标记
+        if current_offset < duration then
+            -- 当前标记的剩余时长，不可以跳到下个标记
+            duration = duration - current_offset
+        else
+            if next_chapter then
+                mp.commandv("seek", next_chapter.time, "absolute")
+            else
+                -- 从头播放
+                next_chapter = chapter_list[1]
+                mp.commandv("seek", next_chapter.time, "absolute")
+            end
         end
-    end
-    if not next_chapter then
-        -- 从头播放
-        next_chapter = chapter_list[1]
+    elseif next_chapter then
+        mp.commandv("seek", next_chapter.time, "absolute")
+    else
+        -- #chapter_list > 0
     end
 
-    local title = next_chapter.title
-    if title and title ~= "" then mp.osd_message(title) end
-    mp.commandv("seek", next_chapter.time, "absolute")
-    local duration = min_duration + math.random(min_duration / 2)
     mark_combo.timer = mp.add_timeout(duration, function()
         mark_combo.multistep(chapter_list)
     end)
