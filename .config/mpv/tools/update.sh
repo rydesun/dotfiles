@@ -14,8 +14,8 @@ echo "Updating shaders..."
 curl -fL --create-dirs -o "${shader_dir}/FSRCNNX_x2_8-0-4-1.glsl" \
 	https://github.com/igv/FSRCNN-TensorFlow/releases/download/1.1/FSRCNNX_x2_8-0-4-1.glsl
 
-curl -fL --create-dirs -o "${shader_dir}/FSRCNNX_x2_16-0-4-1_anime_enhance.glsl" \
-	https://github.com/HelpSeeker/FSRCNN-TensorFlow/releases/download/1.1_distort/FSRCNNX_x2_16-0-4-1_anime_enhance.glsl
+curl -fL --create-dirs -o "${shader_dir}/FSRCNNX_x1_16-0-4-1_distort.glsl" \
+	https://github.com/HelpSeeker/FSRCNN-TensorFlow/releases/download/1.2_distort/FSRCNNX_x1_16-0-4-1_distort.glsl
 
 curl -fL --create-dirs -o "${shader_dir}/KrigBilateral.glsl" \
 	https://gist.github.com/igv/a015fc885d5c22e6891820ad89555637/raw
