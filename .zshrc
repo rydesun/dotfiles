@@ -122,12 +122,12 @@ Z_PROMPT_OK=%F{blue}%K{black}▌%f%k
 Z_PROMPT_PWD_L=%F{blue}%K{black}
 Z_PROMPT_PWD_R=" %f%k"
 Z_PROMPT_COLLAPSED_PWD=%F{red}%K{black}
+
+Z_PROMPT_HOST="%K{black}%F{yellow}%n%F{white}@%F{yellow}%m %f%k"
 if ((Z_ENV_DESKTOP)); then
-    Z_PROMPT_SSH=%F{blue}%f
     Z_PROMPT_NVIM=%F{blue}%f
 else
-    Z_PROMPT_SSH=%B%F{blue}[ssh]%b%f
-    Z_PROMPT_NVIM=%B%F{blue}[vim]%b%f
+    Z_PROMPT_NVIM=%B%F{blue}(vim)%b%f
 fi
 Z_PROMPT_USER=%B%F{blue}»%b%f
 Z_PROMPT_ROOT=%B%F{red}»%b%f
@@ -171,14 +171,14 @@ precmd() {
     fi
 
     # 显示当前目录
-    if command -v collapsed_pwd &>/dev/null; then
+    if collapsed_pwd &>/dev/null; then
         Z_PROMPT[cwd]=$Z_PROMPT_PWD_L$(collapsed_pwd)$Z_PROMPT_PWD_R
     else
-        Z_PROMPT[cwd]=$Z_PROMPT_PWD_L$PWD$Z_PROMPT_PWD_R
+        Z_PROMPT[cwd]=$Z_PROMPT_PWD_L%~$Z_PROMPT_PWD_R
     fi
 
     # 显示运行环境
-    ((Z_ENV_SSH)) && Z_PROMPT[indicator_ssh]=$Z_PROMPT_SSH
+    ((Z_ENV_SSH)) && Z_PROMPT[indicator_ssh]=$Z_PROMPT_HOST
     ((Z_ENV_NVIM)) && Z_PROMPT[indicator_nvim]=$Z_PROMPT_NVIM
 
     # 当前目录的git状态
@@ -200,20 +200,13 @@ precmd() {
 
     local prompt_array=( \
         # last_status和cwd中间没有空格
-        $Z_PROMPT[last_status]$Z_PROMPT[cwd] \
-        $Z_PROMPT[indicator_ssh] \
+        $Z_PROMPT[last_status]$Z_PROMPT[indicator_ssh]$Z_PROMPT[cwd] \
         $Z_PROMPT[indicator_nvim] \
         $Z_PROMPT[git] \
         $Z_PROMPT[user] \
     )
     PROMPT="$prompt_array[@] "
 }
-
-# 只在SSH环境中显示右提示符
-if ((Z_ENV_SSH)); then
-    Z_PROMPT_HOST="%K{black}%F{yellow} %n%F{white}@%F{yellow}%m %f%k"
-    RPROMPT=$Z_PROMPT_HOST
-fi
 
 # 右提示符只出现一次
 setopt transient_rprompt
@@ -318,6 +311,28 @@ first-tab() {
 zle -N first-tab
 bindkey '^I' first-tab
 
+# 空行按?使用ai
+ai-question() {
+    if [[ $#BUFFER != 0 ]]; then
+        zle self-insert
+        return
+    fi
+    BUFFER="aichat -e "
+    CURSOR=$(($#BUFFER + 1))
+    fcitx5-remote -o
+
+    autoload -Uz add-zsh-hook
+    _ai_cleanup() {
+        fcitx5-remote -c
+        add-zsh-hook -d precmd _ai_cleanup
+        add-zsh-hook -d preexec _ai_cleanup
+    }
+    add-zsh-hook precmd _ai_cleanup
+    add-zsh-hook preexec _ai_cleanup
+}
+zle -N ai-question
+bindkey '?' ai-question
+
 add_sudo() {
     BUFFER="sudo $BUFFER"
     CURSOR=$(($CURSOR + 5))
@@ -354,6 +369,9 @@ alias mv='mv -i'
 MITMPROXY_DIR="${XDG_DATA_HOME:-$HOME/.local/share}"/mitmproxy
 alias mitmproxy="SSLKEYLOGFILE=$MITMPROXY_DIR/sslkeylogfile.txt mitmproxy --set confdir=$MITMPROXY_DIR"
 alias mitmweb="SSLKEYLOGFILE=$MITMPROXY_DIR/sslkeylogfile.txt mitmweb --set confdir=$MITMPROXY_DIR"
+dns() {
+    doggo @quic://dns.alidns.com @tls://one.one.one.one "$@" | nali
+}
 
 ### 命令缩写
 alias sl='ls'
@@ -361,18 +379,9 @@ alias l='ls -l'
 alias la='ls -A'
 alias ll='ls -Al'
 alias g='git'
-alias x='kde-open'
+alias o='kde-open'
 alias e='nvim'
-alias ec='e --cmd "let g:disable_lazy_plugins=1"'
-d() {
-    if [ "$#" -eq 1 ]; then
-        # 查看单个patch
-        cat $1 | delta
-    else
-        # 比较两个文件
-        diff -u "$1" "$2" | delta
-    fi
-}
+alias ed='e --cmd "let g:disable_lazy_plugins=1"'
 
 # 需要搭配neovim配置
 # https://github.com/rydesun/neovim-config/blob/master/init.lua#L4
@@ -386,9 +395,7 @@ if ((Z_ENV_KITTY)); then
     alias ssh='kitty +kitten ssh'
     alias rg='kitty +kitten hyperlinked_grep'
     alias icat='kitty +kitten icat'
-    if ((Z_ENV_SSH)) then
-        alias e='edit-in-kitty --type tab --title nvim-scp'
-    fi
+    alias ek='edit-in-kitty'
 fi
 
 alias cfg='GIT_DIR=$HOME/.myconf GIT_WORK_TREE=$HOME git'
@@ -404,7 +411,8 @@ mountdisk() {
 alias pmq='pacman -Qs'
 alias pms='pacman -Ss'
 pmi() { pacman -Qii $1 2>/dev/null || pacman -Sii $1 }
-pmo() { pacman -Qoq $1 2>/dev/null || pacman -F $1 2>/dev/null || pkgfile -i $1 }
+pmo() { pacman -Qoq $1 2>/dev/null; pkgfile -d $1 }
+pmf() { (cd /var/lib/pacman/sync && stat -c '%y %n' *files); pacman -F $1 }
 pml() { (pacman -Qlq $1 2>/dev/null || pkgfile -lq $1) | sed -e '/\/$/d' -e '/^\/usr\/share\/locale\//d' }
 pmb() { pml $1 | awk -F/ '/\/usr\/bin\/.+[^/]$/{print $NF}' }
 pmd() { pml $1 | grep -e '\.service$' -e '\.socket$' -e '\.timer$' -e '\.desktop$' }
