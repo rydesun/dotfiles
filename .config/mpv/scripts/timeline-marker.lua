@@ -1,5 +1,17 @@
 local mp = require 'mp'
 local utils = require 'mp.utils'
+local opt = require 'mp.options'
+
+local user_opts = {
+    edit_chapter_cmd = { "kdialog", "--inputbox", "编辑标题" },
+}
+
+local script_name = mp.get_script_name()
+local raw_user_opts = { edit_chapter_cmd = '' }
+opt.read_options(raw_user_opts, script_name)
+if raw_user_opts.edit_chapter_cmd ~= "" then
+    user_opts.edit_chapter_cmd = utils.parse_json(raw_user_opts.edit_chapter_cmd)
+end
 
 local function get_xattr_comment(path)
     local p = io.popen(string.format(
@@ -130,10 +142,10 @@ local function modify_current_title()
     local current_chapter = get_current_and_next_chapter()
     if not current_chapter then return end
 
-    local res = utils.subprocess({
-        args = { "kdialog", "--inputbox", "编辑标题", current_chapter.title },
-        cancellable = false
-    })
+    local cmd = {}
+    table.move(user_opts.edit_chapter_cmd, 1, #user_opts.edit_chapter_cmd, 1, cmd)
+    cmd[#cmd + 1] = current_chapter.title
+    local res = utils.subprocess({ args = cmd, cancellable = false })
     if res.error or res.status ~= 0 then return end
     local input = res.stdout:gsub("^%s+", ""):gsub("%s+$", "")
 

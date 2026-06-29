@@ -5,13 +5,17 @@ script_dir=${config_dir}/scripts/
 shader_dir=${config_dir}/shaders/
 
 echo "Installing scripts..."
-bash -c "$(curl -fL https://raw.githubusercontent.com/tomasklaen/uosc/HEAD/installers/unix.sh)"
+if [[ ! -d "/etc/mpv/scripts/uosc/" ]]; then
+	bash -c "$(curl -fL https://raw.githubusercontent.com/tomasklaen/uosc/HEAD/installers/unix.sh)"
+fi
 
 curl -fL --create-dirs -o "${script_dir}/quality-menu.lua" \
 	https://github.com/christoph-heinrich/mpv-quality-menu/raw/refs/heads/master/quality-menu.lua
 
-curl -fL --create-dirs -o "${script_dir}/thumbfast.lua" \
-	https://github.com/po5/thumbfast/raw/master/thumbfast.lua
+if [[ ! -f "/etc/mpv/scripts/thumbfast.lua" ]]; then
+	curl -fL --create-dirs -o "${script_dir}/thumbfast.lua" \
+		https://github.com/po5/thumbfast/raw/master/thumbfast.lua
+fi
 
 echo "Installing shaders..."
 curl -fL --create-dirs -o "${shader_dir}/FSRCNNX_x2_8-0-4-1.glsl" \
