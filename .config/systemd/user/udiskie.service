@@ -1,9 +1,10 @@
 [Unit]
 Description=udiskie
+After=graphical-session.target
+PartOf=graphical-session.target
 
 [Service]
 ExecStart=/usr/bin/udiskie --smart-tray
 
 [Install]
-WantedBy=X11.target
-WantedBy=Wayland.target
+WantedBy=graphical-session.target

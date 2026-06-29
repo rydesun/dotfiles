@@ -16,6 +16,8 @@ fi
 if [[ -n "$@" ]]; then
     # 启动锁屏程序
     xss-lock -- betterlockscreen -l &
+    # 托盘
+    snixembed &
 
     exec "$@"
 fi

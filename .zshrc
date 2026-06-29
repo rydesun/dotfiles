@@ -1,4 +1,7 @@
 # {{{ 环境
+typeset -U path PATH
+path+=(/usr/sbin /usr/local/sbin $HOME/.bin)
+
 Z_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"/zsh
 Z_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}"/zsh
 Z_CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}"/zsh
@@ -60,7 +63,6 @@ setopt extended_history		# 记录时间戳
 if [[ -f "$Z_ZINIT_BIN" ]]; then
     source "$Z_ZINIT_BIN"
 else
-    echo "zinit: not found" >/dev/stderr
     zinit() {}
 fi
 

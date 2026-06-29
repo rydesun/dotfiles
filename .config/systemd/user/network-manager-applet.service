@@ -1,9 +1,10 @@
 [Unit]
 Description=network-manager-applet
+After=graphical-session.target
+PartOf=graphical-session.target
 
 [Service]
 ExecStart=/usr/bin/nm-applet
 
 [Install]
-WantedBy=X11.target
-WantedBy=Wayland.target
+WantedBy=graphical-session.target

@@ -1,9 +1,0 @@
-[Unit]
-Description=blueman
-
-[Service]
-ExecStart=/usr/bin/blueman-applet
-
-[Install]
-WantedBy=X11.target
-WantedBy=Wayland.target

@@ -1,2 +1,6 @@
 [Unit]
 Description=Run desktop applications under X11
+
+BindsTo=graphical-session.target
+Wants=graphical-session-pre.target graphical-session.target
+After=graphical-session-pre.target

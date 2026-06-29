@@ -1,8 +1,6 @@
-typeset -U path PATH
-path=($path ~/.bin)
+if [[ "$HOME" == */ ]]; then HOME=${HOME:0:-1}; fi
 
 ### XDG目录
-if [[ "$HOME" == */ ]]; then HOME=${HOME:0:-1}; fi
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_DATA_HOME=$HOME/.data
@@ -73,8 +71,8 @@ export XDG_MENU_PREFIX=plasma-
 export XCURSOR_PATH="$XDG_DATA_HOME"/icons:/usr/share/icons
 
 ### Qt
-# 无桌面环境用qt5ct配置Qt主题
-export QT_QPA_PLATFORMTHEME=qt5ct
+# 假装成kde
+export QT_QPA_PLATFORMTHEME=kde
 
 # 禁止Qt自动缩放。用xrdb手动设置DPI
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
@@ -85,7 +83,6 @@ export QT_ENABLE_HIGHDPI_SCALING=0
 export GTK_USE_PORTAL=1
 
 ### Fcitx
-export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 export SDL_IM_MODULE=fcitx
@@ -97,17 +94,28 @@ export GLFW_IM_MODULE=ibus
 command -v dbus-update-activation-environment &>/dev/null && \
     dbus-update-activation-environment --systemd --all 2>/dev/null
 
+USE_WAYLAND=true
 # NOTE: 直接在登录shell中自启桌面环境
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-    # 只在桌面环境使用中文
-    command -v dbus-update-activation-environment &>/dev/null && \
-        dbus-update-activation-environment --systemd LANG=zh_CN.UTF-8 2>/dev/null
+    if $USE_WAYLAND; then
+        export QT_FONT_DPI=144
+        export GDK_DPI_SCALE=1.5
+    fi
+    export LANG=zh_CN.UTF-8
+    ## QTile尚不支持wayland输入法相关协议
+    export GTK_IM_MODULE=fcitx
 
-    if true; then
-        LANG=zh_CN.UTF-8 xinit qtile start
+    command -v dbus-update-activation-environment &>/dev/null && \
+        dbus-update-activation-environment --systemd --all 2>/dev/null
+
+    if $USE_WAYLAND; then
+        qtile start -b wayland
     else
-        LANG=zh_CN.UTF-8 qtile start -b wayland
+        xinit qtile start
     fi
 fi
+
+# 只在桌面环境使用中文，tty保持英文
+unset LANG
 
 # vim:foldmethod=marker

@@ -1,9 +1,10 @@
 [Unit]
 Description=kdeconnect
+After=graphical-session.target
+PartOf=graphical-session.target
 
 [Service]
 ExecStart=/usr/bin/kdeconnect-indicator
 
 [Install]
-WantedBy=X11.target
-WantedBy=Wayland.target
+WantedBy=graphical-session.target

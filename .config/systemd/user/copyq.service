@@ -6,4 +6,3 @@ ExecStart=/usr/bin/copyq
 
 [Install]
 WantedBy=X11.target
-WantedBy=Wayland.target

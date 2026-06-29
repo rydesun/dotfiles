@@ -1,8 +1,0 @@
-[Unit]
-Description=xsettingsd
-
-[Service]
-ExecStart=/usr/bin/xsettingsd
-
-[Install]
-WantedBy=X11.target
