@@ -90,10 +90,6 @@ export SDL_IM_MODULE=fcitx
 export GLFW_IM_MODULE=ibus
 # }}}
 
-# 同步所有环境变量到所有systemd将要启动的程序
-command -v dbus-update-activation-environment &>/dev/null && \
-    dbus-update-activation-environment --systemd --all 2>/dev/null
-
 USE_WAYLAND=true
 # NOTE: 直接在登录shell中自启桌面环境
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
@@ -104,9 +100,6 @@ if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
     export LANG=zh_CN.UTF-8
     ## QTile尚不支持wayland输入法相关协议
     export GTK_IM_MODULE=fcitx
-
-    command -v dbus-update-activation-environment &>/dev/null && \
-        dbus-update-activation-environment --systemd --all 2>/dev/null
 
     if $USE_WAYLAND; then
         qtile start -b wayland
