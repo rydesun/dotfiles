@@ -4,8 +4,9 @@ After=graphical-session.target
 PartOf=graphical-session.target
 
 [Service]
-Type=forking
-ExecStart=/usr/bin/fcitx5 -d
+Type=oneshot
+ExecStart=-/usr/bin/fcitx5 -d
+RemainAfterExit=yes
 
 [Install]
 WantedBy=graphical-session.target
