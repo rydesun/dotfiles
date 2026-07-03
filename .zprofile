@@ -1,5 +1,8 @@
 if [[ "$HOME" == */ ]]; then HOME=${HOME:0:-1}; fi
 
+typeset -U path PATH
+path=($HOME/.bin $path)
+
 ### XDG目录
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
@@ -88,27 +91,42 @@ export XMODIFIERS=@im=fcitx
 export SDL_IM_MODULE=fcitx
 # Kitty需要该变量
 export GLFW_IM_MODULE=ibus
+
+# 关掉无障碍
+export NO_AT_BRIDGE=1
 # }}}
 
-USE_WAYLAND=true
-# NOTE: 直接在登录shell中自启桌面环境
-if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-    if $USE_WAYLAND; then
+USE_WAYLAND=1
+
+start_wm() {
+    export LANG=zh_CN.UTF-8
+    if (($USE_WAYLAND)); then
         export QT_FONT_DPI=144
         export GDK_DPI_SCALE=1.5
     fi
-    export LANG=zh_CN.UTF-8
-    ## QTile尚不支持wayland输入法相关协议
-    export GTK_IM_MODULE=fcitx
 
-    if $USE_WAYLAND; then
+    if [ $# -gt 0 ]; then
+        "$@"
+    elif (($USE_WAYLAND)); then
         qtile start -b wayland
     else
         xinit qtile start
     fi
-fi
 
-# 只在桌面环境使用中文，tty保持英文
-unset LANG
+    # 上面的程序退出后执行
+    exit_wm_cleanup
+}
+
+exit_wm_cleanup() {
+    systemctl stop --user graphical-session.target
+
+    # 只在桌面环境使用中文，tty保持英文
+    unset LANG QT_FONT_DPI GDK_DPI_SCALE
+}
+
+# 直接在第一个登录shell中自启桌面环境
+if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+    start_wm
+fi
 
 # vim:foldmethod=marker
